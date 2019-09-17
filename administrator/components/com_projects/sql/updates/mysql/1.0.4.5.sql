@@ -1,2 +1,0 @@
-ALTER TABLE `#__prc_items`
-  ADD `application` SET ( 'contract', 'app1', 'app2', 'app3', 'app4' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'contract' COMMENT 'Поле для группировки в договоре' AFTER `sectionID`;
