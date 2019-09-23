@@ -14,62 +14,62 @@ class ProjectsHelper
         $view = JFactory::getApplication()->input->getString('view');
         $notify = self::getNotifies();
         if ($notify > 0) {
-            JHtmlSidebar::addEntry(Text::sprintf('COM_PROJECTS_MENU_NOTIFY', $notify), 'index.php?option=com_projects&amp;view=todos&amp;notify=1', $vName == 'notify');
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_NOTIFY", $notify), "index.php?option=com_projects&amp;view=todos&amp;notify=1&amp;menu=sidebar&amp;from={$view}", $vName == "notify");
         }
-        if (in_array($view, array('statv2', 'reports', 'contracts', 'todos', 'building', 'stat', 'scores', 'payments', 'catalogs', 'cattitles', 'prices', 'sections', 'items', 'contracts_v2'))) {
-            JHtmlSidebar::addFilter(JText::_('COM_PROJECTS_FILTER_SELECT_ACTIVE_PROJECT'), 'set_active_project', JHtml::_('select.options', ProjectsHtmlFilters::projectOptions(), 'value', 'text', self::getActiveProject()));
+        if (in_array($view, array("statv2", "reports", "contracts", "todos", "building", "stat", "scores", "payments", "catalogs", "cattitles", "prices", "sections", "items", "contracts_v2"))) {
+            JHtmlSidebar::addFilter(JText::sprintf("COM_PROJECTS_FILTER_SELECT_ACTIVE_PROJECT"), "set_active_project", JHtml::_("select.options", ProjectsHtmlFilters::projectOptions(), "value", "text", self::getActiveProject()));
         }
-        if (self::canDo('projects.access.contracts.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_CONTRACTS'), 'index.php?option=com_projects&amp;view=contracts', $vName == 'contracts');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_CONTRACTS_V2'), 'index.php?option=com_projects&amp;view=contracts_v2', $vName == 'contracts_v2');
+        if (self::canDo("projects.access.contracts.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_CONTRACTS"), "index.php?option=com_projects&amp;view=contracts&amp;menu=sidebar&amp;from={$view}", $vName == "contracts");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_CONTRACTS_V2"), "index.php?option=com_projects&amp;view=contracts_v2&amp;menu=sidebar&amp;from={$view}", $vName == "contracts_v2");
         }
-        if (self::canDo('projects.access.exhibitors.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_COMPANIES'), 'index.php?option=com_projects&amp;view=exhibitors', $vName == 'exhibitors');
+        if (self::canDo("projects.access.exhibitors.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_COMPANIES"), "index.php?option=com_projects&amp;view=exhibitors&amp;menu=sidebar&amp;from={$view}", $vName == "exhibitors");
         }
-        if (self::canDo('projects.access.todos.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_TODOS'), 'index.php?option=com_projects&amp;view=todos', $vName == 'todos');
+        if (self::canDo("projects.access.todos.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_TODOS"), "index.php?option=com_projects&amp;view=todos&amp;menu=sidebar&amp;from={$view}", $vName == "todos");
         }
-        if (self::canDo('projects.access.building')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_BUILDING'), 'index.php?option=com_projects&amp;view=building', $vName == 'building');
+        if (self::canDo("projects.access.building")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_BUILDING"), "index.php?option=com_projects&amp;view=building&amp;menu=sidebar&amp;from={$view}", $vName == "building");
         }
-        if (self::canDo('projects.access.templates.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_TEMPLATES'), 'index.php?option=com_projects&amp;view=templates', $vName == 'templates');
+        if (self::canDo("projects.access.templates.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_TEMPLATES"), "index.php?option=com_projects&amp;view=templates&amp;menu=sidebar&amp;from={$view}", $vName == "templates");
         }
-        if (self::canDo('projects.access.catalogs')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_CATALOG'), 'index.php?option=com_projects&amp;view=catalogs', $vName == 'catalogs');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_CATTITLES'), 'index.php?option=com_projects&amp;view=cattitles', $vName == 'cattitles');
+        if (self::canDo("projects.access.catalogs")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_CATALOG"), "index.php?option=com_projects&amp;view=catalogs&amp;menu=sidebar&amp;from={$view}", $vName == "catalogs");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_CATTITLES"), "index.php?option=com_projects&amp;view=cattitles&amp;menu=sidebar&amp;from={$view}", $vName == "cattitles");
         }
-        if (self::canDo('projects.access.prices')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_PRICES'), 'index.php?option=com_projects&amp;view=prices', $vName == 'prices');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_SECTIONS'), 'index.php?option=com_projects&amp;view=sections', $vName == 'sections');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_ITEMS'), 'index.php?option=com_projects&amp;view=items', $vName == 'items');
+        if (self::canDo("projects.access.prices")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_PRICES"), "index.php?option=com_projects&amp;view=prices&amp;menu=sidebar&amp;from={$view}", $vName == "prices");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_SECTIONS"), "index.php?option=com_projects&amp;view=sections&amp;menu=sidebar&amp;from={$view}", $vName == "sections");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_ITEMS"), "index.php?option=com_projects&amp;view=items&amp;menu=sidebar&amp;from={$view}", $vName == "items");
         }
-        if (self::canDo('projects.access.projects')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS'), 'index.php?option=com_projects&amp;view=projects', $vName == 'projects');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_PLANS'), 'index.php?option=com_projects&amp;view=plans', $vName == 'plans');
+        if (self::canDo("projects.access.projects")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS"), "index.php?option=com_projects&amp;view=projects&amp;menu=sidebar&amp;from={$view}", $vName == "projects");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_PLANS"), "index.php?option=com_projects&amp;view=plans&amp;menu=sidebar&amp;from={$view}", $vName == "plans");
         }
-        if (self::canDo('projects.access.finanses.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_SCORES'), 'index.php?option=com_projects&amp;view=scores', $vName == 'scores');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_PAYMENTS'), 'index.php?option=com_projects&amp;view=payments', $vName == 'payments');
+        if (self::canDo("projects.access.finanses.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_SCORES"), "index.php?option=com_projects&amp;view=scores&amp;menu=sidebar&amp;from={$view}", $vName == "scores");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_PAYMENTS"), "index.php?option=com_projects&amp;view=payments&amp;menu=sidebar&amp;from={$view}", $vName == "payments");
         }
-        if (self::canDo('projects.access.stat')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_STAT'), 'index.php?option=com_projects&amp;view=statv2', $vName == 'statv2');
+        if (self::canDo("projects.access.stat")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_STAT"), "index.php?option=com_projects&amp;view=statv2&amp;menu=sidebar&amp;from={$view}", $vName == "statv2");
         }
-        if (self::canDo('projects.access.reports')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_REPORTS'), 'index.php?option=com_projects&amp;view=reports', $vName == 'reports');
+        if (self::canDo("projects.access.reports")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_REPORTS"), "index.php?option=com_projects&amp;view=reports&amp;menu=sidebar&amp;from={$view}", $vName == "reports");
         }
-        /*if (self::canDo('projects.access.acts')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_ACTIVITIES'), 'index.php?option=com_projects&amp;view=activities', $vName == 'activities');
+        /*if (self::canDo("projects.access.acts")) {
+            JHtmlSidebar::addEntry(Text::_("COM_PROJECTS_MENU_ACTIVITIES"), "index.php?option=com_projects&amp;view=activities", $vName == "activities");
         }
-        if (self::canDo('projects.access.rubrics')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_RUBRICS'), 'index.php?option=com_projects&amp;view=rubrics', $vName == 'rubrics');
+        if (self::canDo("projects.access.rubrics")) {
+            JHtmlSidebar::addEntry(Text::_("COM_PROJECTS_MENU_RUBRICS"), "index.php?option=com_projects&amp;view=rubrics", $vName == "rubrics");
         }*/
-        if (self::canDo('projects.access.events.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_EVENTS'), 'index.php?option=com_projects&amp;view=events', $vName == 'events');
+        if (self::canDo("projects.access.events.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_EVENTS"), "index.php?option=com_projects&amp;view=events&amp;menu=sidebar&amp;from={$view}", $vName == "events");
         }
-        if (self::canDo('projects.access.hotels.standart')) {
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_HOTELS'), 'index.php?option=com_projects&amp;view=hotels', $vName == 'hotels');
-            JHtmlSidebar::addEntry(Text::_('COM_PROJECTS_MENU_HOTEL_CATS'), 'index.php?option=com_projects&amp;view=hotelcats', $vName == 'hotelcats');
+        if (self::canDo("projects.access.hotels.standart")) {
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_HOTELS"), "index.php?option=com_projects&amp;view=hotels&amp;menu=sidebar&amp;from={$view}", $vName == "hotels");
+            JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_HOTEL_CATS"), "index.php?option=com_projects&amp;view=hotelcats&amp;menu=sidebar&amp;from={$view}", $vName == "hotelcats");
         }
     }
 

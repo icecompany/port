@@ -8,6 +8,7 @@ class ProjectsController extends BaseController
     public function display($cachable = false, $urlparams = array())
     {
         $view = $this->input->getString('view');
+
         if ($view == 'todos')
         {
             $contractID = $this->input->getInt('contractID', 0);
@@ -45,6 +46,33 @@ class ProjectsController extends BaseController
                 $v->setLayout($layout);
             }
         }
+        $this->saveClick($view);
         return parent::display($cachable, $urlparams);
+    }
+
+    /**
+     * Записывает клик юзера по меню
+     * @param string $view Название текущей вьюшки
+     * @throws Exception
+     * @since 2.0.1-alpha.3
+     */
+    private function saveClick(string $view): void
+    {
+        $menu = $this->input->getString('menu');
+        $from = $this->input->getString('from');
+        if ($menu !== null && $from !== null) {
+            $model = $this->getModel('Userclick', 'ProjectsModel');
+            $data['view_from'] = $from;
+            $data['view_to'] = $view;
+            $data['menu'] = $menu;
+            $uri = JUri::getInstance();
+            $uri->delVar('menu');
+            $uri->delVar('from');
+            $query = $uri->getQuery(true);
+            $uri->setQuery($query);
+            $model->save($data);
+            $this->setRedirect($uri->render())->redirect();
+            jexit();
+        }
     }
 }
