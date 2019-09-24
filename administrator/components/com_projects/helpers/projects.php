@@ -866,11 +866,11 @@ class ProjectsHelper
         $db =& JFactory::getDbo();
         $query = $db->getQuery(true);
         $query
-            ->select("`price`")
-            ->from("`#__prj_contract_amounts`")
+            ->select("sum(price) as price")
+            ->from("`#__prj_stat_v2`")
             ->where("`contractID` = {$contractID}");
 
-        return (float)0 + $db->setQuery($query)->loadResult();
+        return (float) 0 + $db->setQuery($query)->loadResult();
     }
 
     /**
