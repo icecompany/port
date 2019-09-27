@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_projects/models/rules">
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                label="COM_PROJECTS_FILTER_SELECT_MANAGER"
+                description="COM_PROJECTS_FILTER_SELECT_MANAGER"
+                hint="COM_PROJECTS_FILTER_SELECT_MANAGER"
+                autocomplete="off"
+                class="js-stools-search-string"
+        />
+        <field
+                name="dat"
+                type="calendar"
+                label="COM_PROJECTS_FILTER_SELECT_DATE"
+                onchange="this.form.submit();"
+        />
+        <field
+                name="dynamic"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_DYNAMIC"
+                description="COM_PROJECTS_FILTER_SELECT_DYNAMIC"
+                onchange="this.form.submit();"
+        >
+            <option value="">COM_PROJECTS_FILTER_SELECT_DYNAMIC</option>
+            <option value="day">COM_PROJECTS_FILTER_SELECT_DYNAMIC_DAY</option>
+            <option value="week">COM_PROJECTS_FILTER_SELECT_DYNAMIC_WEEK</option>
+            <option value="year">COM_PROJECTS_FILTER_SELECT_DYNAMIC_YEAR</option>
+        </field>
+        <field
+                name="manager"
+                type="manager"
+                label="COM_PROJECTS_HEAD_CONTRACT_MANAGER"
+                description="COM_PROJECTS_HEAD_CONTRACT_MANAGER"
+                hint="COM_PROJECTS_FILTER_SELECT_MANAGER"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_MANAGER</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="fullordering"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_FULL_ORDERING"
+                description="COM_PROJECTS_FILTER_SELECT_FULL_ORDERING_DESC"
+                onchange="this.form.submit();"
+                default="title asc"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+        </field>
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="0"
+                label="COM_PROJECTS_FILTER_SELECT_LIMIT"
+                description="COM_CONTENT_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
+    </fields>
+</form>
