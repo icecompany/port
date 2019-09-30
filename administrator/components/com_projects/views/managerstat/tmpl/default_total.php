@@ -1,50 +1,23 @@
 <?php
 // Запрет прямого доступа.
 defined('_JEXEC') or die;
-$title = JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_SUM_TOTAL');
-$diff = (!$this->userSettings['contracts_v2-column_id']) ? 3 : 4;
-$last = (!$this->userSettings['contracts_v2-column_id']) ? 1 : 2;
-$colspan = $this->columnsCount - $diff;
+$title = JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_SUM');
 ?>
 <tr>
-    <td colspan="<?php echo $colspan; ?>" style="text-align: right;">
-        <?php echo $title, " ", JText::sprintf('COM_PROJECTS_HEAD_ITEM_PRICE_RUB');?>
-    </td>
-    <td>
-        <?php echo $this->items['total']['amounts']['rub'];?>
-    </td>
-    <td>
-        <?php echo $this->items['total']['payments']['rub'];?>
-    </td>
-    <td colspan="<?php echo $last;?>">
-        <?php echo $this->items['total']['debt']['rub'];?>
-    </td>
-</tr>
-<tr>
-    <td colspan="<?php echo $colspan; ?>" style="text-align: right;">
-        <?php echo JText::sprintf('COM_PROJECTS_HEAD_ITEM_PRICE_USD');?>
-    </td>
-    <td>
-        <?php echo $this->items['total']['amounts']['usd'];?>
-    </td>
-    <td>
-        <?php echo $this->items['total']['payments']['usd'];?>
-    </td>
-    <td colspan="<?php echo $last;?>">
-        <?php echo $this->items['total']['debt']['usd'];?>
-    </td>
-</tr>
-<tr>
-    <td colspan="<?php echo $colspan ?>" style="text-align: right;">
-        <?php echo JText::sprintf('COM_PROJECTS_HEAD_ITEM_PRICE_EUR');?>
-    </td>
-    <td>
-        <?php echo $this->items['total']['amounts']['eur'];?>
-    </td>
-    <td>
-        <?php echo $this->items['total']['payments']['eur'];?>
-    </td>
-    <td colspan="<?php echo $last;?>">
-        <?php echo $this->items['total']['debt']['eur'];?>
-    </td>
+    <td colspan="2"><?php echo $title;?></td>
+    <td><?php echo $this->items['total']['status_2']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['status_2']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['status_3']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['status_3']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['status_4']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['status_4']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['status_1']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['status_1']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['status_9']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['status_9']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['status_0']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['status_0']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['exhibitors']['today'];?></td>
+    <td style="border-left: none;"><?php echo $this->items['total']['exhibitors']['dynamic'];?></td>
+    <td><?php echo $this->items['total']['cwt'];?></td>
 </tr>

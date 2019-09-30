@@ -105,15 +105,45 @@ class ProjectsModelManagerstat extends ListModel
         foreach ($items as $item) {
             if ($item->dat == $curdate) {
                 $result['items'][$item->managerID]['status_0']['today'] = (int) $item->status_0;
+                if (!isset($result['total']['status_0']['today'])) $result['total']['status_0']['today'] = 0;
+                $result['total']['status_0']['today'] += (int) $item->status_0;
+                
                 $result['items'][$item->managerID]['status_1']['today'] = (int) $item->status_1;
+                if (!isset($result['total']['status_1']['today'])) $result['total']['status_1']['today'] = 0;
+                $result['total']['status_1']['today'] += (int) $item->status_1;
+                
                 $result['items'][$item->managerID]['status_2']['today'] = (int) $item->status_2;
+                if (!isset($result['total']['status_2']['today'])) $result['total']['status_2']['today'] = 0;
+                $result['total']['status_2']['today'] += (int) $item->status_2;
+                
                 $result['items'][$item->managerID]['status_3']['today'] = (int) $item->status_3;
+                if (!isset($result['total']['status_3']['today'])) $result['total']['status_3']['today'] = 0;
+                $result['total']['status_3']['today'] += (int) $item->status_3;
+                
                 $result['items'][$item->managerID]['status_4']['today'] = (int) $item->status_4;
+                if (!isset($result['total']['status_4']['today'])) $result['total']['status_4']['today'] = 0;
+                $result['total']['status_4']['today'] += (int) $item->status_4;
+                
                 $result['items'][$item->managerID]['status_7']['today'] = (int) $item->status_7;
+                if (!isset($result['total']['status_7']['today'])) $result['total']['status_7']['today'] = 0;
+                $result['total']['status_7']['today'] += (int) $item->status_7;
+                
                 $result['items'][$item->managerID]['status_8']['today'] = (int) $item->status_8;
+                if (!isset($result['total']['status_8']['today'])) $result['total']['status_8']['today'] = 0;
+                $result['total']['status_8']['today'] += (int) $item->status_8;
+                
                 $result['items'][$item->managerID]['status_9']['today'] = (int) $item->status_9;
+                if (!isset($result['total']['status_9']['today'])) $result['total']['status_9']['today'] = 0;
+                $result['total']['status_9']['today'] += (int) $item->status_9;
+                
                 $result['items'][$item->managerID]['status_10']['today'] = (int) $item->status_10;
+                if (!isset($result['total']['status_10']['today'])) $result['total']['status_10']['today'] = 0;
+                $result['total']['status_10']['today'] += (int) $item->status_10;
+
                 $result['items'][$item->managerID]['exhibitors']['today'] = (int) $item->exhibitors;
+                if (!isset($result['total']['exhibitors']['today'])) $result['total']['exhibitors']['today'] = 0;
+                $result['total']['exhibitors']['today'] += (int) $item->exhibitors;
+
                 $params = array(
                     "option" => "com_projects",
                     "view" => "contracts_v2",
@@ -124,6 +154,8 @@ class ProjectsModelManagerstat extends ListModel
                 $attribs = array("target" => "_blank");
                 if (!empty($cwt[$item->managerID]['cnt'])) {
                     $result['items'][$item->managerID]['cwt'] = JHtml::link($url, $cwt[$item->managerID]['cnt'], $attribs);
+                    if (!isset($result['total']['cwt'])) $result['total']['cwt'] = 0;
+                    $result['total']['cwt'] += (int) $cwt[$item->managerID]['cnt'];
                 }
                 else {
                     $result['items'][$item->managerID]['cwt'] = 0;
@@ -132,24 +164,53 @@ class ProjectsModelManagerstat extends ListModel
             else {
                 $result['items'][$item->managerID]['status_0'][$item->dat] = (int) $item->status_0;
                 $result['items'][$item->managerID]['status_0']['dynamic'] = (int) $result['items'][$item->managerID]['status_0']['today'] - (int) $item->status_0;
+                if (!isset($result['total']['status_0']['dynamic'])) $result['total']['status_0']['dynamic'] = 0;
+                $result['total']['status_0']['dynamic'] += (int) $result['items'][$item->managerID]['status_0']['dynamic'];
+                
                 $result['items'][$item->managerID]['status_1'][$item->dat] = (int) $item->status_1;
                 $result['items'][$item->managerID]['status_1']['dynamic'] = (int) $result['items'][$item->managerID]['status_1']['today'] - (int) $item->status_1;
+                if (!isset($result['total']['status_1']['dynamic'])) $result['total']['status_1']['dynamic'] = 0;
+                $result['total']['status_1']['dynamic'] += (int) $result['items'][$item->managerID]['status_1']['dynamic'];
+
                 $result['items'][$item->managerID]['status_2'][$item->dat] = (int) $item->status_2;
                 $result['items'][$item->managerID]['status_2']['dynamic'] = (int) $result['items'][$item->managerID]['status_2']['today'] - (int) $item->status_2;
+                if (!isset($result['total']['status_2']['dynamic'])) $result['total']['status_2']['dynamic'] = 0;
+                $result['total']['status_2']['dynamic'] += (int) $result['items'][$item->managerID]['status_2']['dynamic'];
+
                 $result['items'][$item->managerID]['status_3'][$item->dat] = (int) $item->status_3;
                 $result['items'][$item->managerID]['status_3']['dynamic'] = (int) $result['items'][$item->managerID]['status_3']['today'] - (int) $item->status_3;
+                if (!isset($result['total']['status_3']['dynamic'])) $result['total']['status_3']['dynamic'] = 0;
+                $result['total']['status_3']['dynamic'] += (int) $result['items'][$item->managerID]['status_3']['dynamic'];
+
                 $result['items'][$item->managerID]['status_4'][$item->dat] = (int) $item->status_4;
                 $result['items'][$item->managerID]['status_4']['dynamic'] = (int) $result['items'][$item->managerID]['status_4']['today'] - (int) $item->status_4;
+                if (!isset($result['total']['status_4']['dynamic'])) $result['total']['status_4']['dynamic'] = 0;
+                $result['total']['status_4']['dynamic'] += (int) $result['items'][$item->managerID]['status_4']['dynamic'];
+
                 $result['items'][$item->managerID]['status_7'][$item->dat] = (int) $item->status_7;
                 $result['items'][$item->managerID]['status_7']['dynamic'] = (int) $result['items'][$item->managerID]['status_7']['today'] - (int) $item->status_7;
+                if (!isset($result['total']['status_7']['dynamic'])) $result['total']['status_7']['dynamic'] = 0;
+                $result['total']['status_7']['dynamic'] += (int) $result['items'][$item->managerID]['status_7']['dynamic'];
+
                 $result['items'][$item->managerID]['status_8'][$item->dat] = (int) $item->status_8;
                 $result['items'][$item->managerID]['status_8']['dynamic'] = (int) $result['items'][$item->managerID]['status_8']['today'] - (int) $item->status_8;
+                if (!isset($result['total']['status_8']['dynamic'])) $result['total']['status_8']['dynamic'] = 0;
+                $result['total']['status_8']['dynamic'] += (int) $result['items'][$item->managerID]['status_8']['dynamic'];
+
                 $result['items'][$item->managerID]['status_9'][$item->dat] = (int) $item->status_9;
                 $result['items'][$item->managerID]['status_9']['dynamic'] = (int) $result['items'][$item->managerID]['status_9']['today'] - (int) $item->status_9;
+                if (!isset($result['total']['status_9']['dynamic'])) $result['total']['status_9']['dynamic'] = 0;
+                $result['total']['status_9']['dynamic'] += (int) $result['items'][$item->managerID]['status_9']['dynamic'];
+
                 $result['items'][$item->managerID]['status_10'][$item->dat] = (int) $item->status_10;
                 $result['items'][$item->managerID]['status_10']['dynamic'] = (int) $result['items'][$item->managerID]['status_10']['today'] - (int) $item->status_10;
+                if (!isset($result['total']['status_10']['dynamic'])) $result['total']['status_10']['dynamic'] = 0;
+                $result['total']['status_10']['dynamic'] += (int) $result['items'][$item->managerID]['status_10']['dynamic'];
+
                 $result['items'][$item->managerID]['exhibitors'][$item->dat] = (int) $item->exhibitors;
                 $result['items'][$item->managerID]['exhibitors']['dynamic'] = (int) $result['items'][$item->managerID]['exhibitors']['today'] - (int) $item->exhibitors;
+                if (!isset($result['total']['exhibitors']['dynamic'])) $result['total']['exhibitors']['dynamic'] = 0;
+                $result['total']['exhibitors']['dynamic'] += $result['items'][$item->managerID]['exhibitors']['dynamic'];
             }
             if (!isset($result['managers'][$item->managerID])) $result['managers'][$item->managerID] = $item->manager;
         }

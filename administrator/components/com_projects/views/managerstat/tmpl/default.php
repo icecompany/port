@@ -20,10 +20,11 @@ HTMLHelper::_('script', 'com_projects/script.js', array('version' => 'auto', 're
         <form action="<?php echo ProjectsHelper::getActionUrl(); ?>" method="post"
               name="adminForm" id="adminForm">
             <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-            <table class="table table-striped">
+            <table class="table table-bordered table-hover">
                 <thead><?php echo $this->loadTemplate('head'); ?></thead>
                 <tbody><?php echo $this->loadTemplate('body'); ?></tbody>
-                <tfoot><?php //echo $this->loadTemplate('foot'); ?></tfoot>
+                <?php echo $this->loadTemplate('total'); ?>
+                <tfoot><?php echo $this->loadTemplate('foot'); ?></tfoot>
             </table>
             <div>
                 <input type="hidden" name="task" value=""/>
