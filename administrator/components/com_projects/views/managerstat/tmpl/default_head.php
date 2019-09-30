@@ -19,6 +19,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 <tr>
     <?php for($i = 0; $i < 6; $i++): ?>
         <th><?php echo $this->dat;?></th>
-        <th><span class="icon-chart"></span></th>
+        <th style="border-left: none;"><span class="icon-chart"></span></th>
     <?php endfor;?>
 </tr>
