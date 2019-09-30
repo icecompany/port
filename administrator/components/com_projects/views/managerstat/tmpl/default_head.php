@@ -14,8 +14,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <th colspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACT_STATUS_0_SHORT"); ?></th>
     <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_MANAGER_STAT_COMPANIES"); ?></th>
     <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC"); ?></th>
-    <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_MANAGER_STAT_PLAN"); ?></th>
-    <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_MANAGER_STAT_DIFF"); ?></th>
+    <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACTS_WITHOUT_TODOS"); ?></th>
 </tr>
 <tr>
     <?php for($i = 0; $i < 6; $i++): ?>

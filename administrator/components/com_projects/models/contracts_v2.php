@@ -14,7 +14,7 @@ class ProjectsModelContracts_v2 extends ListModel
                 'sort_amount, debt',        'activity',
                 'dat',                      'rubric',
                 'exhibitor',                'status',
-                'todos',
+                'todos',                    'cwt',
                 'sort_amount, payments',
                 'sort_amount, amount',
                 'status_weight',
@@ -95,6 +95,12 @@ class ProjectsModelContracts_v2 extends ListModel
             $manager = (int) $manager;
             $query->where("`managerID` = {$manager}");
         }
+        else {
+            $manager = $input->getInt('managerID', 0);
+            if ($manager > 0) {
+                $query->where("`managerID` = {$manager}");
+            }
+        }
 
         // Фильтруем по видам деятельности.
         $act = $this->getState('filter.activity');
@@ -161,6 +167,25 @@ class ProjectsModelContracts_v2 extends ListModel
         if (is_numeric(($exhibitorID))) {
             $exhibitorID = (int) $exhibitorID;
             $query->where("`exhibitorID` = {$exhibitorID}");
+        }
+
+        //Поиск по сделкам без задач
+        $cwt = $input->getInt('cwt', 0);
+        if ($cwt == 1) {
+            $ids = $this->getContractsWithoutTodosCount();
+            if (!empty($ids)) {
+                $ids = implode(", ", $ids);
+                $query->where("`id` IN ({$ids})");
+            }
+        } else {
+            $cwt = $this->getState('filter.cwt');
+            if (is_numeric($cwt) && $cwt == 1) {
+                $ids = $this->getContractsWithoutTodosCount();
+                if (!empty($ids)) {
+                    $ids = implode(", ", $ids);
+                    $query->where("`id` IN ({$ids})");
+                }
+            }
         }
 
         //Показываем только свои сделки, но если только неактивны фильтры по видам деятельности и тематической рубрике
@@ -343,6 +368,22 @@ class ProjectsModelContracts_v2 extends ListModel
         return $cnt;
     }
 
+    /**
+     * Возвращает ID сделок без задач
+     * @return array
+     * @since 2.0.2
+     */
+    private function getContractsWithoutTodosCount(): array
+    {
+        $db = $this->getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select("contractID")
+            ->from("`#__prj_contracts_without_todos`");
+        return $db->setQuery($query)->loadColumn();
+    }
+
+
     /* Сортировка по умолчанию */
     protected function populateState($ordering = null, $direction = null)
     {
@@ -360,6 +401,8 @@ class ProjectsModelContracts_v2 extends ListModel
         $this->setState('filter.rubric', $rubric);
         $doc_status = $this->getUserStateFromRequest($this->context . '.filter.doc_status', 'filter_doc_status');
         $this->setState('filter.doc_status', $doc_status);
+        $cwt = $this->getUserStateFromRequest($this->context . '.filter.cwt', 'filter_cwt');
+        $this->setState('filter.cwt', $cwt);
 
         parent::populateState('plan_dat', 'asc');
     }
@@ -373,6 +416,7 @@ class ProjectsModelContracts_v2 extends ListModel
         $id .= ':' . $this->getState('filter.activity');
         $id .= ':' . $this->getState('filter.rubric');
         $id .= ':' . $this->getState('filter.doc_status');
+        $id .= ':' . $this->getState('filter.cwt');
         return parent::getStoreId($id);
     }
 

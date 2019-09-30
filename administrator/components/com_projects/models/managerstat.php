@@ -100,6 +100,8 @@ class ProjectsModelManagerstat extends ListModel
         $result = array('items' => array(), 'total' => array(), 'managers' => array());
         $curdate = $this->state->get('filter.dat');
 
+        $cwt = $this->getContractsWithoutTodosCount(); //Сделки без активных задач
+
         foreach ($items as $item) {
             if ($item->dat == $curdate) {
                 $result['items'][$item->managerID]['status_0']['today'] = (int) $item->status_0;
@@ -112,8 +114,20 @@ class ProjectsModelManagerstat extends ListModel
                 $result['items'][$item->managerID]['status_9']['today'] = (int) $item->status_9;
                 $result['items'][$item->managerID]['status_10']['today'] = (int) $item->status_10;
                 $result['items'][$item->managerID]['exhibitors']['today'] = (int) $item->exhibitors;
-                $result['items'][$item->managerID]['plan'] = (int) $item->plan;
-                $result['items'][$item->managerID]['diff'] = (int) $result['items'][$item->managerID]['exhibitors']['today'] - $item->plan;
+                $params = array(
+                    "option" => "com_projects",
+                    "view" => "contracts_v2",
+                    "managerID" => $item->managerID,
+                    "cwt" => "1",
+                );
+                $url = JRoute::_("index.php?" . http_build_query($params));
+                $attribs = array("target" => "_blank");
+                if (!empty($cwt[$item->managerID]['cnt'])) {
+                    $result['items'][$item->managerID]['cwt'] = JHtml::link($url, $cwt[$item->managerID]['cnt'], $attribs);
+                }
+                else {
+                    $result['items'][$item->managerID]['cwt'] = 0;
+                }
             }
             else {
                 $result['items'][$item->managerID]['status_0'][$item->dat] = (int) $item->status_0;
@@ -280,6 +294,28 @@ class ProjectsModelManagerstat extends ListModel
         //Stands
         $arr['stands'] = implode(", ", $this->getStandsForContract($arr['id']));
         return $arr;
+    }
+
+    /**
+     * Возвращает массив с количеством сделок без задач
+     * @return array
+     * @since 2.0.2
+     */
+    private function getContractsWithoutTodosCount(): array
+    {
+        $db = $this->getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select("managerID, count(contractID) as cnt")
+            ->from("`#__prj_contracts_without_todos`")
+            ->group("managerID");
+        // Фильтруем по проекту.
+        $project = ProjectsHelper::getActiveProject();
+        if (is_numeric($project)) {
+            $project = (int) $project;
+            $query->where("`prjID` = {$project}");
+        }
+        return $db->setQuery($query)->loadAssocList('managerID');
     }
 
     public function getDat(): string

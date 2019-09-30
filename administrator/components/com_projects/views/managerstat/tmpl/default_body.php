@@ -22,7 +22,6 @@ foreach ($this->items['items'] as $i => $item) :
         <td><?php echo $item['status_0']['dynamic'];?></td>
         <td><?php echo $item['exhibitors']['today'];?></td>
         <td><?php echo $item['exhibitors']['dynamic'];?></td>
-        <td><?php echo $item['plan'];?></td>
-        <td><?php echo $item['diff'];?></td>
+        <td><?php echo $item['cwt'];?></td>
     </tr>
 <?php endforeach; ?>

@@ -105,6 +105,15 @@
                 <option value="0">JHIDE</option>
                 <option value="1">JSHOW</option>
         </field>
+        <field
+                name="contracts_v2-filter_cwt"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_CWT"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_CWT_DESC">
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+        </field>
     </fieldset>
     <fieldset name="contracts_v2_columns">
         <field

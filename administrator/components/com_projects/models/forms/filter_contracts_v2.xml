@@ -22,7 +22,8 @@
             <option value="0">COM_PROJECTS_HEAD_CONTRACT_DOC_STATUS_0</option>
             <option value="2">COM_PROJECTS_HEAD_CONTRACT_DOC_STATUS_2</option>
             <option value="1">COM_PROJECTS_HEAD_CONTRACT_DOC_STATUS_1</option>
-        </field>        <field
+        </field>
+        <field
                 name="currency"
                 type="list"
                 label="COM_PROJECTS_FILTER_SELECT_CURRENCY"
@@ -43,6 +44,17 @@
                 onchange="this.form.submit();"
                 >
             <option value="">COM_PROJECTS_FILTER_SELECT_MANAGER</option>
+        </field>
+        <field
+                name="cwt"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_TODOS_COUNT"
+                description="COM_PROJECTS_FILTER_SELECT_TODOS_COUNT"
+                default=""
+                onchange="this.form.submit();"
+        >
+            <option value="">JALL</option>
+            <option value="1">COM_PROJECTS_FILTER_WITHOUT_DESC</option>
         </field>
         <field
                 name="activity"
