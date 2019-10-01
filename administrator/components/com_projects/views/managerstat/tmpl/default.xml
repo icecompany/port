@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_PROJECTS_MENU_MANAGER_STAT">
+        <message>
+            <![CDATA[COM_PROJECTS_MENU_MANAGER_STAT_DESC]]>
+		</message>
+    </layout>
+</metadata>

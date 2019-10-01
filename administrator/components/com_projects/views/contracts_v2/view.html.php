@@ -78,5 +78,6 @@ class ProjectsViewContracts_v2 extends HtmlView
         if (!$this->userSettings['contracts_v2-filter_activity']) $this->filterForm->removeField('activity', 'filter');
         if (!$this->userSettings['contracts_v2-filter_rubric']) $this->filterForm->removeField('rubric', 'filter');
         if (!$this->userSettings['contracts_v2-filter_status']) $this->filterForm->removeField('status', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_cwt']) $this->filterForm->removeField('cwt', 'filter');
     }
 }

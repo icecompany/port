@@ -56,7 +56,6 @@ class ProjectsModelCtritem extends AdminModel {
             return true;
         }
         $data['managerID'] = JFactory::getUser()->id;
-        $data['updated'] = JDate::getInstance()->format("Y-m-d H:i:s");
         return parent::save($data);
     }
 

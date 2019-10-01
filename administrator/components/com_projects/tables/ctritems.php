@@ -21,7 +21,6 @@ class TableProjectsCtritems extends Table
     var $arrival = null;
     var $fixed = null;
     var $managerID = null;
-    var $updated = null;
 
     public function __construct(JDatabaseDriver $db)
     {
