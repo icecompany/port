@@ -55,6 +55,7 @@ class ProjectsModelManagerstat extends ListModel
         //Фильтруем по динамике
         $dynamic = $this->getState('filter.dynamic');
         $period = array(
+            "day" => "{$dat} + interval -1 day",
             "week" => "{$dat} + interval -1 week",
             "month" => "{$dat} + interval -1 month",
             "year" => "{$dat} + interval -1 year",
@@ -84,7 +85,7 @@ class ProjectsModelManagerstat extends ListModel
         }
 
         /* Сортировка */
-        $query->order("s.dat desc");
+        $query->order("u.name, s.dat desc");
 
         //Лимит
         $this->setState('list.limit', 0);
@@ -213,7 +214,9 @@ class ProjectsModelManagerstat extends ListModel
             }
             if (!isset($result['managers'][$item->managerID])) $result['managers'][$item->managerID] = $item->manager;
         }
-
+        if ($this->task != 'export') {
+            $result['total']['cwt'] = JHtml::link(JRoute::_("index.php?option=com_projects&amp;view=contracts_v2&amp;cwt=1"), $result['total']['cwt'], array('target' => '_blank'));
+        }
         return $result;
     }
 

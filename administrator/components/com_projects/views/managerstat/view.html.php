@@ -18,11 +18,11 @@ class ProjectsViewManagerstat extends HtmlView
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->dat = $this->get('Dat');
-        $this->filterForm->setValue('limit', 'list', 0);
-        $this->filterForm->setValue('filter', 'dat', $this->state->get('filter.dat'));
 
         // Show the toolbar
 		$this->toolbar();
+
+		$this->prepare();
 
 		// Show the sidebar
 		$this->helper = new ProjectsHelper();
@@ -42,6 +42,13 @@ class ProjectsViewManagerstat extends HtmlView
 			JToolBarHelper::preferences('com_projects');
 		}
 	}
+
+	private function prepare()
+    {
+        $this->filterForm->setValue('limit', 'list', 0);
+        $this->filterForm->setValue('dat', 'filter', $this->state->get('filter.dat'));
+        $this->filterForm->setValue('dynamic', 'filter', $this->state->get('filter.dynamic'));
+    }
 
 	private function removeFilters()
     {
