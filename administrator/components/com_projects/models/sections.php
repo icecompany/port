@@ -9,9 +9,10 @@ class ProjectsModelSections extends ListModel
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
-                '`id`', '`id`',
-                '`title`', '`title`',
-                '`price`', '`price`',
+                'id', 's.id',
+                'search',
+                'price',
+                's.title',
             );
         }
         parent::__construct($config);
@@ -30,24 +31,25 @@ class ProjectsModelSections extends ListModel
         /* Фильтр */
         $search = $this->getState('filter.search');
         if (!empty($search)) {
-            $search = $db->quote('%' . $db->escape($search, true) . '%', false);
-            $query->where('`s`.`title` LIKE ' . $search);
+            $search = $db->q("%{$search}%");
+            $query->where("s.title LIKE {$search}");
         }
         // Фильтруем по прайсу.
         $price = $this->getState('filter.price');
         if (is_numeric($price)) {
-            $query->where('`s`.`priceID` = ' . (int)$price);
+            $price = (int) $price;
+            $query->where("s.priceID = {$price}");
         }
         //Фильтр по проекту
         $project = ProjectsHelper::getActiveProject();
         if (is_numeric($project)) {
-            $prciceID = ProjectsHelper::getProjectPrice($project);
-            $query->where("`s`.`priceID` = {$prciceID}");
+            $priceID = ProjectsHelper::getProjectPrice($project);
+            $query->where("s.priceID = {$priceID}");
         }
 
         /* Сортировка */
-        $orderCol = $this->state->get('list.ordering', '`s`.`title`');
-        $orderDirn = $this->state->get('list.direction', 'asc');
+        $orderCol = $this->state->get('list.ordering');
+        $orderDirn = $this->state->get('list.direction');
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
@@ -59,7 +61,7 @@ class ProjectsModelSections extends ListModel
         $result = array();
         foreach ($items as $item) {
             $arr['id'] = $item->id;
-            $url = JRoute::_("index.php?option=com_projects&amp;view=section&amp;layout=edit&amp;&id={$item->id}");
+            $url = JRoute::_("index.php?option=com_projects&amp;task=section.edit&amp;&id={$item->id}");
             $link = JHtml::link($url, $item->title);
             $arr['price'] = $item->price;
             $arr['title'] = $link;
@@ -76,7 +78,7 @@ class ProjectsModelSections extends ListModel
         $price = $this->getUserStateFromRequest($this->context . '.filter.price', 'filter_price', '', 'string');
         $this->setState('filter.search', $search);
         $this->setState('filter.price', $price);
-        parent::populateState('`s`.`title`', 'asc');
+        parent::populateState('s.title', 'asc');
     }
 
     protected function getStoreId($id = '')

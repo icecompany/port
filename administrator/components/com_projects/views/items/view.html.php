@@ -1,5 +1,4 @@
 <?php
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
 
 defined('_JEXEC') or die;
@@ -32,7 +31,7 @@ class ProjectsViewItems extends HtmlView
 
 	private function toolbar()
 	{
-		JToolBarHelper::title(Text::_('COM_PROJECTS_MENU_ITEMS'), '');
+		JToolBarHelper::title(JText::sprintf('COM_PROJECTS_MENU_ITEMS'), '');
 
         if (ProjectsHelper::canDo('projects.access.prices'))
         {
@@ -42,7 +41,7 @@ class ProjectsViewItems extends HtmlView
         }
         JToolbarHelper::custom('items.standard_columns', '', '', 'COM_PROJECTS_ACTION_SET_STANDARD_COLUMNS');
         JToolbarHelper::custom('items.reset_columns', '', '', 'COM_PROJECTS_ACTION_RESET_COLUMNS');
-		if (ProjectsHelper::canDo('core.admin', 'com_projects'))
+		if (ProjectsHelper::canDo('core.admin'))
 		{
 			JToolBarHelper::preferences('com_projects');
 		}
