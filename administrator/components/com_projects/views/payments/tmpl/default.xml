@@ -5,4 +5,18 @@
             <![CDATA[COM_PROJECTS_MENU_PAYMENTS_DESC]]>
 		</message>
     </layout>
+    <fieldset name="request">
+        <fields name="request">
+            <field
+                    name="menu"
+                    type="text"
+                    default="top"
+            />
+            <field
+                    name="from"
+                    type="text"
+                    default=""
+            />
+        </fields>
+    </fieldset>
 </metadata>

@@ -18,6 +18,16 @@
                 <option value="1">COM_PROJECTS_HEAD_EXP_TYPE_1</option>
                 <option value="2">COM_PROJECTS_HEAD_EXP_TYPE_2</option>
             </field>
+            <field
+                    name="menu"
+                    type="text"
+                    default="top"
+            />
+            <field
+                    name="from"
+                    type="text"
+                    default=""
+            />
         </fields>
     </fieldset>
 </metadata>
