@@ -60,8 +60,12 @@ class ProjectsController extends BaseController
     {
         $menu = $this->input->getString('menu');
         $from = $this->input->getString('from');
-        if ($menu !== null && $from !== null) {
+        if ($menu !== null) {
             $model = $this->getModel('Userclick', 'ProjectsModel');
+            if (empty($from)) {
+                $uri = JUri::getInstance($_SERVER['HTTP_REFERER']);
+                $from = $uri->getVar('view');
+            }
             $data['view_from'] = $from;
             $data['view_to'] = $view;
             $data['menu'] = $menu;
