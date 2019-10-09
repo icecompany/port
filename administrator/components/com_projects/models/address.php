@@ -15,7 +15,11 @@ class ProjectsModelAddress extends AdminModel {
 
     public function getItem($pk = null)
     {
-        return parent::getItem($pk);
+        $item = parent::getItem($pk);
+        if ($item->site != null && mb_strpos($item->site, "http://") === false && mb_strpos($item->site, "https://") === false) {
+            $item->site = "http://{$item->site}";
+        }
+        return $item;
     }
 
     protected function loadFormData()
