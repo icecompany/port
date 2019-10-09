@@ -55,6 +55,7 @@ class ProjectsModelManagerstat extends ListModel
         //Фильтруем по динамике
         $dynamic = $this->getState('filter.dynamic');
         $period = array(
+            "day" => "{$dat} + interval -1 day",
             "week" => "{$dat} + interval -1 week",
             "month" => "{$dat} + interval -1 month",
             "year" => "{$dat} + interval -1 year",
