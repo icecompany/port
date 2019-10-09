@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_projects/models/rules">
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                label="COM_PROJECTS_FILTER_CONTRACT"
+                description="COM_PROJECTS_FILTER_CONTRACT"
+                hint="COM_PROJECTS_FILTER_CONTRACT"
+                autocomplete="off"
+                class="js-stools-search-string"
+        />
+        <field
+                name="manager"
+                type="manager"
+                label="COM_PROJECTS_HEAD_CONTRACT_MANAGER"
+                description="COM_PROJECTS_HEAD_CONTRACT_MANAGER"
+                hint="COM_PROJECTS_FILTER_SELECT_MANAGER"
+                onchange="this.form.submit();"
+                multiple="true"
+        />
+    </fields>
+    <fields name="list">
+        <field
+                name="fullordering"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_FULL_ORDERING"
+                description="COM_PROJECTS_FILTER_SELECT_FULL_ORDERING_DESC"
+                onchange="this.form.submit();"
+                default="title asc"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+        </field>
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="0"
+                label="COM_PROJECTS_FILTER_SELECT_LIMIT"
+                description="COM_CONTENT_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+        />
+    </fields>
+</form>
