@@ -705,7 +705,7 @@ class ProjectsModelContract extends AdminModel {
             ->leftJoin("`#__prc_sections` as `s` ON `s`.`id` = `i`.`sectionID`")
             ->leftJoin("`#__prc_prices` as `p` ON `p`.`id` = `s`.`priceID`")
             ->where("`p`.`id` = {$priceID}")
-            ->order("`i`.`application`");
+            ->order("`i`.`application`, `i`.`title_ru`");
         $items = $db->setQuery($query)->loadObjectList();
         $return = base64_encode("index.php?option=com_projects&view=contract&layout=edit&id={$item->id}");
         foreach ($items as $item)
