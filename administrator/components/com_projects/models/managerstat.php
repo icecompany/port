@@ -400,7 +400,7 @@ class ProjectsModelManagerstat extends ListModel
                 ),
             )
         );
-        $sheet->setCellValue("A{$row}", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_SUM'));
+        $sheet->setCellValue("B{$row}", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_SUM'));
         $sheet->setCellValue("C{$row}", $items['total']['status_2']['today']);
         $sheet->setCellValue("D{$row}", $items['total']['status_2']['dynamic']);
         $sheet->setCellValue("E{$row}", $items['total']['status_3']['today']);
