@@ -243,7 +243,7 @@ class ProjectsModelContracts_v2 extends ListModel
             $arr['manager'] = $this->prepareFio($item->manager);
             $arr['status'] = JText::sprintf($item->status);
             $arr['status_code'] = $item->status_code;
-            $arr['doc_status'] = JText::sprintf(($item->doc_status == '1') ? 'JYES' : 'JNO');
+            $arr['doc_status'] = JText::sprintf("COM_PROJECTS_HEAD_CONTRACT_DOC_STATUS_". $item->doc_status);
             $arr['amount'] = (float) $item->amount;
             $arr['payments'] = (float) $item->payments;
             $arr['debt'] = (float) $item->debt;

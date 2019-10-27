@@ -16,7 +16,7 @@ class ProjectsHelper
         if ($notify > 0) {
             JHtmlSidebar::addEntry(JText::sprintf("COM_PROJECTS_MENU_NOTIFY", $notify), "index.php?option=com_projects&amp;view=todos&amp;notify=1&amp;menu=sidebar&amp;from={$view}", $vName == "notify");
         }
-        if (in_array($view, array("statv2", "reports", "contracts", "todos", "building", "stat", "scores", "payments", "catalogs", "cattitles", "prices", "sections", "items", "contracts_v2", "managerstat", ))) {
+        if (in_array($view, array("statv2", "reports", "contracts", "todos", "building", "stat", "scores", "payments", "catalogs", "cattitles", "prices", "sections", "items", "contracts_v2", "managerstat", "managertasks", ))) {
             JHtmlSidebar::addFilter(JText::sprintf("COM_PROJECTS_FILTER_SELECT_ACTIVE_PROJECT"), "set_active_project", JHtml::_("select.options", ProjectsHtmlFilters::projectOptions(), "value", "text", self::getActiveProject()));
         }
         if (self::canDo("projects.access.contracts.standart")) {
