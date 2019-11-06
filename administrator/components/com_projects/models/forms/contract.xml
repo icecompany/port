@@ -87,7 +87,7 @@
                 description="COM_PROJECTS_HEAD_CONTRACT_STATUS_DESC"
                 autocomplete="off"
                 required="true"
-                default=""
+                default="-1"
                 class="x2">
         </field>
         <field
