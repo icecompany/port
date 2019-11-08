@@ -91,7 +91,7 @@ class ProjectsModelEvents extends ListModel
             $arr['id'] = $item->id;
             $user = JFactory::getUser();
             $url = JRoute::_("index.php?option=com_projects&amp;task=event.edit&amp;id={$item->id}");
-            $dat = JFactory::getDate($item->dat, '-3');
+            $dat = JFactory::getDate($item->dat);
             $arr['dat'] = JHtml::link($url, $dat->format("d.m.Y H:i"));
             $arr['section'] = ProjectsHelper::getEventSection($item->section);
             $arr['action'] = ProjectsHelper::getEventAction($item->action);
