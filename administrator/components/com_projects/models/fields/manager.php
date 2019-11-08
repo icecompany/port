@@ -15,7 +15,8 @@ class JFormFieldManager extends JFormFieldList
         $query
             ->select("`id`, `name`")
             ->from("`#__users`")
-            ->order("`name`");
+            ->order("`name`")
+            ->where("block = 0");
         $result = $db->setQuery($query)->loadObjectList();
 
         $options = array();

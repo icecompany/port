@@ -217,6 +217,9 @@ class ProjectsModelContracts_v2 extends ListModel
                 $this->setState('list.limit', $limit);
             }
         }
+        if ($this->task == 'export') {
+            $this->setState('list.limit', 0);
+        }
 
         return $query;
     }
@@ -278,8 +281,10 @@ class ProjectsModelContracts_v2 extends ListModel
         return $result;
     }
 
-    public function export($items)
+    public function export()
     {
+        $items = $this->getItems();
+        $items = $items['items'];
         JLoader::discover('PHPExcel', JPATH_LIBRARIES);
         JLoader::register('PHPExcel', JPATH_LIBRARIES . '/PHPExcel.php');
         $xls = new PHPExcel();
@@ -327,7 +332,15 @@ class ProjectsModelContracts_v2 extends ListModel
         $sheet->getStyle('K1')->getFont()->setBold(true);
         $sheet->getStyle('L1')->getFont()->setBold(true);
         $sheet->getStyle('M1')->getFont()->setBold(true);
-        return $xls;
+        header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: public");
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=Contracts.xls");
+        $objWriter = PHPExcel_IOFactory::createWriter($xls, 'Excel5');
+        $objWriter->save('php://output');
+        jexit();
     }
 
     /**
