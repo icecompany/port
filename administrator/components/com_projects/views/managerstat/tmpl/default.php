@@ -21,6 +21,7 @@ HTMLHelper::_('script', 'com_projects/script.js', array('version' => 'auto', 're
               name="adminForm" id="adminForm">
             <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
             <table class="table table-bordered table-hover">
+                <div style="text-align: center;"><h2><?php echo JText::sprintf('COM_PROJECTS_MENU_MANAGER_STAT_TITLE');?></h2></div>
                 <div><?php echo JHtml::link(JRoute::_("index.php?option=com_projects&amp;task=managerstat.export"),JText::sprintf('COM_PROJECTS_ACTION_EXPORT_XLS')) ;?></div>
                 <thead><?php echo $this->loadTemplate('head'); ?></thead>
                 <tbody><?php echo $this->loadTemplate('body'); ?></tbody>
