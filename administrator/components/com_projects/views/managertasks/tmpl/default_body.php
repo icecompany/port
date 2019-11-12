@@ -8,13 +8,13 @@ foreach ($this->items['items'] as $i => $item) :
     <tr class="row0">
         <td><?php echo ++$ii; ?></td>
         <td><?php echo $managers[$i]; ?></td>
-        <td><?php echo $item['todos_expires']['today'];?></td>
-        <td style="border-left: none;"><?php echo $item['todos_expires']['dynamic'];?></td>
-        <td><?php echo $item['todos_plan']['today'];?></td>
-        <td style="border-left: none;"><?php echo $item['todos_plan']['dynamic'];?></td>
-        <td><?php echo $item['todos_future']['today'];?></td>
-        <td style="border-left: none;"><?php echo $item['todos_future']['dynamic'];?></td>
-        <td><?php echo $item['todos_completed']['today'];?></td>
-        <td style="border-left: none;"><?php echo $item['todos_completed']['dynamic'];?></td>
+        <td><?php echo $item['todos_expires']['today'] ?? '0';?></td>
+        <td style="border-left: none;"><?php echo $item['todos_expires']['dynamic'] ?? '0';?></td>
+        <td><?php echo $item['todos_plan']['today'] ?? '0';?></td>
+        <td style="border-left: none;"><?php echo $item['todos_plan']['dynamic'] ?? '0';?></td>
+        <td><?php echo $item['todos_future']['today'] ?? '0';?></td>
+        <td style="border-left: none;"><?php echo $item['todos_future']['dynamic'] ?? '0';?></td>
+        <td><?php echo $item['todos_completed']['today'] ?? '0';?></td>
+        <td style="border-left: none;"><?php echo $item['todos_completed']['dynamic'] ?? '0';?></td>
     </tr>
 <?php endforeach; ?>

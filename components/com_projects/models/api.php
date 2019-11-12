@@ -38,6 +38,31 @@ class ProjectsModelApi extends BaseDatabaseModel
         return $db->setQuery($query)->loadObjectList() ?? array();
     }
 
+    public function getCities(): array
+    {
+        $db =& JFactory::getDbo();
+        $q = JFactory::getApplication()->input->getString('q', '');
+        $q = $db->q("%{$q}%");
+        $query = $db->getQuery(true);
+        $query
+            ->select("`c`.`id`, `c`.`name` as `city`, `r`.`name` as `region`, `s`.`name` as `country`")
+            ->from('`#__grph_cities` as `c`')
+            ->leftJoin('`#__grph_regions` as `r` ON `r`.`id` = `c`.`region_id`')
+            ->leftJoin('`#__grph_countries` as `s` ON `s`.`id` = `r`.`country_id`')
+            ->order("`c`.`is_capital` DESC, `c`.`name`")
+            ->where("`s`.`state` = 1")
+            ->where("c.name like {$q}");
+        $result = $db->setQuery($query)->loadObjectList();
+        $options = array();
+        if (count($result) > 0) {
+            foreach ($result as $p) {
+                $reg = sprintf("%s, %s", $p->region, $p->country);
+                $options[] = array('id' => $p->id, 'name' => $p->city, 'region' => $reg);
+            }
+        }
+        return $options;
+    }
+
     /**
      * Регистрация компании в системе
      * @throws Exception

@@ -17,6 +17,7 @@ class ProjectsModelManagertasks extends ListModel
         }
 
         $this->task = JFactory::getApplication()->input->getString('task', 'display');
+        $this->type = JFactory::getApplication()->input->getString('type', '');
         $this->return = ProjectsHelper::getReturnUrl();
 
         parent::__construct($config);
@@ -340,6 +341,14 @@ class ProjectsModelManagertasks extends ListModel
         return parent::getStoreId($id);
     }
 
+    public function getDat(bool $for_excel = false): string
+    {
+        $dat = new DateTime($this->state->get('filter.dat'));
+        $format = (!$for_excel) ? "d.m" : "d.m.Y";
+        return $dat->format($format);
+    }
+
+
     /**
      * Возвращает массив с количеством сделок без задач
      * @return array
@@ -362,12 +371,10 @@ class ProjectsModelManagertasks extends ListModel
         return $db->setQuery($query)->loadAssocList('managerID');
     }
 
-    public function getDat(bool $for_excel = false): string
+    public function getType()
     {
-        $dat = new DateTime($this->state->get('filter.dat'));
-        $format = (!$for_excel) ? "d.m" : "d.m.Y";
-        return $dat->format($format);
+        return $this->type;
     }
 
-    private $task, $return;
+    private $task, $return, $type;
 }
