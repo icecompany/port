@@ -41,9 +41,11 @@ class ProjectsModelApi extends BaseDatabaseModel
         if (!empty($name)) {
             $query = $db->getQuery(true);
             $query
-                ->select("IFNULL(`title_ru_short`,`title_ru_full`) as exhibitor")
-                ->from("`#__prj_exp`")
-                ->where("(`title_ru_short` LIKE {$q} OR `title_ru_full` LIKE {$q} OR `title_en` LIKE {$q})");
+                ->select("e.id, IFNULL(e.`title_ru_short`,e.`title_ru_full`) as exhibitor")
+                ->select("c.name as city")
+                ->from("`#__prj_exp` e")
+                ->leftJoin("`#__grph_cities` c on c.id = e.regID")
+                ->where("(e.`title_ru_short` LIKE {$q} OR e.`title_ru_full` LIKE {$q} OR e.`title_en` LIKE {$q})");
         }
         return $db->setQuery($query)->loadObjectList() ?? array();
     }
