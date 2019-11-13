@@ -27,14 +27,24 @@ class ProjectsModelApi extends BaseDatabaseModel
      * Возвращаает список всех экспонентов
      * @return array
      * @since 1.2.0.0
+     * @throws
      */
     public function getExhibitors(): array
     {
         $db =& JFactory::getDbo();
+        $name = JFactory::getApplication()->input->getString('q', '');
+        $q = $db->q("%{$name}%");
         $query = $db->getQuery(true);
         $query
             ->select("*")
             ->from("`#__prj_exhibitors_all`");
+        if (!empty($name)) {
+            $query = $db->getQuery(true);
+            $query
+                ->select("IFNULL(`title_ru_short`,`title_ru_full`) as exhibitor")
+                ->from("`#__prj_exp`")
+                ->where("(`title_ru_short` LIKE {$q} OR `title_ru_full` LIKE {$q} OR `title_en` LIKE {$q})");
+        }
         return $db->setQuery($query)->loadObjectList() ?? array();
     }
 
