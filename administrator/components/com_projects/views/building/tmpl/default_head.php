@@ -21,6 +21,16 @@ $j = 0;
     <th>
         <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_TODO_EXP', 'title_ru_short', $listDirn, $listOrder); ?>
     </th>
+    <?php if ($this->userSettings['building-show_city']): ?>
+        <th>
+            <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CITY', 'reg', $listDirn, $listOrder); ?>
+        </th>
+    <?php endif; ?>
+    <?php if ($this->userSettings['building-show_city_fact']): ?>
+        <th>
+            <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CITY_FACT', 'reg_fact', $listDirn, $listOrder); ?>
+        </th>
+    <?php endif; ?>
     <th>
         <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CONTRACT_MANAGER', 'manager', $listDirn, $listOrder); ?>
     </th>

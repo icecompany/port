@@ -28,7 +28,6 @@ $return = base64_encode("index.php?option=com_projects&view=building");
             <table class="stripe row-border order-column" id="bigtable">
                 <thead><?php echo $this->loadTemplate('head'); ?></thead>
                 <tbody><?php echo $this->loadTemplate('body'); ?></tbody>
-                <tfoot><?php echo $this->loadTemplate('foot'); ?></tfoot>
             </table>
             <div>
                 <input type="hidden" name="task" value=""/>

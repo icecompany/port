@@ -8,7 +8,7 @@ class ProjectsViewBuilding extends HtmlView
 {
 	protected $helper;
 	protected $sidebar = '';
-	public $items, $pagination, $uid, $state, $links, $filterForm, $activeFilters, $_layout, $advanced_items, $advanced_values;
+	public $items, $pagination, $uid, $state, $links, $filterForm, $activeFilters, $_layout, $advanced_items, $userSettings;
 
 	public function display($tpl = null)
 	{
@@ -18,6 +18,7 @@ class ProjectsViewBuilding extends HtmlView
         $this->filterForm = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->_layout = $this->get('Layout');
+        $this->userSettings = ProjectsHelper::getUserSettings();
         if ($this->_layout != '') {
             $this->filterForm->removeField('manager', 'filter');
             $this->filterForm->removeField('standtype', 'filter');
@@ -30,6 +31,7 @@ class ProjectsViewBuilding extends HtmlView
             $this->filterForm->removeField('department', 'filter');
             $this->advanced_items = array_keys($this->items['advanced']);
         }
+        $this->filterForm->setValue('limit', 'list', $this->state->get('list.limit'));
 
 		// Show the toolbar
 		$this->toolbar();
@@ -46,6 +48,7 @@ class ProjectsViewBuilding extends HtmlView
 	private function toolbar()
 	{
 		JToolBarHelper::title(Text::_('COM_PROJECTS_MENU_BUILDING'), '');
+        JToolbarHelper::custom('settings.building', 'options', '', 'COM_PROJECTS_MENU_SETTING_VISIBILITY', false);
 		if (ProjectsHelper::canDo('core.admin'))
 		{
 			JToolBarHelper::preferences('com_projects');

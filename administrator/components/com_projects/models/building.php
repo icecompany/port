@@ -30,6 +30,10 @@ class ProjectsModelBuilding extends ListModel
                 'h.title_ru',
             );
         }
+
+        $this->return = ProjectsHelper::getReturnUrl();
+        $this->userSettings = ProjectsHelper::getUserSettings();
+
         parent::__construct($config);
     }
 
@@ -77,6 +81,12 @@ class ProjectsModelBuilding extends ListModel
             ->leftJoin("`#__prj_contracts` as `c` ON `c`.`id` = `s`.`contractID`")
             ->leftJoin("`#__prj_exp` as `e` ON `e`.`id` = `c`.`expID`")
             ->leftJoin("`#__users` as `u` ON `u`.`id` = `c`.`managerID`");
+        if ($this->userSettings['building-show_city'] || $this->userSettings['building-show_city_fact']) {
+            $query
+                ->select("r.name as reg, rf.name as reg_fact")
+                ->leftJoin("`#__grph_cities` r on r.id = e.regID")
+                ->leftJoin("`#__grph_cities` rf on rf.id = e.regID_fact");
+        }
         if ($layout != '') {
             $query->where("`e`.`id` IS NOT NULL");
             $query
@@ -145,6 +155,8 @@ class ProjectsModelBuilding extends ListModel
         $orderDirn = $this->state->get('list.direction', 'asc');
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
+        $this->setState('list.limit', 0);
+
         return $query;
     }
 
@@ -154,23 +166,21 @@ class ProjectsModelBuilding extends ListModel
         $items = parent::getItems();
         $results = array();
         $stands = array(); //Массив контракт - массив стендов
-        $itog = array(); //Итоговый массив
-        $return = base64_encode("index.php?option=com_projects&view=building");
         $ids = array();
         foreach ($items as $item) {
             if ($item->standID == null) continue;
             $ids[] = $item->standID;
-            $url = JRoute::_("index.php?option=com_projects&amp;task=exhibitor.edit&amp;id={$item->exponentID}&amp;return={$return}");
+            $url = JRoute::_("index.php?option=com_projects&amp;task=exhibitor.edit&amp;id={$item->exponentID}&amp;return={$this->return}");
             $exhibitor = ($item->exponentID != null) ? ProjectsHelper::getExpTitle($item->title_ru_short, $item->title_ru_full, $item->title_en) : '';
             $link = JHtml::link($url, $exhibitor);
             $arr['exhibitor'] = (!$item->sq == null) ?  $link : JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STAND_FREE');
             if ($layout != '') $arr['exhibitor'] = $link;
-            $url = JRoute::_("index.php?option=com_projects&amp;task=stand.edit&amp;contractID={$item->contractID}&amp;id={$item->standID}&amp;return={$return}");
+            $url = JRoute::_("index.php?option=com_projects&amp;task=stand.edit&amp;contractID={$item->contractID}&amp;id={$item->standID}&amp;return={$this->return}");
             $arr['stand'] = (!$item->contractID == null) ? JHtml::link($url, $item->stand) : $item->stand;
             $title = sprintf("%s (%s, %s)", $item->stand, ProjectsHelper::getStandType($item->tip), ProjectsHelper::getStandStatus($item->status));
             $stands[$item->contractID][] = JHtml::link($url, $title);
             $number = (!empty($item->contract)) ? JText::sprintf('COM_PROJECTS_HEAD_TODO_DOGOVOR_N', $item->contract) : JText::sprintf('COM_PROJECTS_TITLE_CONTRACT_WITHOUT_NUMBER');
-            $url = JRoute::_("index.php?option=com_projects&amp;task=contract.edit&amp;id={$item->contractID}&amp;return={$return}");
+            $url = JRoute::_("index.php?option=com_projects&amp;task=contract.edit&amp;id={$item->contractID}&amp;return={$this->return}");
             $arr['contract'] = (!$item->exponentID == null) ? JHtml::link($url,$number) : JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STAND_FREE');
             $arr['sq'] = (!$item->sq == null) ? sprintf("%s %s", $item->sq , JText::sprintf('COM_PROJECTS_HEAD_ITEM_UNIT_SQM')) : JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STAND_FREE');
             $arr['contractID'] = (!$item->exponentID == null) ? $item->contractID : JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STAND_FREE');
@@ -192,6 +202,8 @@ class ProjectsModelBuilding extends ListModel
                 $arr['department'] = $item->department;
             }
             $arr['standID'] = $item->standID;
+            if ($this->userSettings['building-show_city_fact']) $arr['city_fact'] = $item->reg_fact;
+            if ($this->userSettings['building-show_city']) $arr['city'] = $item->reg;
             $results['stands'][$item->standID] = $arr;
         }
         $results['advanced'] = $this->getAdvanced($ids);
@@ -267,4 +279,6 @@ class ProjectsModelBuilding extends ListModel
         $id .= ':' . $this->getState('filter.hotel');
         return parent::getStoreId($id);
     }
+
+    private $return, $userSettings;
 }

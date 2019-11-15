@@ -33,6 +33,11 @@ HTMLHelper::_('stylesheet', 'com_projects/style.css', array('version' => 'auto',
                     <?php echo $this->loadTemplate('contracts_v2'); ?>
                 </div>
                 <?php echo JHtml::_('bootstrap.endTab'); ?>
+                <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'building', JText::sprintf('COM_PROJECTS_MENU_BUILDING')); ?>
+                <div class="row-fluid">
+                    <?php echo $this->loadTemplate('building'); ?>
+                </div>
+                <?php echo JHtml::_('bootstrap.endTab'); ?>
             </div>
             <?php echo JHtml::_('bootstrap.endTabSet'); ?>
         </div>

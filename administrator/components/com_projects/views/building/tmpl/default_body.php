@@ -21,6 +21,16 @@ foreach ($this->items['stands'] as $item) :?>
         <td>
             <?php echo $item['exhibitor']; ?>
         </td>
+        <?php if ($this->userSettings['building-show_city']): ?>
+            <td>
+                <?php echo $item['city']; ?>
+            </td>
+        <?php endif; ?>
+        <?php if ($this->userSettings['building-show_city_fact']): ?>
+            <td>
+                <?php echo $item['city_fact']; ?>
+            </td>
+        <?php endif; ?>
         <td>
             <?php echo $item['manager']; ?>
         </td>

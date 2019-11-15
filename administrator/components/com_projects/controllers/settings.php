@@ -23,5 +23,12 @@ class ProjectsControllerSettings extends AdminController
         $this->redirect();
     }
 
+    public function building()
+    {
+        $this->url .= "&tab=building";
+        $this->setRedirect($this->url);
+        $this->redirect();
+    }
+
     private $url;
 }
