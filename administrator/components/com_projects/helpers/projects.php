@@ -786,6 +786,7 @@ class ProjectsHelper
         $name = File::makeSafe($_FILES['jform']['name'][$field]);
         $tmp = $_FILES['jform']['tmp_name'][$field];
         Folder::create($path);
+        chmod($path, 0777);
         if (!empty($tmp) && !empty($name)) {
             if (File::upload($tmp, $path . "/" . $name)) {
                 chmod($path . "/" . $name, 0777);
