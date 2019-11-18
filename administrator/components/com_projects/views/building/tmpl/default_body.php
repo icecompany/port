@@ -31,6 +31,16 @@ foreach ($this->items['stands'] as $item) :?>
                 <?php echo $item['city_fact']; ?>
             </td>
         <?php endif; ?>
+        <?php if ($this->userSettings['building-show_addr']): ?>
+            <td>
+                <?php echo $item['addr']; ?>
+            </td>
+        <?php endif; ?>
+        <?php if ($this->userSettings['building-show_addr_fact']): ?>
+            <td>
+                <?php echo $item['addr_fact']; ?>
+            </td>
+        <?php endif; ?>
         <td>
             <?php echo $item['manager']; ?>
         </td>

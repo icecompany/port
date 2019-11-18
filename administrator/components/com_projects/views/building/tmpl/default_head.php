@@ -31,6 +31,16 @@ $j = 0;
             <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CITY_FACT', 'reg_fact', $listDirn, $listOrder); ?>
         </th>
     <?php endif; ?>
+    <?php if ($this->userSettings['building-show_addr']): ?>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_ADDR'); ?>
+        </th>
+    <?php endif; ?>
+    <?php if ($this->userSettings['building-show_addr_fact']): ?>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_ADDR_FACT'); ?>
+        </th>
+    <?php endif; ?>
     <th>
         <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CONTRACT_MANAGER', 'manager', $listDirn, $listOrder); ?>
     </th>

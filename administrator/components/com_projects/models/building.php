@@ -81,11 +81,16 @@ class ProjectsModelBuilding extends ListModel
             ->leftJoin("`#__prj_contracts` as `c` ON `c`.`id` = `s`.`contractID`")
             ->leftJoin("`#__prj_exp` as `e` ON `e`.`id` = `c`.`expID`")
             ->leftJoin("`#__users` as `u` ON `u`.`id` = `c`.`managerID`");
-        if ($this->userSettings['building-show_city'] || $this->userSettings['building-show_city_fact']) {
+        if ($this->userSettings['building-show_city'] || $this->userSettings['building-show_city_fact'] || $this->userSettings['building-show_addr'] || $this->userSettings['building-show_addr_fact']) {
             $query
                 ->select("r.name as reg, rf.name as reg_fact")
                 ->leftJoin("`#__grph_cities` r on r.id = e.regID")
                 ->leftJoin("`#__grph_cities` rf on rf.id = e.regID_fact");
+            if ($this->userSettings['building-show_addr'] || $this->userSettings['building-show_addr_fact']) {
+                $query
+                    ->select("ep.indexcode, ep.indexcode_fact, ep.addr_legal_street, ep.addr_legal_home, ep.addr_fact_street, ep.addr_fact_home")
+                    ->leftJoin("`#__prj_exp_contacts` ep on ep.exbID = e.id");
+            }
         }
         if ($layout != '') {
             $query->where("`e`.`id` IS NOT NULL");
@@ -204,6 +209,18 @@ class ProjectsModelBuilding extends ListModel
             $arr['standID'] = $item->standID;
             if ($this->userSettings['building-show_city_fact']) $arr['city_fact'] = $item->reg_fact;
             if ($this->userSettings['building-show_city']) $arr['city'] = $item->reg;
+            if ($this->userSettings['building-show_addr_fact']) {
+                $addr_fact = array();
+                if (!empty($item->addr_fact_street)) $addr_fact[] = $item->addr_fact_street;
+                if (!empty($item->addr_fact_home)) $addr_fact[] = $item->addr_fact_home;
+                $arr['addr_fact'] = implode(", ", $addr_fact);
+            }
+            if ($this->userSettings['building-show_addr']) {
+                $addr = array();
+                if (!empty($item->addr_legal_street)) $addr[] = $item->addr_legal_street;
+                if (!empty($item->addr_legal_home)) $addr[] = $item->addr_legal_home;
+                $arr['addr'] = implode(", ", $addr);
+            }
             $results['stands'][$item->standID] = $arr;
         }
         $results['advanced'] = $this->getAdvanced($ids);
