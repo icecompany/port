@@ -27,6 +27,8 @@ class ProjectsModelSetting extends AdminModel
             'contracts_v2-column_id' => 0,
             'building-show_city' => 0,
             'building-show_city_fact' => 0,
+            'building-show_addr' => 0,
+            'building-show_addr_fact' => 0,
         );
         $this->tab = $input->getString('tab', 'general');
         parent::__construct($config);
