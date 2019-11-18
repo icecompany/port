@@ -60,6 +60,7 @@
                 description="COM_PROJECTS_HEAD_EXP_TITLE_RU_SHORT_DESC"
                 hint="COM_PROJECTS_HEAD_EXP_TITLE_RU_SHORT_HINT"
                 autocomplete="off"
+                onchange="checkExp()"
                 class="input-xlarge"
         />
         <field
@@ -68,6 +69,7 @@
                 label="COM_PROJECTS_HEAD_EXP_TITLE_RU_FULL"
                 description="COM_PROJECTS_HEAD_EXP_TITLE_RU_FULL_DESC"
                 hint="COM_PROJECTS_HEAD_EXP_TITLE_RU_FULL_HINT"
+                onchange="checkExp()"
                 autocomplete="off"
                 class="input-xlarge"
         />
@@ -77,6 +79,7 @@
                 label="COM_PROJECTS_HEAD_EXP_TITLE_EN"
                 description="COM_PROJECTS_HEAD_EXP_TITLE_EN_DESC"
                 hint="COM_PROJECTS_HEAD_EXP_TITLE_EN_HINT"
+                onchange="checkExp()"
                 autocomplete="off"
                 class="input-xlarge"
         />

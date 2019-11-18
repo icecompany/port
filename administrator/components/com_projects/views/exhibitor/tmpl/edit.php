@@ -12,6 +12,7 @@ HTMLHelper::_('script', $this->script);
 HTMLHelper::_('script', 'com_projects/jquery.maskedinput.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('stylesheet', 'com_projects/style.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_projects/script.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_projects/exhibitor.js', array('version' => 'auto', 'relative' => true));
 $action = JRoute::_('index.php?option=com_projects&amp;view=exhibitor&amp;layout=edit&amp;id=' . (int)$this->item->id);
 $return = JFactory::getApplication()->input->get('return', null);
 if ($return != null) {
