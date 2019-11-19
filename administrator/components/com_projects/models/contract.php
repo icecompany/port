@@ -390,6 +390,18 @@ class ProjectsModelContract extends AdminModel {
         if ($data['id'] != null) $old = parent::getItem($data['id']);
         if ($data['id'] == null && !ProjectsHelper::canDo('core.general')) $data['managerID'] = JFactory::getUser()->id;
 
+        if ($data['id'] != null && $data['status'] == '4') {
+            $table = $this->getTable('Stands', 'TableProjects');
+            $table->load(array('contractID' => $data['id']));
+            if ($table->id == null) {
+                $msg = JText::sprintf('COM_PROJECTS_ERROR_SAVE_CONTRACT_NOT_STAND');
+                $type = 'error';
+                JFactory::getApplication()->enqueueMessage($msg, $type);
+                JFactory::getApplication()->redirect($_SERVER['HTTP_REFERER']);
+                return false;
+            }
+        }
+
         if ($data['dat'] != null)
         {
             $dat = JDate::getInstance($data['dat']);

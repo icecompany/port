@@ -10,12 +10,16 @@ class JFormFieldContractstatus extends JFormFieldList
 
     protected function getOptions()
     {
+        $input = JFactory::getApplication()->input;
+        $id = $input->getInt('id', 0);
+        $view = $input->getString('view', '');
         $db =& JFactory::getDbo();
         $query = $db->getQuery(true);
         $query
             ->select("`id`, `code`, `title`, `weight`")
             ->from('#__prj_statuses')
             ->order("`weight`");
+        if ($view === 'contract' && $id === 0) $query->where('`code` <> 4');
         $result = $db->setQuery($query)->loadObjectList();
 
         $options = array();
