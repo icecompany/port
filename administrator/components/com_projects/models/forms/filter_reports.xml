@@ -68,6 +68,25 @@
             <option value="acts">COM_PROJECTS_BLANK_EXHIBITOR_ACTIVITIES</option>
             <option value="rubrics">COM_PROJECTS_HEAD_THEMATIC_RUBRICS</option>
         </field>
+        <field
+                name="dat"
+                type="calendar"
+                label="COM_PROJECTS_FILTER_SELECT_DATE"
+                onchange="this.form.submit();"
+        />
+        <field
+                name="dynamic"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_DYNAMIC"
+                description="COM_PROJECTS_FILTER_SELECT_DYNAMIC"
+                onchange="this.form.submit();"
+        >
+            <option value="">COM_PROJECTS_FILTER_SELECT_DYNAMIC</option>
+            <option value="day">COM_PROJECTS_FILTER_SELECT_DYNAMIC_DAY</option>
+            <option value="week">COM_PROJECTS_FILTER_SELECT_DYNAMIC_WEEK</option>
+            <option value="month">COM_PROJECTS_FILTER_SELECT_DYNAMIC_MONTH</option>
+            <option value="year">COM_PROJECTS_FILTER_SELECT_DYNAMIC_YEAR</option>
+        </field>
     </fields>
     <fields name="list">
         <field

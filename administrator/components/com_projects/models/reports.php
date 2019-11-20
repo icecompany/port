@@ -29,6 +29,9 @@ class ProjectsModelReports extends ListModel
                 'rubric',
                 'u.name',
                 'p.title',
+                'dat',
+                'dynamic',
+                'tbd.control_date',
             );
         }
         parent::__construct($config);
@@ -168,6 +171,43 @@ class ProjectsModelReports extends ListModel
             $query->order($db->escape($orderCol . ' ' . $orderDirn));
         }
 
+        if ($this->type == 'tasks_by_dates') {
+            $db->setQuery("call #__prj_save_manager_stat()")->execute(); //Синхронизируем данные
+
+            $query
+                ->select("tbd.dat, tbd.managerID, tbd.todos_expires as expires, tbd.todos_future as future")
+                ->select("u.name as manager")
+                ->from("`#__prj_managers_stat` tbd")
+                ->leftJoin("`#__users` u on u.id = tbd.managerID");
+
+            // Фильтруем по проекту.
+            $project = $this->getState('filter.project');
+            if (empty($project)) $project = ProjectsHelper::getActiveProject();
+            if (is_numeric($project)) {
+                $query->where('`tbd`.`projectID` = ' . (int) $project);
+            }
+
+            //Фильтруем по начальной дате
+            $dat = $this->getState('filter.dat');
+            if (!empty($dat)) {
+                $dat = $db->q($dat);
+            } else {
+                $dat = "CURRENT_DATE";
+            }
+
+            //Фильтруем по динамике
+            $dynamic = $this->getState('filter.dynamic') ?? 'week';
+
+            $period = array(
+                "day" => "{$dat} + interval -1 day",
+                "week" => "{$dat} + interval -1 week",
+                "month" => "{$dat} + interval -1 month",
+                "year" => "{$dat} + interval -1 year",
+            );
+            $query->where("(tbd.dat = {$dat} OR tbd.dat = {$period[$dynamic]})");
+            $query->order("tbd.dat");
+        }
+
         if ($this->type == 'squares') {
             $query
                 ->select("`c`.`id` as `contractID`, `c`.`number`, DATE_FORMAT(`c`.`dat`, '%d.%m.%Y') as `dat`, `c`.`currency`")
@@ -295,6 +335,19 @@ class ProjectsModelReports extends ListModel
                 if (!isset($result[(!$item->is_future) ? 'current' : 'future'][$item->dat][$item->manager])) $result[(!$item->is_future) ? 'current' : 'future'][$item->dat][$item->manager] = 0;
                 $result[(!$item->is_future) ? 'current' : 'future'][$item->dat][$item->manager] += $item->cnt;
             }
+            if ($this->type == 'tasks_by_dates') {
+                $curdate = $this->state->get('filter.dat') ?? JFactory::getDate()->format("Y-m-d");
+                if (!isset($result['managers'][$item->managerID])) $result['managers'][$item->managerID] = $item->manager;
+                if (!isset($result['items'][$item->managerID])) $result['items'][$item->managerID] = array();
+                $period = ($item->dat == $curdate) ? 'current' : 'dynamic';
+
+                $result['items'][$item->managerID][$period]['expires'] = $item->expires;
+                if (!isset($result['total'][$period]['expires'])) $result['total'][$period]['expires'] = 0;
+                $result['total'][$period]['expires'] += $item->expires ?? 0;
+                if (isset($result['items'][$item->managerID]['current']['expires']) && isset($result['items'][$item->managerID]['dynamic']['expires'])) {
+                    $result['items'][$item->managerID]['dynamic']['expires'] = $result['items'][$item->managerID]['current']['expires'] - $result['items'][$item->managerID]['dynamic']['expires'];
+                }
+            }
             if ($this->type == 'squares') {
                 $arr = array();
                 $arr['number'] = $item->number;
@@ -350,6 +403,94 @@ class ProjectsModelReports extends ListModel
                 }
             }
         }
+        if ($this->type == 'tasks_by_dates') {
+            $future = $this->getFutureTasks(array_keys($result['managers']));
+            foreach ($result['managers'] as $id => $manager) {
+                $result['items'][$id]['future'] = $future['data'][$id];
+            }
+            $result['dates'] = $future['dates'];
+        }
+        return $result;
+    }
+
+    /**
+     * Возвращает количество задач менеджеров на следующую неделю
+     *
+     * @param array $managerIDs массив с ID менеджеров
+     *
+     * @return array
+     *
+     * @since version 2.0.6
+     */
+    private function getFutureTasks(array $managerIDs): array
+    {
+        if (empty($managerIDs)) return array();
+        $ids = implode(", ", $managerIDs);
+
+        $db = $this->getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select("tbd.managerID, tbd.dat, count(tbd.id) as cnt, if(week(tbd.dat, 1) - week(curdate(), 1) = 1,'week','future') as tip")
+            ->from("`#__prj_todo_list` tbd")
+            ->having("week(tbd.dat, 1) > week(curdate(), 1)")
+            ->where("`tbd`.`managerID` IN ({$ids})")
+            ->group("tbd.managerID, tbd.dat");
+        $items = $db->setQuery($query)->loadAssocList();
+        $result = array();
+        $dynamic = $this->getFutureDynamic($managerIDs);
+        foreach ($items as $item) {
+            $result['data'][$item['managerID']][$item['dat']] = $item['cnt'];
+            if (!in_array($item['dat'], $result['dates']) && $item['tip'] == 'week') $result['dates'][] = $item['dat'];
+            if ($item['tip'] == 'future') {
+                if (!isset($result['data'][$item['managerID']]['future'])) $result['data'][$item['managerID']]['future'] = 0;
+                $result['data'][$item['managerID']]['future'] += $item['cnt'];
+                $result['data'][$item['managerID']]['dynamic'] = $dynamic[$item['managerID']];
+            }
+        }
+        foreach ($result['data'] as $managerID => $data) {
+            $result['data'][$managerID]['dynamic'] = $data['future'] - $data['dynamic'];
+        }
+        return $result;
+    }
+
+    /**
+     * Возвращает количество задач менеджеров на текущую неделю
+     * Учитываются только задачи, поставленные ранее текущей недели
+     *
+     * @param array $managerIDs ID менеджеров
+     *
+     * @return array
+     *
+     * @since version 2.0.6
+     */
+    private function getFutureDynamic(array $managerIDs): array
+    {
+        if (empty($managerIDs)) return array();
+        $curdate = $this->state->get('filter.dat') ?? JFactory::getDate()->format("Y-m-d");
+        $ids = implode(", ", $managerIDs);
+        $db = $this->getDbo();
+        //Фильтруем по динамике
+        $dynamic = $this->getState('filter.dynamic') ?? 'week';
+
+        $period = array(
+            "day" => "{$curdate} + interval -1 day",
+            "week" => "{$curdate} + interval -1 week",
+            "month" => "{$curdate} + interval -1 month",
+            "year" => "{$curdate} + interval -1 year",
+        );
+        $curdate = $db->q($curdate);
+        $period = $db->q($period[$dynamic]);
+        $query = $db->getQuery(true);
+        $query
+            ->select("tbd.managerID, count(tbd.id) as cnt")
+            ->from("`#__prj_todo_list` tbd")
+            ->where("`tbd`.`managerID` IN ({$ids}) and tbd.dat >= {$period} and week(tbd.dat_open, 1) < week({$curdate}, 1)")
+            ->group("tbd.managerID");
+        $items = $db->setQuery($query)->loadAssocList();
+        $result = array();
+        foreach ($items as $item) {
+            $result[$item['managerID']] = $item['cnt'];
+        }
         return $result;
     }
 
@@ -361,21 +502,29 @@ class ProjectsModelReports extends ListModel
     public function getNotAvailableFilters(): array {
         $result = array();
         if ($this->type == 'exhibitors') {
-            $result = array('manager');
+            $result = array('manager', 'dat', 'dynamic');
         }
         if ($this->type == 'managers') {
-            $result = array('status', 'rubric', 'fields');
+            $result = array('status', 'rubric', 'fields', 'dat', 'dynamic');
         }
         if ($this->type == 'todos_by_dates') {
-            $result = array('status', 'rubric', 'fields');
+            $result = array('status', 'rubric', 'fields', 'dat', 'dynamic');
+        }
+        if ($this->type == 'tasks_by_dates') {
+            $result = array('status', 'rubric', 'fields', 'manager', 'project');
         }
         if ($this->type == 'squares') {
-            $result = array('status', 'rubric', 'fields', 'manager');
+            $result = array('status', 'rubric', 'fields', 'manager', 'dat', 'dynamic');
         }
         if ($this->type == 'pass') {
-            $result = array('rubric', 'fields', 'manager');
+            $result = array('rubric', 'fields', 'manager', 'dat', 'dynamic');
         }
         return $result;
+    }
+
+    public function getDat()
+    {
+        return $this->state->get('filter.dat') ?? JFactory::getDate()->format("d.m.Y");
     }
 
     /**
@@ -712,6 +861,10 @@ class ProjectsModelReports extends ListModel
         $this->setState('filter.rubric', $rubric);
         $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager');
         $this->setState('filter.manager', $manager);
+        $dat = $this->getUserStateFromRequest($this->context . '.filter.dat', 'filter_dat');
+        $this->setState('filter.dat', $dat);
+        $dynamic = $this->getUserStateFromRequest($this->context . '.filter.dynamic', 'filter_dynamic');
+        $this->setState('filter.dynamic', $dynamic);
         switch ($this->type) {
             case 'exhibitor': {
                 $sort = 'e.title_ru_full';
@@ -723,6 +876,10 @@ class ProjectsModelReports extends ListModel
             }
             case  'todos_by_dates': {
                 $sort = 'manager';
+                break;
+            }
+            case  'tasks_by_dates': {
+                $sort = 'tdb.control_date';
                 break;
             }
             case 'squares': {
@@ -743,6 +900,8 @@ class ProjectsModelReports extends ListModel
         $id .= ':' . $this->getState('filter.status');
         $id .= ':' . $this->getState('filter.rubric');
         $id .= ':' . $this->getState('filter.manager');
+        $id .= ':' . $this->getState('filter.dat');
+        $id .= ':' . $this->getState('filter.dynamic');
         return parent::getStoreId($id);
     }
 }
