@@ -244,6 +244,8 @@ class ProjectsModelReports extends ListModel
 
         }
 
+        $this->setState('list.limit', 0);
+
         return $query;
     }
 
