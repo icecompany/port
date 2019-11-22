@@ -16,7 +16,7 @@ class JFormFieldManager extends JFormFieldList
             ->select("`id`, `name`")
             ->from("`#__users`")
             ->order("`name`")
-            ->where("block = 0");
+            ->where("block = 0 and id not in (427, 440, 441, 447, 442)");
         $result = $db->setQuery($query)->loadObjectList();
 
         $options = array();
