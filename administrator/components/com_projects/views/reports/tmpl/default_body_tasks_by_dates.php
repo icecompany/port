@@ -12,5 +12,7 @@
         <?php endforeach;?>
         <td><?php echo $this->items['items'][$managerID]['future']['future'] ?? 0;?></td>
         <td><?php echo $this->items['items'][$managerID]['future']['dynamic'] ?? 0;?></td>
+        <td><?php echo $this->items['items'][$managerID]['future']['week'] ?? 0;?></td>
+        <td></td>
     </tr>
 <?php endforeach;?>

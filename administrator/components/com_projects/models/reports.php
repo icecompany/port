@@ -404,9 +404,11 @@ class ProjectsModelReports extends ListModel
             }
         }
         if ($this->type == 'tasks_by_dates') {
+            asort($result['managers']);
             $future = $this->getFutureTasks(array_keys($result['managers']));
             foreach ($result['managers'] as $id => $manager) {
                 $result['items'][$id]['future'] = $future['data'][$id];
+                $result['items'][$id]['future']['week'] = (int) $future['data'][$id]['week'] + (int) $result['items'][$id]['current']['expires'];
             }
             $result['dates'] = $future['dates'];
         }
@@ -428,18 +430,29 @@ class ProjectsModelReports extends ListModel
         $ids = implode(", ", $managerIDs);
 
         $db = $this->getDbo();
+        $curdate = $db->q($this->state->get('filter.dat') ?? JFactory::getDate()->format("Y-m-d"));
         $query = $db->getQuery(true);
         $query
-            ->select("tbd.managerID, tbd.dat, count(tbd.id) as cnt, if(week(tbd.dat, 1) - week(curdate(), 1) = 1,'week','future') as tip")
+            ->select("tbd.managerID, tbd.dat, count(tbd.id) as cnt, if(week(tbd.dat, 1) - week({$curdate}, 1) = 1,'week','future') as tip")
             ->from("`#__prj_todo_list` tbd")
-            ->having("week(tbd.dat, 1) > week(curdate(), 1)")
-            ->where("`tbd`.`managerID` IN ({$ids})")
+            ->having("week(tbd.dat, 1) > week({$curdate}, 1) and year(tbd.dat) = year(curdate())")
+            ->where("`tbd`.`managerID` IN ({$ids}) and tbd.is_notify = 0")
             ->group("tbd.managerID, tbd.dat");
+
+        // Фильтруем по проекту.
+        $project = $this->state->get('filter.project');
+        if (empty($project)) $project = ProjectsHelper::getActiveProject();
+        if (is_numeric($project)) {
+            $query->where('`tbd`.`projectID` = ' . (int) $project);
+        }
+
         $items = $db->setQuery($query)->loadAssocList();
         $result = array();
         $dynamic = $this->getFutureDynamic($managerIDs);
         foreach ($items as $item) {
             $result['data'][$item['managerID']][$item['dat']] = $item['cnt'];
+            if (!isset($result['data'][$item['managerID']]['week'])) $result['data'][$item['managerID']]['week'] = 0;
+            if ($item['tip'] != 'future') $result['data'][$item['managerID']]['week'] += $item['cnt'];
             if (!in_array($item['dat'], $result['dates']) && $item['tip'] == 'week') $result['dates'][] = $item['dat'];
             if ($item['tip'] == 'future') {
                 if (!isset($result['data'][$item['managerID']]['future'])) $result['data'][$item['managerID']]['future'] = 0;
@@ -478,14 +491,26 @@ class ProjectsModelReports extends ListModel
             "month" => "{$curdate} + interval -1 month",
             "year" => "{$curdate} + interval -1 year",
         );
+
         $curdate = $db->q($curdate);
         $period = $db->q($period[$dynamic]);
         $query = $db->getQuery(true);
         $query
-            ->select("tbd.managerID, count(tbd.id) as cnt")
-            ->from("`#__prj_todo_list` tbd")
-            ->where("`tbd`.`managerID` IN ({$ids}) and tbd.dat >= {$period} and week(tbd.dat_open, 1) < week({$curdate}, 1)")
-            ->group("tbd.managerID");
+            ->select("managerID, count(id) as cnt")
+            ->from("`#__prj_todo_list`")
+            ->where("`managerID` IN ({$ids})")
+            ->where("(dat_close is null or week(dat_close, 1) < week({$curdate}, 1))")
+            ->where("week(dat, 1) >= week(date_add({$curdate}, interval +2 week), 1)")
+            ->where("week(dat_open, 1) < week({$curdate}, 1)")
+            ->group("managerID");
+
+        // Фильтруем по проекту.
+        $project = $this->state->get('filter.project');
+        if (empty($project)) $project = ProjectsHelper::getActiveProject();
+        if (is_numeric($project)) {
+            $query->where("`projectID` = {$project}");
+        }
+
         $items = $db->setQuery($query)->loadAssocList();
         $result = array();
         foreach ($items as $item) {

@@ -19,10 +19,15 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <th colspan="2" class="center">
 
     </th>
+    <th colspan="2" class="center">
+
+    </th>
 </tr>
 <tr>
     <th><?php echo JDate::getInstance($this->dat)->format("d.m");?></th>
     <th style="border-left: none; font-size: 0.7em;">Динамика</th>
     <th><?php echo JText::sprintf('COM_PROJECTS_HEAD_MANAGER_TASKS_TODOS_FUTURE');?></th>
+    <th style="border-left: none; font-size: 0.7em;">Динамика</th>
+    <th><?php echo JText::sprintf('COM_PROJECTS_HEAD_TODO_COUNT_ON_WEEK');?></th>
     <th style="border-left: none; font-size: 0.7em;">Динамика</th>
 </tr>
