@@ -636,7 +636,7 @@ class ProjectsHelper
     {
         return array(
             'exhibitors' => JText::sprintf('COM_PROJECTS_REPORT_TYPE_BY_EXHIBITORS'),
-            'managers' => JText::sprintf('COM_PROJECTS_REPORT_TYPE_BY_MANAGERS'),
+            //'managers' => JText::sprintf('COM_PROJECTS_REPORT_TYPE_BY_MANAGERS'),
             'todos_by_dates' => JText::sprintf('COM_PROJECTS_REPORT_TYPE_TODOS_BY_DATES'),
             'tasks_by_dates' => JText::sprintf('COM_PROJECTS_REPORT_TYPE_TASKS_BY_DATES'),
             'squares' => JText::sprintf('COM_PROJECTS_REPORT_TYPE_SQUARES'),
