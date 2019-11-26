@@ -90,7 +90,8 @@ class ProjectsModelTodos extends ListModel
         }
         //Фильтруем по дате из URL
         $dat = JFactory::getApplication()->input->getString('date');
-        if ($dat !== null)
+        $futures = JFactory::getApplication()->input->getBool('futures', false);
+        if ($dat !== null && !$futures)
         {
             $dat = $db->q($dat);
             $query->where("`t`.`dat` = {$dat}");
@@ -105,7 +106,7 @@ class ProjectsModelTodos extends ListModel
         {
             $query->where("`t`.`contractID` = {$contractID}");
         }
-        if (ProjectsHelper::canDo('core.general'))
+        if (ProjectsHelper::canDo('projects.access.todos.full'))
         {
             //Фильтруем по менеджеру из URL
             $man = JFactory::getApplication()->input->getInt('uid', 0);
@@ -113,6 +114,18 @@ class ProjectsModelTodos extends ListModel
             {
                 $query->where("`t`.`managerID` = {$man}");
             }
+        }
+        //Фильтруем по просраченным (из URL)
+        $expire = JFactory::getApplication()->input->getBool('expire', false);
+        if ($expire) {
+            $query->where("t.is_expire = 1");
+        }
+        //Фильтруем по будущим (из URL)
+        if ($futures && $dat !== null) {
+            $dat = $db->q($dat);
+            $query
+                ->where("t.dat > DATE_ADD({$dat}, interval 2 week)")
+                ->where("t.state = 0");
         }
 
         /* Сортировка */
