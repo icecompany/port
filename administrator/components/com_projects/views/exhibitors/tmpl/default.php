@@ -26,6 +26,7 @@ HTMLHelper::_('script', 'com_projects/script.js', array('version' => 'auto', 're
             </table>
             <input type="hidden" name="task" value=""/>
             <input type="hidden" name="boxchecked" value="0"/>
+            <?php echo JHtml::_('form.token');?>
         </form>
         <?php //ProjectsHelper::checkUpdate(); ?>
     </div>
