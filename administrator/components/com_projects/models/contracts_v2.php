@@ -191,7 +191,7 @@ class ProjectsModelContracts_v2 extends ListModel
         //Показываем только свои сделки, но если только неактивны фильтры по видам деятельности и тематической рубрике
         if (!ProjectsHelper::canDo('projects.access.contracts.full'))
         {
-            if (!is_numeric($act) && !is_numeric($rubric)) {
+            if (!is_numeric($act) && !is_numeric($rubric) && (!is_numeric($manager) || $manager == 0)) {
                 $userID = JFactory::getUser()->id;
                 $query->where("`managerID` = {$userID}");
             }

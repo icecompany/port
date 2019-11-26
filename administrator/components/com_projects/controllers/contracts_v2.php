@@ -16,4 +16,22 @@ class ProjectsControllerContracts_v2 extends AdminController
         $model = ListModel::getInstance('Contracts_v2', 'ProjectsModel');
         $model->export();
     }
+
+    public function assignToMe()
+    {
+        $ids = $this->input->get('cid');
+        $model = $this->getModel('Contract');
+        foreach ($ids as $id)
+        {
+            $item = $model->getItem($id);
+            $data['id'] = $id;
+            $data['managerID'] = JFactory::getUser()->id;
+            $data['status'] = $item->status;
+            $model->save($data);
+        }
+        $this->setMessage(JText::sprintf('COM_PROJECT_TASK_CONTRACTS_ASSIGNED'));
+        $this->setRedirect("index.php?option=com_projects&view=contracts_v2");
+        $this->redirect();
+        jexit();
+    }
 }
