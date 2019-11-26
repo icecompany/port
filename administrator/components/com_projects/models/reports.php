@@ -175,7 +175,7 @@ class ProjectsModelReports extends ListModel
             $db->setQuery("call #__prj_save_manager_stat()")->execute(); //Синхронизируем данные
 
             $query
-                ->select("tbd.dat, tbd.managerID, tbd.todos_expires as expires, tbd.todos_future as future")
+                ->select("tbd.dat, tbd.managerID, tbd.todos_expires as expires, tbd.todos_future as future, tbd.todos_after_next_week")
                 ->select("u.name as manager")
                 ->from("`#__prj_managers_stat` tbd")
                 ->leftJoin("`#__users` u on u.id = tbd.managerID");
@@ -194,9 +194,11 @@ class ProjectsModelReports extends ListModel
             } else {
                 $dat = "CURRENT_DATE";
             }
+            $this->curdate = $dat;
 
             //Фильтруем по динамике
             $dynamic = $this->getState('filter.dynamic') ?? 'week';
+            if ($dynamic == '') $dynamic = 'week';
 
             $period = array(
                 "day" => "{$dat} + interval -1 day",
@@ -204,7 +206,13 @@ class ProjectsModelReports extends ListModel
                 "month" => "{$dat} + interval -1 month",
                 "year" => "{$dat} + interval -1 year",
             );
-            $query->where("(tbd.dat = {$dat} OR tbd.dat = {$period[$dynamic]})");
+            $this->period = $period[$dynamic];
+
+            if (!ProjectsHelper::canDo('projects.access.todos.full')) {
+                $userID = JFactory::getUser()->id;
+                $query->where("tbd.managerID = {$userID}");
+            }
+            $query->where("(tbd.dat = {$this->curdate} OR tbd.dat = {$this->period})");
             $query->order("tbd.dat");
         }
 
@@ -339,13 +347,25 @@ class ProjectsModelReports extends ListModel
                 $curdate = $this->state->get('filter.dat') ?? JFactory::getDate()->format("Y-m-d");
                 if (!isset($result['managers'][$item->managerID])) $result['managers'][$item->managerID] = $item->manager;
                 if (!isset($result['items'][$item->managerID])) $result['items'][$item->managerID] = array();
+
                 $period = ($item->dat == $curdate) ? 'current' : 'dynamic';
 
                 $result['items'][$item->managerID][$period]['expires'] = $item->expires;
+                $result['items'][$item->managerID][$period]['after_next_week'] = $item->todos_after_next_week;
+
                 if (!isset($result['total'][$period]['expires'])) $result['total'][$period]['expires'] = 0;
+                if (!isset($result['total'][$period]['after_next_week'])) $result['total'][$period]['after_next_week'] = 0;
+
                 $result['total'][$period]['expires'] += $item->expires ?? 0;
+                $result['total'][$period]['after_next_week'] += $item->todos_after_next_week ?? 0;
+
                 if (isset($result['items'][$item->managerID]['current']['expires']) && isset($result['items'][$item->managerID]['dynamic']['expires'])) {
+                    //Считаем динамику просраченных задач
                     $result['items'][$item->managerID]['dynamic']['expires'] = $result['items'][$item->managerID]['current']['expires'] - $result['items'][$item->managerID]['dynamic']['expires'];
+                }
+                else {
+                    //Просраченные задачи на период динамики
+                    $result['items'][$item->managerID]['on_period']['expires'] = $result['items'][$item->managerID]['dynamic']['expires'];
                 }
             }
             if ($this->type == 'squares') {
@@ -405,10 +425,11 @@ class ProjectsModelReports extends ListModel
         }
         if ($this->type == 'tasks_by_dates') {
             asort($result['managers']);
-            $future = $this->getFutureTasks(array_keys($result['managers']));
+            $future = $this->getFutureTasks(array_keys($result['managers'] ?? array()));
             foreach ($result['managers'] as $id => $manager) {
                 $result['items'][$id]['future'] = $future['data'][$id];
                 $result['items'][$id]['future']['week'] = (int) $future['data'][$id]['week'] + (int) $result['items'][$id]['current']['expires'];
+                $result['items'][$id]['dynamic']['after_next_week'] = (int) $result['items'][$id]['current']['after_next_week'] - $result['items'][$id]['dynamic']['after_next_week'];
             }
             $result['dates'] = $future['dates'];
         }
@@ -431,12 +452,13 @@ class ProjectsModelReports extends ListModel
 
         $db = $this->getDbo();
         $curdate = $db->q($this->state->get('filter.dat') ?? JFactory::getDate()->format("Y-m-d"));
+
         $query = $db->getQuery(true);
         $query
             ->select("tbd.managerID, tbd.dat, count(tbd.id) as cnt, if(week(tbd.dat, 1) - week({$curdate}, 1) = 1,'week','future') as tip")
             ->from("`#__prj_todo_list` tbd")
             ->having("week(tbd.dat, 1) > week({$curdate}, 1) and year(tbd.dat) = year(curdate())")
-            ->where("`tbd`.`managerID` IN ({$ids}) and tbd.is_notify = 0")
+            ->where("`tbd`.`managerID` IN ({$ids}) and tbd.is_notify = 0 and tbd.state = 0")
             ->group("tbd.managerID, tbd.dat");
 
         // Фильтруем по проекту.
@@ -482,18 +504,8 @@ class ProjectsModelReports extends ListModel
         $curdate = $this->state->get('filter.dat') ?? JFactory::getDate()->format("Y-m-d");
         $ids = implode(", ", $managerIDs);
         $db = $this->getDbo();
-        //Фильтруем по динамике
-        $dynamic = $this->getState('filter.dynamic') ?? 'week';
-
-        $period = array(
-            "day" => "{$curdate} + interval -1 day",
-            "week" => "{$curdate} + interval -1 week",
-            "month" => "{$curdate} + interval -1 month",
-            "year" => "{$curdate} + interval -1 year",
-        );
 
         $curdate = $db->q($curdate);
-        $period = $db->q($period[$dynamic]);
         $query = $db->getQuery(true);
         $query
             ->select("managerID, count(id) as cnt")
@@ -929,4 +941,6 @@ class ProjectsModelReports extends ListModel
         $id .= ':' . $this->getState('filter.dynamic');
         return parent::getStoreId($id);
     }
+
+    private $curdate, $period;
 }
