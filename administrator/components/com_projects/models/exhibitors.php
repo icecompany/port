@@ -71,8 +71,17 @@ class ProjectsModelExhibitors extends ListModel
         if (!empty($search) && $text == '') $text = $search;
         if ($text != '')
         {
-            $text = $db->q("%{$text}%");
-            $query->where("(`title_ru_full` LIKE {$text} OR `title_ru_short` LIKE {$text} OR `title_en` LIKE {$text} OR `b`.`inn` LIKE {$text})");
+            if (stripos($text, 'id:') === false) {
+                $text = $db->q("%{$text}%");
+                $query->where("(`title_ru_full` LIKE {$text} OR `title_ru_short` LIKE {$text} OR `title_en` LIKE {$text} OR `b`.`inn` LIKE {$text})");
+            }
+            if (stripos($text, 'id:') !== false) {
+                $id = explode(":", $text);
+                if (is_numeric($id[1])) {
+                    $id = $db->q($id[1]);
+                    $query->where("e.id = {$id}");
+                }
+            }
         }
         // Фильтруем по городу.
         $city = $this->getState('filter.city');
