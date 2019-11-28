@@ -11,4 +11,10 @@ class ProjectsControllerReports extends AdminController
         $model->exportToExcel();
         jexit();
     }
+
+    public function refresh()
+    {
+        $this->setRedirect($_SERVER['HTTP_REFERER'])->redirect();
+        jexit();
+    }
 }

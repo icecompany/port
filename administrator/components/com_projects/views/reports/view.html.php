@@ -24,6 +24,11 @@ class ProjectsViewReports extends HtmlView
         $this->dat = $this->get('Dat');
         $this->fields = $this->state->get('filter.fields', array());
 
+        if ($this->type === 'tasks_by_dates') {
+            $this->filterForm->setValue('dat', 'filter', $this->state->get('filter.dat'));
+            $this->filterForm->setValue('dynamic', 'filter', $this->state->get('filter.dynamic'));
+        }
+
         /* Удаляем поля, по которым не нужен фильтр, в зависимости от типа отчёта */
         foreach ($this->notAvailableFilters as $filter) {
             $this->filterForm->removeField($filter, 'filter');
@@ -47,6 +52,9 @@ class ProjectsViewReports extends HtmlView
 		if (!empty($this->type))
         {
             JToolbarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_projects&view=reports');
+        }
+        if ($this->type === 'tasks_by_dates') {
+            JToolbarHelper::custom('reports.refresh', 'refresh', 'refresh', JText::sprintf('COM_PROJECT_TASK_REFRESH'), false);
         }
         if (ProjectsHelper::canDo('core.admin'))
         {

@@ -8,7 +8,7 @@ $params = array('target' => '_blank');
         <td><?php echo $manager;?></td>
         <td>
             <?php
-            $url = JRoute::_("index.php?option=com_projects&amp;view=todos&amp;uid={$managerID}&amp;expire=1");
+            $url = JRoute::_("index.php?option=com_projects&amp;view=todos&amp;uid={$managerID}&amp;date={$this->dat}&amp;expire=1");
 
             if ($this->items['items'][$managerID]['current']['expires'] != null) {
                 echo JHtml::link($url, $this->items['items'][$managerID]['current']['expires'], $params);
@@ -51,7 +51,7 @@ $params = array('target' => '_blank');
         <td><?php echo $this->items['items'][$managerID]['dynamic']['after_next_week'] ?? 0;?></td>
         <td><?php echo $this->items['items'][$managerID]['future']['week'] ?? 0;?></td>
         <td>
-            <?php echo $this->items['items'][$managerID]['on_period']['expires'] ?? JText::sprintf('COM_PROJECTS_ERROR_NO_DATA');?>
+            <?php echo $this->items['items'][$managerID]['dynamic']['plan_on_week'] ?? JText::sprintf('COM_PROJECTS_ERROR_NO_DATA');?>
         </td>
     </tr>
 <?php endforeach;?>
