@@ -8,6 +8,8 @@ foreach ($this->items['items'] as $i => $item) :
     <tr class="row0">
         <td><?php echo ++$ii; ?></td>
         <td><?php echo $managers[$i]; ?></td>
+        <td><?php echo $item['status_-1']['today'];?></td>
+        <td style="border-left: none;"><?php echo $item['status_-1']['dynamic'];?></td>
         <td><?php echo $item['status_2']['today'];?></td>
         <td style="border-left: none;"><?php echo $item['status_2']['dynamic'];?></td>
         <td><?php echo $item['status_3']['today'];?></td>
@@ -21,7 +23,7 @@ foreach ($this->items['items'] as $i => $item) :
         <td><?php echo $item['status_0']['today'];?></td>
         <td style="border-left: none;"><?php echo $item['status_0']['dynamic'];?></td>
         <td><?php echo $item['exhibitors']['today'];?></td>
-        <td style="border-left: none;"><?php echo $item['exhibitors']['dynamic'];?></td>
+        <td><?php echo $item['exhibitors']['dynamic'];?></td>
         <td><?php echo $item['cwt'];?></td>
     </tr>
 <?php endforeach; ?>

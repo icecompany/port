@@ -101,8 +101,13 @@ class ProjectsModelManagerstat extends ListModel
 
         $cwt = $this->getContractsWithoutTodosCount(); //Сделки без активных задач
 
+        $name = "status_-1";
         foreach ($items as $item) {
             if ($item->dat == $curdate) {
+                $result['items'][$item->managerID]['status_-1']['today'] = (int)$item->$name;
+                if (!isset($result['total']['status_-1']['today'])) $result['total']['status_-1']['today'] = 0;
+                $result['total']['status_-1']['today'] += (int)$item->$name;
+
                 $result['items'][$item->managerID]['status_0']['today'] = (int)$item->status_0;
                 if (!isset($result['total']['status_0']['today'])) $result['total']['status_0']['today'] = 0;
                 $result['total']['status_0']['today'] += (int)$item->status_0;
@@ -162,6 +167,11 @@ class ProjectsModelManagerstat extends ListModel
                     $result['items'][$item->managerID]['cwt'] = 0;
                 }
             } else {
+                $result['items'][$item->managerID]['status_-1'][$item->dat] = (int)$item->$name;
+                $result['items'][$item->managerID]['status_-1']['dynamic'] = (int)$result['items'][$item->managerID]['status_-1']['today'] - (int)$item->$name;
+                if (!isset($result['total']['status_-1']['dynamic'])) $result['total']['status_-1']['dynamic'] = 0;
+                $result['total']['status_-1']['dynamic'] += (int)$result['items'][$item->managerID]['status_-1']['dynamic'];
+
                 $result['items'][$item->managerID]['status_0'][$item->dat] = (int)$item->status_0;
                 $result['items'][$item->managerID]['status_0']['dynamic'] = (int)$result['items'][$item->managerID]['status_0']['today'] - (int)$item->status_0;
                 if (!isset($result['total']['status_0']['dynamic'])) $result['total']['status_0']['dynamic'] = 0;
@@ -233,14 +243,14 @@ class ProjectsModelManagerstat extends ListModel
         $sheet = $xls->getActiveSheet();
 
         //Объединение столбцов
-        $merge = array("A1:Q1", "A2:A3", "B2:B3", "C2:D2", "E2:F2", "G2:H2", "I2:J2", "K2:L2",
-            "M2:N2", "O2:O3", "P2:P3", "Q2:Q3", "A12:B12");
+        $merge = array("A1:S1", "A2:A3", "B2:B3", "C2:D2", "E2:F2", "G2:H2", "I2:J2", "K2:L2",
+            "M2:N2", "O2:P2", "Q2:Q3", "R2:R3", "S2:S3");
         foreach ($merge as $value) {
             $sheet->mergeCells($value);
         }
 
         //Выравнивание
-        $alignment = array("A1", "B2", "C2", "E2", "G2", "I2", "K2", "M2", "O2", "P2", "Q2");
+        $alignment = array("A1", "B2", "C2", "E2", "G2", "I2", "K2", "M2", "O2", "P2", "Q2", "R2", "S2");
         foreach ($alignment as $cell) {
             $sheet->getStyle($cell)->applyFromArray(array(
                     "alignment" => array(
@@ -254,13 +264,13 @@ class ProjectsModelManagerstat extends ListModel
 
         //Ширина столбцов
         $width = array("A" => 4, "B" => 36, "C" => 10, "D" => 10, "E" => 10, "F" => 10, "G" => 10, "H" => 10,
-            "I" => 10, "J" => 10, "K" => 10, "L" => 10, "M" => 10, "N" => 10, "O" => 12, "P" => "12", "Q" => 12);
+            "I" => 10, "J" => 10, "K" => 10, "L" => 10, "M" => 10, "N" => 10, "O" => 10, "P" => 10, "Q" => 12, "R" => 12, "S" => 12);
         foreach ($width as $col => $value) {
             $sheet->getColumnDimension($col)->setWidth($value);
         }
 
         //Формат данных
-        $cells = array("C3", "E3", "G3", "I3", "K3", "M3");
+        $cells = array("C3", "E3", "G3", "I3", "K3", "M3", "O3");
         foreach ($cells as $cell) {
             $sheet->getStyle($cell)->applyFromArray(
                 array(
@@ -274,15 +284,16 @@ class ProjectsModelManagerstat extends ListModel
         $sheet->setCellValue("A1", JText::sprintf('COM_PROJECTS_REPORT_TITLE'));
         $sheet->setCellValue("A2", "№");
         $sheet->setCellValue("B2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_MANAGER'));
-        $sheet->setCellValue("C2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_2_SHORT'));
-        $sheet->setCellValue("E2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_3_SHORT'));
-        $sheet->setCellValue("G2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_4_SHORT'));
-        $sheet->setCellValue("I2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_1_SHORT'));
-        $sheet->setCellValue("K2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_9_SHORT'));
-        $sheet->setCellValue("M2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_0_SHORT'));
-        $sheet->setCellValue("O2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_COMPANIES'));
-        $sheet->setCellValue("P2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
-        $sheet->setCellValue("Q2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACTS_WITHOUT_TODOS'));
+        $sheet->setCellValue("C2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_-1_SHORT'));
+        $sheet->setCellValue("E2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_2_SHORT'));
+        $sheet->setCellValue("G2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_3_SHORT'));
+        $sheet->setCellValue("I2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_4_SHORT'));
+        $sheet->setCellValue("K2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_1_SHORT'));
+        $sheet->setCellValue("M2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_9_SHORT'));
+        $sheet->setCellValue("O2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_0_SHORT'));
+        $sheet->setCellValue("Q2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_COMPANIES'));
+        $sheet->setCellValue("R2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
+        $sheet->setCellValue("S2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACTS_WITHOUT_TODOS'));
 
         $sheet->setCellValue("C3", $dat);
         $sheet->setCellValue("D3", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
@@ -296,10 +307,8 @@ class ProjectsModelManagerstat extends ListModel
         $sheet->setCellValue("L3", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
         $sheet->setCellValue("M3", $dat);
         $sheet->setCellValue("N3", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
-        $sheet->setCellValue("O2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_COMPANIES'));
-        $sheet->setCellValue("P2", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
-        $sheet->setCellValue("Q2", JText::sprintf('COM_PROJECTS_HEAD_CONTRACTS_WITHOUT_TODOS'));
-
+        $sheet->setCellValue("O3", $dat);
+        $sheet->setCellValue("P3", JText::sprintf('COM_PROJECTS_HEAD_MANAGER_STAT_DYNAMIC'));
 
         $sheet->setTitle(JText::sprintf('COM_PROJECTS_MENU_MANAGER_STAT'));
 
@@ -309,27 +318,29 @@ class ProjectsModelManagerstat extends ListModel
         foreach ($items['managers'] as $i => $manager) {
             $sheet->setCellValue("A{$row}", $j);
             $sheet->setCellValue("B{$row}", $manager);
-            $sheet->setCellValue("C{$row}", $items['items'][$i]['status_2']['today']);
-            $sheet->setCellValue("D{$row}", $items['items'][$i]['status_2']['dynamic']);
-            $sheet->setCellValue("E{$row}", $items['items'][$i]['status_3']['today']);
-            $sheet->setCellValue("F{$row}", $items['items'][$i]['status_3']['dynamic']);
-            $sheet->setCellValue("G{$row}", $items['items'][$i]['status_4']['today']);
-            $sheet->setCellValue("H{$row}", $items['items'][$i]['status_4']['dynamic']);
-            $sheet->setCellValue("I{$row}", $items['items'][$i]['status_1']['today']);
-            $sheet->setCellValue("J{$row}", $items['items'][$i]['status_1']['dynamic']);
-            $sheet->setCellValue("K{$row}", $items['items'][$i]['status_9']['today']);
-            $sheet->setCellValue("L{$row}", $items['items'][$i]['status_9']['dynamic']);
-            $sheet->setCellValue("M{$row}", $items['items'][$i]['status_0']['today']);
-            $sheet->setCellValue("N{$row}", $items['items'][$i]['status_0']['dynamic']);
-            $sheet->setCellValue("O{$row}", $items['items'][$i]['exhibitors']['today']);
-            $sheet->setCellValue("P{$row}", $items['items'][$i]['exhibitors']['dynamic']);
-            $sheet->setCellValue("Q{$row}", $items['items'][$i]['cwt']);
+            $sheet->setCellValue("C{$row}", $items['items'][$i]['status_-1']['today']);
+            $sheet->setCellValue("D{$row}", $items['items'][$i]['status_-1']['dynamic']);
+            $sheet->setCellValue("E{$row}", $items['items'][$i]['status_2']['today']);
+            $sheet->setCellValue("F{$row}", $items['items'][$i]['status_2']['dynamic']);
+            $sheet->setCellValue("G{$row}", $items['items'][$i]['status_3']['today']);
+            $sheet->setCellValue("H{$row}", $items['items'][$i]['status_3']['dynamic']);
+            $sheet->setCellValue("I{$row}", $items['items'][$i]['status_4']['today']);
+            $sheet->setCellValue("J{$row}", $items['items'][$i]['status_4']['dynamic']);
+            $sheet->setCellValue("K{$row}", $items['items'][$i]['status_1']['today']);
+            $sheet->setCellValue("L{$row}", $items['items'][$i]['status_1']['dynamic']);
+            $sheet->setCellValue("M{$row}", $items['items'][$i]['status_9']['today']);
+            $sheet->setCellValue("N{$row}", $items['items'][$i]['status_9']['dynamic']);
+            $sheet->setCellValue("O{$row}", $items['items'][$i]['status_0']['today']);
+            $sheet->setCellValue("P{$row}", $items['items'][$i]['status_0']['dynamic']);
+            $sheet->setCellValue("Q{$row}", $items['items'][$i]['exhibitors']['today']);
+            $sheet->setCellValue("R{$row}", $items['items'][$i]['exhibitors']['dynamic']);
+            $sheet->setCellValue("S{$row}", $items['items'][$i]['cwt']);
             $row++;
             $j++;
         }
 
-        $cells = array("C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q");
-        $dynamic_colls = array("D", "F", "H", "J", "L", "N", "P", "Q");
+        $cells = array("C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S");
+        $dynamic_colls = array("D", "F", "H", "J", "L", "N", "P", "R", "S");
         foreach ($cells as $cell) {
             for ($ii = $start; $ii < $row + 1; $ii ++) {
                 if (!in_array($cell, $dynamic_colls)) {
@@ -371,13 +382,13 @@ class ProjectsModelManagerstat extends ListModel
                 $val = $sheet->getCell($cell . $ii)->getValue();
                 if ($val == 0) $font = array(
                     "font" => array(
-                        'color' => array('rgb' => ($cell == 'Q') ? '228B22' : '000000'),
+                        'color' => array('rgb' => ($cell == 'S') ? '228B22' : '000000'),
                         'bold' => false
                     ),
                 );
                 if ($val > 0) $font = array(
                     "font" => array(
-                        'color' => array('rgb' => ($cell != 'Q') ? '228B22' : 'E00D00'),
+                        'color' => array('rgb' => ($cell != 'S') ? '228B22' : 'E00D00'),
                         'bold' => false
                     ),
                 );
@@ -400,22 +411,34 @@ class ProjectsModelManagerstat extends ListModel
                 ),
             )
         );
-        $sheet->setCellValue("B{$row}", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_SUM'));
-        $sheet->setCellValue("C{$row}", $items['total']['status_2']['today']);
-        $sheet->setCellValue("D{$row}", $items['total']['status_2']['dynamic']);
-        $sheet->setCellValue("E{$row}", $items['total']['status_3']['today']);
-        $sheet->setCellValue("F{$row}", $items['total']['status_3']['dynamic']);
-        $sheet->setCellValue("G{$row}", $items['total']['status_4']['today']);
-        $sheet->setCellValue("H{$row}", $items['total']['status_4']['dynamic']);
-        $sheet->setCellValue("I{$row}", $items['total']['status_1']['today']);
-        $sheet->setCellValue("J{$row}", $items['total']['status_1']['dynamic']);
-        $sheet->setCellValue("K{$row}", $items['total']['status_9']['today']);
-        $sheet->setCellValue("L{$row}", $items['total']['status_9']['dynamic']);
-        $sheet->setCellValue("M{$row}", $items['total']['status_0']['today']);
-        $sheet->setCellValue("N{$row}", $items['total']['status_0']['dynamic']);
-        $sheet->setCellValue("O{$row}", $items['total']['exhibitors']['today']);
-        $sheet->setCellValue("P{$row}", $items['total']['exhibitors']['dynamic']);
-        $sheet->setCellValue("Q{$row}", $items['total']['cwt']);
+        $sheet->mergeCells("A{$row}:B{$row}"); //Итого объединение
+
+        $sheet->setCellValue("A{$row}", JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_SUM'));
+        $sheet->setCellValue("C{$row}", $items['total']['status_-1']['today']);
+        $sheet->setCellValue("D{$row}", $items['total']['status_-1']['dynamic']);
+        $sheet->setCellValue("E{$row}", $items['total']['status_2']['today']);
+        $sheet->setCellValue("F{$row}", $items['total']['status_2']['dynamic']);
+        $sheet->setCellValue("G{$row}", $items['total']['status_3']['today']);
+        $sheet->setCellValue("H{$row}", $items['total']['status_3']['dynamic']);
+        $sheet->setCellValue("I{$row}", $items['total']['status_4']['today']);
+        $sheet->setCellValue("J{$row}", $items['total']['status_4']['dynamic']);
+        $sheet->setCellValue("K{$row}", $items['total']['status_1']['today']);
+        $sheet->setCellValue("L{$row}", $items['total']['status_1']['dynamic']);
+        $sheet->setCellValue("M{$row}", $items['total']['status_9']['today']);
+        $sheet->setCellValue("N{$row}", $items['total']['status_9']['dynamic']);
+        $sheet->setCellValue("O{$row}", $items['total']['status_0']['today']);
+        $sheet->setCellValue("P{$row}", $items['total']['status_0']['dynamic']);
+        $sheet->setCellValue("Q{$row}", $items['total']['exhibitors']['today']);
+        $sheet->setCellValue("R{$row}", $items['total']['exhibitors']['dynamic']);
+        $sheet->setCellValue("S{$row}", $items['total']['cwt']);
+
+        $font = array(
+            "font" => array(
+                'color' => array('rgb' => 'E00D00'),
+            ),
+        );
+        $sheet->getStyle("S" . $row)->applyFromArray($font);
+
         return $xls;
     }
 

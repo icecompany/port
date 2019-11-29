@@ -6,6 +6,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 <tr>
     <th rowspan="2">№</th>
     <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_MANAGER_STAT_MANAGER"); ?></th>
+    <th colspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACT_STATUS_-1_SHORT"); ?></th>
     <th colspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACT_STATUS_2_SHORT"); ?></th>
     <th colspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACT_STATUS_3_SHORT"); ?></th>
     <th colspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACT_STATUS_4_SHORT"); ?></th>
@@ -17,7 +18,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <th rowspan="2"><?php echo JText::sprintf("COM_PROJECTS_HEAD_CONTRACTS_WITHOUT_TODOS"); ?></th>
 </tr>
 <tr>
-    <?php for($i = 0; $i < 6; $i++): ?>
+    <?php for($i = 0; $i < 7; $i++): ?>
         <th><?php echo $this->dat;?></th>
         <th style="border-left: none; font-size: 0.7em;">Динамика</th>
     <?php endfor;?>
