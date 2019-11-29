@@ -11,6 +11,12 @@ class ProjectsControllerManagerstat extends AdminController
         return parent::getModel($name, $prefix, array('ignore_request' => true));
     }
 
+    public function refresh()
+    {
+        $this->setRedirect($_SERVER['HTTP_REFERER'])->redirect();
+        jexit();
+    }
+
     public function export(): void
     {
         $model = ListModel::getInstance($name = 'Managerstat', $prefix = 'ProjectsModel', $config = array());

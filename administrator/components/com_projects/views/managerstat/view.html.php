@@ -37,6 +37,9 @@ class ProjectsViewManagerstat extends HtmlView
 	{
 		JToolBarHelper::title(Text::_('COM_PROJECTS_MENU_MANAGER_STAT'), '');
 
+		JToolbarHelper::back();
+        JToolbarHelper::custom('managerstat.refresh', 'refresh', 'refresh', JText::sprintf('COM_PROJECT_TASK_REFRESH'), false);
+
         if (ProjectsHelper::canDo('core.admin'))
 		{
 			JToolBarHelper::preferences('com_projects');
