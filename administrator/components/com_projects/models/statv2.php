@@ -32,12 +32,12 @@ class ProjectsModelStatv2 extends ListModel
             ->select("s.itemID, s.currency, sum(s.value) as `val`, sum(s.price) as `price`")
             ->select("i.title_ru as `item`, i.unit")
             ->from("`#__prj_stat_v2` s")
+            ->leftJoin("`#__prj_contracts` c on c.id = s.contractID")
             ->leftJoin("`s7vi9_prc_items` i on i.id = s.itemID");
 
         if ($this->itemID != 0) {
             $query
                 ->select("s.contractID, s.managerID, e.exhibitor, c.number as `contract`")
-                ->leftJoin("`#__prj_contracts` c on c.id = s.contractID")
                 ->leftJoin("`#__prj_exhibitors_all` e on e.id = s.expID")
                 ->where("s.itemID = {$this->itemID}")
                 ->group("s.currency, s.contractID");
@@ -50,7 +50,7 @@ class ProjectsModelStatv2 extends ListModel
         // Фильтруем по менеджеру.
         $manager = (!ProjectsHelper::canDo('projects.access.stat.full')) ? JFactory::getUser()->id : $this->getState('filter.manager');
         if (is_numeric($manager)) {
-            $query->where('`c`.`managerID` = ' . (int) $manager);
+            $query->where("c.managerID = {$manager}");
         }
 
         /* Фильтр */
