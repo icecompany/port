@@ -165,6 +165,21 @@ class ProjectsHelper
         return $config->get($param, $default);
     }
 
+    public static function addNotify(array $params): void
+    {
+        $db =& JFactory::getDbo();
+        $data = new stdClass();
+        $data->id = null;
+        $data->is_notify = '1';
+        $data->dat = JFactory::getDate()->format("Y-m-d");
+        $data->contractID = $params['contractID'];
+        $data->managerID = $params['managerID'];
+        $data->task = $params['task'];
+        $data->userOpen = JFactory::getUser()->id;
+        $data->state = 0;
+        $db->insertObject("#__prj_todos", $data);
+    }
+
     /**
      * Возвращает следующий идентификатор группы уведомлений
      * @return int

@@ -415,6 +415,15 @@ class ProjectsModelContract extends AdminModel {
         if ($data['id'] != null && ($old->status == '1' || $old->status == '10') && $old->status != $data['status']) {
             $this->notifyNewStatus(array('contractID' => $data['id'], 'status_old' => $old->status, 'status_new' => $data['status']));
         }
+        if ($data['id'] != null && ($data['doc_status'] == 1 or $data['doc_status'] == 2))
+        {
+            //Уведомление Ковалишину о скане договора или оригинале договора
+            $n = array();
+            $n['contractID'] = $data['id'];
+            $n['managerID'] = 400;
+            $n['task'] = JText::sprintf("COM_PROJECT_TASK_CONTRACT_NEW_DOC_STATUS_{$data['doc_status']}");
+            ProjectsHelper::addNotify($n);
+        }
         if ($data['id'] != null) {
             $column = ProjectsHelper::getActivePriceColumn($data['id']);
             if ($column != $data['activecolumn']) {
