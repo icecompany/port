@@ -63,16 +63,6 @@ class ProjectsModelStand extends AdminModel {
         $contract = $cm->getItem($item->contractID);
         $sm = AdminModel::getInstance('Catalog', 'ProjectsModel');
         $stand = $sm->getItem($item->catalogID);
-        if ($contract->number != null)
-        {
-            $data['task'] = JText::sprintf('COM_PROJECT_TASK_STAND_DG_REMOVE', $contract->number, $stand->number);
-        }
-        else
-        {
-            $data['task'] = JText::sprintf('COM_PROJECT_TASK_STAND_SD_REMOVE', $contract->id, $stand->number);
-        }
-        $data['managerID'] = 400;
-        $this->_createTodo($data, true);
         $items_model = AdminModel::getInstance('Ctritem', 'ProjectsModel');
         $ctritem = $items_model->getItem(array('itemID' => $item->itemID));
         $nv = array();
@@ -245,16 +235,6 @@ class ProjectsModelStand extends AdminModel {
             $contract = $cm->getItem($data['contractID']);
             $sm = AdminModel::getInstance('Catalog', 'ProjectsModel');
             $stand = $sm->getItem($data['catalogID']);
-            if ($contract->number != null)
-            {
-                $arr['task'] = JText::sprintf('COM_PROJECT_TASK_STAND_DG_ADDED', $contract->number, $stand->number);
-            }
-            else
-            {
-                $arr['task'] = JText::sprintf('COM_PROJECT_TASK_STAND_SD_ADDED', $contract->id, $stand->number);
-            }
-            $arr['managerID'] = 400;
-            $this->_createTodo($arr, true);
             $items = AdminModel::getInstance('Ctritem', 'ProjectsModel');
             $item = $items->getItem(array('itemID' => $data['itemID'], 'contractID' => $data['contractID']));
             $nv = array();
