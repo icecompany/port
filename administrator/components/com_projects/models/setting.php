@@ -21,6 +21,7 @@ class ProjectsModelSetting extends AdminModel
             'contracts_v2-filter_rubric' => 1,
             'contracts_v2-filter_status' => 1,
             'contracts_v2-filter_cwt' => 1,
+            'contracts_v2-filter_country' => 0,
             'contracts_v2-column_parent' => 1,
             'contracts_v2-column_manager' => 1,
             'contracts_v2-column_doc_status' => 0,

@@ -46,6 +46,16 @@
             <option value="">COM_PROJECTS_FILTER_SELECT_MANAGER</option>
         </field>
         <field
+                name="country"
+                type="Country"
+                label="COM_PROJECTS_FILTER_SELECT_COUNTRY"
+                description="COM_PROJECTS_FILTER_SELECT_COUNTRY"
+                hint="COM_PROJECTS_FILTER_SELECT_COUNTRY"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_COUNTRY</option>
+        </field>
+        <field
                 name="cwt"
                 type="list"
                 label="COM_PROJECTS_FILTER_SELECT_TODOS_COUNT"

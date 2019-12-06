@@ -15,7 +15,7 @@ class ProjectsModelContracts_v2 extends ListModel
                 'dat',                      'rubric',
                 'exhibitor',                'status',
                 'todos',                    'cwt',
-                'sort_amount, payments',
+                'sort_amount, payments',    'country',
                 'sort_amount, amount',
                 'status_weight',
                 'amount',
@@ -87,6 +87,15 @@ class ProjectsModelContracts_v2 extends ListModel
         {
             $currency = $db->q($currency);
             $query->where("`currency` LIKE {$currency}");
+        }
+
+        // Фильтруем по стране.
+        $country = $this->getState('filter.country');
+        if (!empty($country))
+        {
+            $country = $db->q($country);
+            $query
+                ->where("`countryID` LIKE {$country}");
         }
 
         // Фильтруем по менеджеру.
@@ -416,6 +425,8 @@ class ProjectsModelContracts_v2 extends ListModel
         $this->setState('filter.doc_status', $doc_status);
         $cwt = $this->getUserStateFromRequest($this->context . '.filter.cwt', 'filter_cwt');
         $this->setState('filter.cwt', $cwt);
+        $country = $this->getUserStateFromRequest($this->context . '.filter.country', 'filter_country');
+        $this->setState('filter.country', $country);
 
         parent::populateState('plan_dat', 'asc');
     }
@@ -430,6 +441,7 @@ class ProjectsModelContracts_v2 extends ListModel
         $id .= ':' . $this->getState('filter.rubric');
         $id .= ':' . $this->getState('filter.doc_status');
         $id .= ':' . $this->getState('filter.cwt');
+        $id .= ':' . $this->getState('filter.country');
         return parent::getStoreId($id);
     }
 
