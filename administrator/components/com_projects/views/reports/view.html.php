@@ -24,9 +24,9 @@ class ProjectsViewReports extends HtmlView
         $this->dat = $this->get('Dat');
         $this->fields = $this->state->get('filter.fields', array());
 
-        if ($this->type === 'tasks_by_dates') {
+        if ($this->type === 'tasks_by_dates' || $this->type === 'tasks_current_week') {
             $this->filterForm->setValue('dat', 'filter', $this->state->get('filter.dat'));
-            $this->filterForm->setValue('dynamic', 'filter', $this->state->get('filter.dynamic'));
+            if ($this->type === 'tasks_by_dates') $this->filterForm->setValue('dynamic', 'filter', $this->state->get('filter.dynamic'));
         }
 
         /* Удаляем поля, по которым не нужен фильтр, в зависимости от типа отчёта */

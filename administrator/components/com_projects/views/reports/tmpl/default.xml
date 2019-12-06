@@ -12,9 +12,9 @@
                     type="list"
                     default="">
                 <option value="">COM_PROJECTS_MENU_REPORTS_DESC</option>
-                <option value="exhibitors">COM_PROJECTS_REPORT_TYPE_BY_EXHIBITORS</option>
-                <option value="managers">COM_PROJECTS_REPORT_TYPE_BY_MANAGERS</option>
                 <option value="tasks_by_dates">COM_PROJECTS_REPORT_TYPE_TASKS_BY_DATES</option>
+                <option value="tasks_current_week">COM_PROJECTS_REPORT_TYPE_TASKS_CURRENT_WEEK</option>
+                <option value="exhibitors">COM_PROJECTS_REPORT_TYPE_BY_EXHIBITORS</option>
                 <option value="squares">COM_PROJECTS_REPORT_TYPE_BY_SQUARES</option>
                 <option value="pass">COM_PROJECTS_REPORT_TYPE_BY_PASS</option>
             </field>

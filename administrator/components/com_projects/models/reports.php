@@ -207,6 +207,32 @@ class ProjectsModelReports extends ListModel
             $query->order("tbd.dat");
         }
 
+        if ($this->type == 'tasks_current_week') {
+            $db->setQuery("call #__prj_save_manager_stat()")->execute(); //Синхронизируем данные
+            $query
+                ->select("u.name as manager, s.managerID, s.dat, s.projectID, s.todos_expires, s.todos_plan, s.todos_completed, s.todos_after_next_week")
+                ->from("#__prj_managers_stat s")
+                ->leftJoin("`#__users` u on u.id = s.managerID");
+
+            // Фильтруем по проекту.
+            $project = $this->getState('filter.project');
+            if (empty($project)) $project = ProjectsHelper::getActiveProject();
+            if (is_numeric($project)) {
+                $query->where('`s`.`projectID` = ' . (int) $project);
+            }
+
+            //Фильтруем по начальной дате
+            $dat = $db->q($this->getState('filter.dat'));
+
+            if (!ProjectsHelper::canDo('projects.access.todos.full')) {
+                $userID = JFactory::getUser()->id;
+                $query->where("s.managerID = {$userID}");
+            }
+
+            $query->where("week(s.dat, 1) = week({$dat}, 1)");
+            $query->order("s.dat, u.name");
+        }
+
         if ($this->type == 'squares') {
             $query
                 ->select("`c`.`id` as `contractID`, `c`.`number`, DATE_FORMAT(`c`.`dat`, '%d.%m.%Y') as `dat`, `c`.`currency`")
@@ -368,6 +394,27 @@ class ProjectsModelReports extends ListModel
                     $result['items'][$item->managerID]['on_period']['after_next_week'] = $result['items'][$item->managerID]['dynamic']['expires'];
                 }
             }
+            if ($this->type == 'tasks_current_week') {
+                if (!isset($result['managers'][$item->managerID])) $result['managers'][$item->managerID] = $item->manager;
+                if (!in_array($item->dat, $result['dates'])) $result['dates'][] = $item->dat;
+                if (!isset($result['items'][$item->managerID])) $result['items'][$item->managerID] = array();
+                if (!isset($result['items'][$item->managerID][$item->dat])) $result['items'][$item->managerID][$item->dat] = array();
+                $result['items'][$item->managerID][$item->dat]['todos_expires'] = $item->todos_expires;
+                $result['items'][$item->managerID][$item->dat]['todos_plan'] = $item->todos_plan;
+                $result['items'][$item->managerID][$item->dat]['todos_completed'] = $item->todos_completed;
+                if (!isset($result['total'][$item->managerID]['todos_expires'])) $result['total'][$item->managerID]['todos_expires'] = (int) 0;
+                if (!isset($result['total'][$item->managerID]['todos_plan'])) $result['total'][$item->managerID]['todos_plan'] = (int) 0;
+                if (!isset($result['total'][$item->managerID]['todos_completed'])) $result['total'][$item->managerID]['todos_completed'] = (int) 0;
+                if (!isset($result['total'][$item->dat]['todos_expires'])) $result['total'][$item->dat]['todos_expires'] = (int) 0;
+                if (!isset($result['total'][$item->dat]['todos_plan'])) $result['total'][$item->dat]['todos_plan'] = (int) 0;
+                if (!isset($result['total'][$item->dat]['todos_completed'])) $result['total'][$item->v]['todos_completed'] = (int) 0;
+                $result['total'][$item->managerID]['todos_expires'] += $item->todos_expires;
+                $result['total'][$item->managerID]['todos_plan'] += $item->todos_plan;
+                $result['total'][$item->managerID]['todos_completed'] += $item->todos_completed;
+                $result['total'][$item->dat]['todos_expires'] += $item->todos_expires;
+                $result['total'][$item->dat]['todos_plan'] += $item->todos_plan;
+                $result['total'][$item->dat]['todos_completed'] += $item->todos_completed;
+            }
             if ($this->type == 'squares') {
                 $arr = array();
                 $arr['number'] = $item->number;
@@ -503,6 +550,9 @@ class ProjectsModelReports extends ListModel
         }
         if ($this->type == 'tasks_by_dates') {
             $result = array('status', 'rubric', 'fields', 'manager', 'project');
+        }
+        if ($this->type == 'tasks_current_week') {
+            $result = array('status', 'rubric', 'fields', 'manager', 'dynamic', 'project');
         }
         if ($this->type == 'squares') {
             $result = array('status', 'rubric', 'fields', 'manager', 'dat', 'dynamic');

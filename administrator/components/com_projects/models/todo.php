@@ -79,6 +79,7 @@ class ProjectsModelTodo extends AdminModel {
         {
             $data['userOpen'] = JFactory::getUser()->id;
             $data['dat_open'] = date("Y-m-d");
+            if ($data['state'] == '1') $data['dat_close'] = JDate::getInstance()->toSql();
         }
         if ($data['id'] != 0 && $data['state'] == 1)
         {
