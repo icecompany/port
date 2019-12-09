@@ -36,6 +36,10 @@ class ProjectsModelExhibitor extends AdminModel
             if ($parent > 0) $item->parentID = $parent;
             $children = ProjectsHelper::getExhibitorChildren($id);
             if (!empty($children)) $item->children = $children;
+            $item->hidden_city_id = $item->regID;
+            $item->hidden_city_title = ProjectsHelper::getCityTitle($item->regID);
+            $item->hidden_city_fact_id = $item->regID_fact;
+            $item->hidden_city_fact_title = ProjectsHelper::getCityTitle($item->regID_fact);
         }
         if ($id == 0) {
             $tip = JFactory::getApplication()->input->getString('layout', null);
@@ -182,6 +186,11 @@ class ProjectsModelExhibitor extends AdminModel
     public function getScript()
     {
         return 'administrator/components/' . $this->option . '/models/forms/exhibitor.js';
+    }
+
+    public function getRegionScript()
+    {
+        return 'administrator/components/' . $this->option . '/models/forms/regions.js';
     }
 
     public function save($data)

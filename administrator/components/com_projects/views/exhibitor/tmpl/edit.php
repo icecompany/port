@@ -8,32 +8,25 @@ JHtml::_('formbehavior.chosen', 'select');
 
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('script', $this->script);
 HTMLHelper::_('script', 'com_projects/jquery.maskedinput.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('stylesheet', 'com_projects/style.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_projects/script.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_projects/exhibitor.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', $this->script);
+HTMLHelper::_('script', $this->r_script);
 $action = JRoute::_('index.php?option=com_projects&amp;view=exhibitor&amp;layout=edit&amp;id=' . (int)$this->item->id);
 $return = JFactory::getApplication()->input->get('return', null);
 if ($return != null) {
     $action .= "&amp;return={$return}";
 }
 ?>
-<?php if ($this->item->id != null) : ?>
-    <script type="text/javascript">
-        window.onload = function () {
-            searchCity('citytest', 'regID', <?php echo $this->item->regID;?>);
-            searchCity('citytestfact', 'regID_fact', <?php echo $this->item->regID_fact;?>);
-        }
-    </script>
-<?php endif; ?>
 <script type="text/javascript">
     Joomla.submitbutton = function (task) {
-        if (task === 'exhibitor.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {*/
+        if (task === 'exhibitor.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
             Joomla.submitform(task, document.getElementById('adminForm'));
         }
     }
 </script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <form action="<?php echo $action; ?>"
       method="post" name="adminForm" id="adminForm" xmlns="http://www.w3.org/1999/html" class="form-validate">
     <div class="row-fluid">

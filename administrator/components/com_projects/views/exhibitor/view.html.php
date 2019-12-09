@@ -1,15 +1,17 @@
 <?php
 defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\HTML\HTMLHelper;
 
 class ProjectsViewExhibitor extends HtmlView {
-    protected $item, $form, $script, $id, $history, $coExhibitors, $persons, $children;
+    protected $item, $form, $script, $id, $history, $coExhibitors, $persons, $children, $r_script;
 
     public function display($tmp = null) {
         $this->id = JFactory::getApplication()->input->getInt('id', 0);
         $this->form = $this->get('Form');
         $this->item = $this->get('Item');
         $this->script = $this->get('Script');
+        $this->r_script = $this->get('RegionScript');
         $this->history = $this->get('History');
         $this->coExhibitors = $this->get('CoExhibitors');
         $this->persons = $this->get('Persons');

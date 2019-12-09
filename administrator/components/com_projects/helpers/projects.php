@@ -73,6 +73,19 @@ class ProjectsHelper
         }
     }
 
+    public static function getCityTitle(int $cityID)
+    {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select("c.name as city, r.name as region")
+            ->from("#__grph_cities c")
+            ->leftJoin("#__grph_regions r on r.id = c.region_id")
+            ->where("c.id = {$cityID}");
+        $item = $db->setQuery($query, 0, 1)->loadObject();
+        return sprintf("%s (%s)", $item->city, $item->region);
+    }
+
     /**
      * Возвращает массив настроек пользователя
      * @return array массив с настройками пользователя

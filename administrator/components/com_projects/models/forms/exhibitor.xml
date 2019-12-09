@@ -177,16 +177,6 @@
     </fieldset>
     <fieldset name="addresses">
         <field
-                name="citytest"
-                type="text"
-                label="COM_PROJECTS_HEAD_CITY_START_INPUT_HINT"
-                description="COM_PROJECTS_HEAD_CITY_START_INPUT"
-                hint="COM_PROJECTS_HEAD_CITY_START_INPUT_HINT"
-                class="input-xlarge"
-                onchange="searchCity('citytest', 'regID', 0)"
-                autocomplete="false"
-        />
-        <field
                 name="regID"
                 type="list"
                 label="COM_PROJECTS_HEAD_CITY"
@@ -222,17 +212,6 @@
                 autocomplete="off"
                 class="input-xlarge"
         />
-        <field
-                name="citytestfact"
-                type="text"
-                label="COM_PROJECTS_HEAD_CITY_START_INPUT_HINT"
-                description="COM_PROJECTS_HEAD_CITY_START_INPUT"
-                hint="COM_PROJECTS_HEAD_CITY_START_INPUT_HINT"
-                class="input-xlarge"
-                onchange="searchCity('citytestfact', 'regID_fact', 0)"
-                autocomplete="false"
-        />
-
         <field
                 name="regID_fact"
                 type="list"
@@ -331,6 +310,26 @@
                 hint="COM_PROJECTS_HEAD_EXP_CONTACT_SITE_HINT"
                 autocomplete="off"
                 class="input-xlarge"
+        />
+        <field
+                name="hidden_city_id"
+                type="hidden"
+                value=""
+        />
+        <field
+                name="hidden_city_title"
+                type="hidden"
+                value=""
+        />
+        <field
+                name="hidden_city_fact_id"
+                type="hidden"
+                value=""
+        />
+        <field
+                name="hidden_city_fact_title"
+                type="hidden"
+                value=""
         />
     </fieldset>
 </form>
