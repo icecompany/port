@@ -31,12 +31,11 @@
     <fieldset name="names2">
         <field
                 name="parentID"
-                type="Exhibitor"
+                type="list"
                 label="COM_PROJECTS_HEAD_EXP_PARENT"
                 description="COM_PROJECTS_HEAD_EXP_PARENT_DESC"
-                class="input-xlarge">
-            <option value="">COM_PROJECTS_HEAD_EXP_PARENT_HINT</option>
-        </field>
+                class="input-xlarge"
+        />
         <field
                 name="children"
                 type="Exhibitorchildren"
@@ -328,6 +327,16 @@
         />
         <field
                 name="hidden_city_fact_title"
+                type="hidden"
+                value=""
+        />
+        <field
+                name="hidden_parent_id"
+                type="hidden"
+                value=""
+        />
+        <field
+                name="hidden_parent_title"
                 type="hidden"
                 value=""
         />

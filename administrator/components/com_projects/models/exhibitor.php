@@ -40,6 +40,10 @@ class ProjectsModelExhibitor extends AdminModel
             $item->hidden_city_title = ProjectsHelper::getCityTitle($item->regID);
             $item->hidden_city_fact_id = $item->regID_fact;
             $item->hidden_city_fact_title = ProjectsHelper::getCityTitle($item->regID_fact);
+            if ($item->parentID !== null && $item->parentID > 0) {
+                $item->hidden_parent_id = $item->parentID;
+                $item->hidden_parent_title = ProjectsHelper::getExhibitorTitle($item->parentID);
+            }
         }
         if ($id == 0) {
             $tip = JFactory::getApplication()->input->getString('layout', null);

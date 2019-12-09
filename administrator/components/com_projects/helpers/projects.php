@@ -86,6 +86,17 @@ class ProjectsHelper
         return sprintf("%s (%s)", $item->city, $item->region);
     }
 
+    public static function getExhibitorTitle(int $exhibitorID)
+    {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select("exhibitor")
+            ->from("#__prj_exhibitors_all")
+            ->where("id = {$exhibitorID}");
+        return $db->setQuery($query, 0, 1)->loadResult() ?? '';
+    }
+
     /**
      * Возвращает массив настроек пользователя
      * @return array массив с настройками пользователя
