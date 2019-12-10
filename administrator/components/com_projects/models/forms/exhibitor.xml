@@ -183,6 +183,7 @@
                 required="true"
                 class="input-xlarge"
                 default="4400"
+                validate="city"
         />
         <field
                 name="indexcode"
@@ -219,6 +220,7 @@
                 required="true"
                 class="input-xlarge"
                 default="4400"
+                validate="city"
         />
         <field
                 name="indexcode_fact"
