@@ -1,9 +1,4 @@
 'use strict';
-window.onload = function() {
-    /*document.querySelector("#filter_search").onmouseover = function () {
-        document.querySelector("#filter_search").select();
-    };*/
-};
 function clrFilters() {
     var project = document.querySelector("[name='filter_project']");
     if (project !== null) project.selectedIndex = '';
@@ -32,6 +27,7 @@ function clrFilters() {
     var search = document.querySelector("[name='filter_search']");
     if (search !== null) search.value = '';
 }
+
 function imp(to)
 {
     var id = document.querySelector("#valimp option:checked");
