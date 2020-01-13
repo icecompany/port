@@ -8,11 +8,6 @@ foreach ($this->items as $item) :
         <td class="small">
             <?php echo ++$ii; ?>
         </td>
-        <?php if (in_array('project', $this->fields)): ?>
-            <td class="small">
-                <?php echo $item['project']; ?>
-            </td>
-        <?php endif; ?>
         <td class="small">
             <?php echo $item['exhibitor']; ?>
         </td>
@@ -55,6 +50,16 @@ foreach ($this->items as $item) :
         <?php if (in_array('address_legal', $this->fields)): ?>
             <td class="small">
                 <?php echo $item['address_legal']; ?>
+            </td>
+        <?php endif; ?>
+        <?php if (in_array('address_fact', $this->fields)): ?>
+            <td class="small">
+                <?php echo $item['address_fact']; ?>
+            </td>
+        <?php endif; ?>
+        <?php if (in_array('phone', $this->fields)): ?>
+            <td class="small">
+                <?php echo $item['phones']; ?>
             </td>
         <?php endif; ?>
         <?php if (in_array('contacts', $this->fields)): ?>

@@ -55,13 +55,13 @@ class ProjectsModelReports extends ListModel
             $project = $this->getState('filter.project');
             if (empty($project)) $project = ProjectsHelper::getActiveProject();
             $query
-                ->select("IFNULL(`e`.`title_ru_full`,`e`.`title_ru_short`) as `exhibitor`, `c`.`expID` as `exhibitorID`")
+                ->select("IFNULL(`e`.`title_ru_full`,ifnull(`e`.`title_ru_short`,e.title_en)) as `exhibitor`, `c`.`expID` as `exhibitorID`")
                 ->select("`ct`.`name` as `city`, `reg`.`name` as `region`, `ctr`.`name` as `country`")
-                ->select("`cnt`.`director_name`, `cnt`.`director_post`, `cnt`.`indexcode`, `cnt`.`addr_legal_street`, `cnt`.`addr_legal_home`, `cnt`.`email`, `cnt`.`site`")
+                ->select("`cnt`.`director_name`, `cnt`.`director_post`, `cnt`.`indexcode`, `cnt`.`addr_legal_street`, `cnt`.`addr_legal_home`, `cnt`.`email`, `cnt`.`site`, cnt.phone_1, cnt.phone_2")
+                ->select("`cnt`.`indexcode_fact`, `cnt`.`addr_fact_street`, `cnt`.`addr_fact_home`")
                 ->select("`c`.`status`, `c`.`isCoExp`, IFNULL(`c`.`number_free`,`c`.`number`) as `number`, `c`.`dat`, `c`.`id` as `contractID`, `c`.`currency`")
                 ->select("`u`.`name` as `manager`")
                 ->select("`p`.`title` as `project`")
-                ->select("`a`.`price`")
                 ->from("`#__prj_contracts` as `c`")
                 ->leftJoin("`#__prj_exp` as `e` ON `e`.`id` = `c`.`expID`")
                 ->leftJoin("`#__prj_exp_contacts` as `cnt` ON `cnt`.`exbID` = `c`.`expID`")
@@ -69,9 +69,18 @@ class ProjectsModelReports extends ListModel
                 ->leftJoin('`#__grph_regions` as `reg` ON `reg`.`id` = `ct`.`region_id`')
                 ->leftJoin('`#__grph_countries` as `ctr` ON `ctr`.`id` = `reg`.`country_id`')
                 ->leftJoin('`#__users` as `u` ON `u`.`id` = `c`.`managerID`')
-                ->leftJoin('`#__prj_contract_amounts` as `a` ON `a`.`contractID` = `c`.`id`')
+
                 ->leftJoin('`#__prj_projects` as `p` ON `p`.`id` = `c`.`prjID`')
                 ->where('`c`.`prjID` = ' . (int) $project);
+
+            $fields = $this->state->get('filter.fields');
+            if (is_array($fields)) {
+                if (in_array('amount', $fields)) {
+                    $query
+                        ->select("`a`.`price`")
+                        ->leftJoin('`#__prj_contract_amounts` as `a` ON `a`.`contractID` = `c`.`id`');
+                }
+            }
 
             /* Фильтр */
             $search = $this->getState('filter.search');
@@ -329,8 +338,15 @@ class ProjectsModelReports extends ListModel
                     if (in_array('project', $fields)) $arr['project'] = $item->project;
                     if (in_array('director_name', $fields)) $arr['director_name'] = $item->director_name;
                     if (in_array('director_post', $fields)) $arr['director_post'] = $item->director_post;
+                    if (in_array('phone', $fields)) {
+                        $phones = array();
+                        if (!empty($item->phone_1)) $phones[] = $item->phone_1;
+                        if (!empty($item->phone_2)) $phones[] = $item->phone_2;
+                        $arr['phones'] = implode(', ', $phones);
+                    }
                     if (in_array('manager', $fields)) $arr['manager'] = $item->manager;
                     if (in_array('address_legal', $fields)) $arr['address_legal'] = ProjectsHelper::buildAddress(array($item->country, $item->region, $item->indexcode, $item->city, $item->addr_legal_street, $item->addr_legal_home));
+                    if (in_array('address_fact', $fields)) $arr['address_fact'] = ProjectsHelper::buildAddress(array($item->country, $item->region, $item->indexcode_fact, $item->city, $item->addr_fact_street, $item->addr_fact_home));
                     if (in_array('contacts', $fields)) {
                         $arr['contacts'] = implode("; ", $this->getContacts($item->exhibitorID));
                         $tmp = array();
@@ -540,7 +556,7 @@ class ProjectsModelReports extends ListModel
     public function getNotAvailableFilters(): array {
         $result = array();
         if ($this->type == 'exhibitors') {
-            $result = array('manager', 'dat', 'dynamic');
+            $result = array('manager', 'dat', 'dynamic', 'project');
         }
         if ($this->type == 'managers') {
             $result = array('status', 'rubric', 'fields', 'dat', 'dynamic');
@@ -627,7 +643,6 @@ class ProjectsModelReports extends ListModel
         $xls = new PHPExcel();
         $xls->setActiveSheetIndex(0);
         $sheet = $xls->getActiveSheet();
-        //exit(var_dump($items));
         if ($this->type == 'exhibitors') {
             $indexes = array();
             $fields = $this->state->get('filter.fields');
@@ -686,6 +701,18 @@ class ProjectsModelReports extends ListModel
                                 $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_SPACER_LEGAL'));
                                 $index++;
                             }
+                            if (in_array('address_fact', $fields))
+                            {
+                                $indexes['address_fact'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_SPACER_FACT'));
+                                $index++;
+                            }
+                            if (in_array('phone', $fields))
+                            {
+                                $indexes['phones'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_PHONES'));
+                                $index++;
+                            }
                             if (in_array('contacts', $fields))
                             {
                                 $indexes['sites'] = $index;
@@ -740,6 +767,14 @@ class ProjectsModelReports extends ListModel
                         if (in_array('address_legal', $fields))
                         {
                             $sheet->setCellValueByColumnAndRow($indexes['address_legal'], $i + 1, $data[$i - 1]['address_legal']);
+                        }
+                        if (in_array('address_fact', $fields))
+                        {
+                            $sheet->setCellValueByColumnAndRow($indexes['address_fact'], $i + 1, $data[$i - 1]['address_fact']);
+                        }
+                        if (in_array('phone', $fields))
+                        {
+                            $sheet->setCellValueByColumnAndRow($indexes['phones'], $i + 1, $data[$i - 1]['phones']);
                         }
                         if (in_array('contacts', $fields))
                         {

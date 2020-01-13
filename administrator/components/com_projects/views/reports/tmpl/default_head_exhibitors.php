@@ -7,11 +7,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <th width="1%">
         №
     </th>
-    <?php if (in_array('project', $this->fields)): ?>
-        <th>
-            <?php echo JText::sprintf('COM_PROJECTS_HEAD_PAYMENT_PROJECT'); ?>
-        </th>
-    <?php endif;?>
     <th>
         <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_PAYMENT_EXP_DESC', 'e.title_ru_full', $listDirn, $listOrder); ?>
     </th>
@@ -54,6 +49,16 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <?php if (in_array('address_legal', $this->fields)): ?>
         <th>
             <?php echo JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_SPACER_LEGAL'); ?>
+        </th>
+    <?php endif;?>
+    <?php if (in_array('address_fact', $this->fields)): ?>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_SPACER_FACT'); ?>
+        </th>
+    <?php endif;?>
+    <?php if (in_array('phone', $this->fields)): ?>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_PHONES'); ?>
         </th>
     <?php endif;?>
     <?php if (in_array('contacts', $this->fields)): ?>
