@@ -17,18 +17,6 @@ class JFormFieldActivity extends JFormFieldList
             ->from('#__prj_activities')
             ->order("`title`");
 
-        $contractors = ProjectsHelper::canDo('projects.access.contractors');
-        $general = ProjectsHelper::canDo('core.general');
-        $view = JFactory::getApplication()->input->getString('view');
-        if ($view == 'exhibitor') {
-            if (!$contractors && !$general) {
-                $query->where("`for_contractor` = 0");
-            }
-            if ($contractors && !$general) {
-                $query->where("`for_contractor` = 1");
-            }
-        }
-
         $result = $db->setQuery($query)->loadObjectList();
 
         $options = array();
