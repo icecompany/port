@@ -16,6 +16,8 @@ class TableProjectsPersons extends Table
     var $phone_mobile = null;
     var $email = null;
     var $main = null;
+    var $accreditation = null;
+    var $building = null;
     var $comment = null;
 
     public function __construct(JDatabaseDriver $db)
