@@ -60,9 +60,9 @@ class ProjectsModelExhibitors extends ListModel
         // Фильтруем проектам, в которых экспонент учавствует
         if (is_numeric($projectactive)) {
             $query
-                ->leftJoin("`#__prj_contracts` as `c` on `c`.`expID` = `e`.`id`")
-                ->where("`c`.`id` is not null")
-                ->where("`c`.`prjID` = {$projectactive}");
+                ->leftJoin("`#__prj_contracts` as `c1` on `c1`.`expID` = `e`.`id`")
+                ->where("`c1`.`id` is not null")
+                ->where("`c1`.`prjID` = {$projectactive}");
         }
 
         // Фильтруем по названию
