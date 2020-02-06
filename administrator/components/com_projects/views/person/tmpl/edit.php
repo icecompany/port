@@ -34,33 +34,7 @@ $action = JRoute::_($action);
                     <fieldset class="adminform">
                         <div class="control-group form-inline">
                             <?php foreach ($this->form->getFieldset('names') as $field) :?>
-                                <div class="control-label"><?php echo $field->label; ?></div>
-                                <div class="controls">
-                                    <?php echo $field->input; ?>
-                                    <?php
-                                    if ($field->name == 'jform[phone_work]' || $field->name == 'jform[phone_mobile]')
-                                    {
-                                        $checked = "";
-                                        if ($field->value !== "")
-                                        {
-                                            if (stripos($field->value, "+7") !== false)
-                                            {
-                                                $checked = " checked";
-                                            }
-                                            else
-                                            {
-                                                $checked = "";
-                                            }
-                                        }
-                                        else
-                                        {
-                                            $checked = " checked";
-                                        }
-                                        echo "<input type='checkbox' onclick='setMask(this.id, \"{$field->id}\")' id='mask_{$field->name}' value='1'{$checked} />";
-                                        echo "<label for='mask_{$field->name}'>", JText::sprintf('COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_MASK'), "</label>";
-                                    }
-                                    ?>
-                                </div>
+                                <?php echo $field->renderField(); ?>
                                 <br>
                             <?php endforeach; ?>
                         </div>
