@@ -69,6 +69,28 @@
             <option value="1">JYES</option>
         </field>
         <field
+                name="accreditation"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                default="0"
+                label="Ответственный за аккредитацию"
+                description="Контакт, ответственный за аккредитацию"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="building"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                default="0"
+                label="Ответственный за застройку"
+                description="Контакт, ответственный за застройку"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
                 name="comment"
                 type="textarea"
                 label="COM_PROJECTS_HEAD_PERSON_COMMENT"

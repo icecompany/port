@@ -60,12 +60,6 @@ class ProjectsViewExhibitors extends HtmlView
      */
 	private function removeFilters(): void
     {
-        if (isset($this->activeFilters['projectactive'])) {
-            $this->filterForm->removeField('projectinactive', 'filter');
-        }
-        if (isset($this->activeFilters['projectinactive'])) {
-            $this->filterForm->removeField('projectactive', 'filter');
-        }
         if (!ProjectsHelper::canDo('projects.access.contractors')) {
             $this->filterForm->removeField('status', 'filter');
         }
