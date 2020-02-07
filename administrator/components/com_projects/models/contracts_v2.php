@@ -114,10 +114,15 @@ class ProjectsModelContracts_v2 extends ListModel
         // Фильтруем по видам деятельности.
         $act = $this->getState('filter.activity');
         if (is_numeric($act)) {
-            $exponents = ProjectsHelper::getExponentsInActivities($act);
-            if (!empty($exponents)) {
-                $exponents = implode(', ', $exponents);
-                $query->where("`exhibitorID` IN ({$exponents})");
+            if ($act > 0) {
+                $exponents = ProjectsHelper::getExponentsInActivities($act);
+                if (!empty($exponents)) {
+                    $exponents = implode(', ', $exponents);
+                    $query->where("`exhibitorID` IN ({$exponents})");
+                }
+            }
+            else {
+                $query->where("exhibitorID not in (select distinct exbID from `#__prj_exp_act`)");
             }
         }
 

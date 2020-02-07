@@ -73,6 +73,7 @@
                 onchange="this.form.submit();"
         >
             <option value="">COM_PROJECTS_FILTER_SELECT_ACTIVITY</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_ACTIVITY_0</option>
         </field>
         <field
                 name="rubric"
