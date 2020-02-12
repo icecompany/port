@@ -82,6 +82,39 @@ class ProjectsModelContract extends AdminModel {
         }
     }
 
+    private function saveActivities(int $companyID, array $activities = array()): bool
+    {
+        $current = $this->getActivities($companyID);
+        if (empty($current)) {
+            if (empty($activities)) return true;
+            foreach ($activities as $activityID)
+                if (!$this->addActivity($companyID, $activityID)) return false;
+        }
+        else {
+            foreach ($activities as $item)
+                if (($key = array_search($item, $current)) === false)
+                    if (!$this->addActivity($companyID, $item)) return false;
+            foreach ($current as $item)
+                if (($key = array_search($item, $activities)) === false)
+                    if (!$this->deleteActivity($companyID, $item)) return false;
+        }
+        return true;
+    }
+
+    private function addActivity(int $companyID, int $activityID): bool
+    {
+        $table = $this->getTable('Acts', 'TableProjects');
+        $data = array('id' => null, 'exbID' => $companyID, 'actID' => $activityID);
+        return $table->save($data);
+    }
+
+    private function deleteActivity(int $companyID, int $activityID): bool
+    {
+        $table = $this->getTable('Acts', 'TableProjects');
+        $table->load(array('exbID' => $companyID, 'actID' => $activityID));
+        return $table->delete($table->id);
+    }
+
     public function delete(&$pks)
     {
         $ok = true;
@@ -401,6 +434,9 @@ class ProjectsModelContract extends AdminModel {
                 JFactory::getApplication()->redirect($_SERVER['HTTP_REFERER']);
                 return false;
             }
+        }
+        if ($data['id'] != null) {
+            $this->saveActivities((int) $data['expID'], $data['activities']);
         }
 
         if ($data['dat'] != null)

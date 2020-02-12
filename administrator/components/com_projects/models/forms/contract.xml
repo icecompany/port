@@ -121,7 +121,7 @@
                 name="activities"
                 type="Activity"
                 multiple="true"
-                label="COM_PROJECTS_MENU_ACTIVITIES"
+                label="COM_PROJECTS_MENU_IN_CONTRACT_ACTIVITIES"
                 description="COM_PROJECTS_MENU_ACTIVITIES"
                 class="input-xlarge"
         />
