@@ -23,6 +23,7 @@ class ProjectsModelContract extends AdminModel {
             $item->children = $this->loadCoExp($item->expID, $item->prjID);
             $item->rubrics = ProjectsHelper::getContractRubrics($item->id);
             $item->activecolumn = ProjectsHelper::getActivePriceColumn($item->id);
+            $item->activities = $this->getActivities($item->expID ?? 0);
         }
         return $item;
     }
@@ -465,6 +466,18 @@ class ProjectsModelContract extends AdminModel {
         }
 
         return $s1 && $s2 && $s3;
+    }
+
+    private function getActivities(int $companyID = 0)
+    {
+        if ($companyID == 0) return array();
+        $db = $this->getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select('`actID`')
+            ->from($db->quoteName('#__prj_exp_act'))
+            ->where($db->quoteName('exbID') . " = " . $db->q($companyID));
+        return $db->setQuery($query)->loadColumn() ?? array();
     }
 
     /**

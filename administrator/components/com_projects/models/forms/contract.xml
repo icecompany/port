@@ -118,6 +118,14 @@
                 <option value="">COM_PROJECTS_HEAD_CONTRACT_PAYER_HINT</option>
         </field>
         <field
+                name="activities"
+                type="Activity"
+                multiple="true"
+                label="COM_PROJECTS_MENU_ACTIVITIES"
+                description="COM_PROJECTS_MENU_ACTIVITIES"
+                class="input-xlarge"
+        />
+        <field
                 name="rubrics"
                 type="Rubric"
                 label="COM_PROJECTS_HEAD_CONTRACT_RUBRICS"
