@@ -436,7 +436,7 @@ class ProjectsModelContract extends AdminModel {
             }
         }
         if ($data['id'] != null) {
-            $this->saveActivities((int) $data['expID'], $data['activities']);
+            $this->saveActivities((int) $data['expID'], $data['activities'] ?? array());
         }
 
         if ($data['dat'] != null)
