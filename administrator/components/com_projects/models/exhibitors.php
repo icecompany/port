@@ -69,6 +69,7 @@ class ProjectsModelExhibitors extends ListModel
         $text = JFactory::getApplication()->input->getString('text', '');
         $search = $this->getState('filter.search');
         if (!empty($search) && $text == '') $text = $search;
+        $text = trim($text);
         if ($text != '')
         {
             if (stripos($text, 'id:') === false) {

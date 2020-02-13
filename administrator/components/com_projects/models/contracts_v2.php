@@ -63,6 +63,7 @@ class ProjectsModelContracts_v2 extends ListModel
         $search = $this->getState('filter.search');
         if (!empty($search))
         {
+            $search = trim($search);
             if (strpos($search, '№') !== false || strpos($search, '#') !== false) {
                 $search = str_ireplace(array("№",'#'), '', $search);
                 $search = $db->q($search);
