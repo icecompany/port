@@ -17,10 +17,13 @@ class TableProjectsAddresses extends Table
     var $addr_fact_street = null;
     var $addr_fact_home = null;
     var $phone_1 = null;
+    var $phone_1_additional = null;
     var $phone_2 = null;
+    var $phone_2_additional = null;
     var $phone_1_comment = null;
     var $phone_2_comment = null;
     var $fax = null;
+    var $fax_additiona = null;
     var $email = null;
     var $site = null;
     var $director_name = null;

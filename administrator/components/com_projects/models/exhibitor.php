@@ -111,6 +111,9 @@ class ProjectsModelExhibitor extends AdminModel
             $arr['fio'] = $item->fio;
             $arr['post'] = $item->post;
             $arr['phone_work'] = $item->phone_work;
+            if ($item->phone_work_additional != null) {
+                $arr['phone_work'] = sprintf("%s (доб. %s)", $item->phone_work, $item->phone_work_additional);
+            }
             $arr['phone_mobile'] = $item->phone_mobile;
             $arr['main'] = $item->main;
             $arr['email_clean'] = $item->email;

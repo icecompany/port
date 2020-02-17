@@ -29,7 +29,7 @@ class ProjectsModelAddress extends AdminModel {
 
     protected function prepareTable($table)
     {
-    	$nulls = array('indexcode', 'indexcode_fact', 'addr_legal_street', 'addr_legal_home', 'addr_fact_street', 'addr_fact_home', 'phone_1', 'phone_2', 'phone_1_comment', 'phone_2_comment', 'fax', 'email', 'site', 'director_name', 'director_post', 'contact_person', 'contact_data'); //Поля, которые NULL
+    	$nulls = array('indexcode', 'indexcode_fact', 'addr_legal_street', 'addr_legal_home', 'addr_fact_street', 'addr_fact_home', 'phone_1', 'phone_1_additional', 'phone_2', 'phone_2_additional', 'phone_1_comment', 'phone_2_comment', 'fax', 'fax_additional', 'email', 'site', 'director_name', 'director_post', 'contact_person', 'contact_data'); //Поля, которые NULL
 
 	    foreach ($nulls as $field)
 	    {

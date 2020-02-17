@@ -256,7 +256,18 @@
                 description="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_1_DESC"
                 hint="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_HINT"
                 autocomplete="off"
-                class="input-xlarge phone_mask"
+                class="input-xlarge"
+                validate="phone"
+                message="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_1_MESSAGE"
+        />
+        <field
+                name="phone_1_additional"
+                type="text"
+                label="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_1_ADDITIONAL"
+                description="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_1_ADDITIONAL_DESC"
+                hint="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_1_HINT"
+                maxlength="15"
+                autocomplete="false"
         />
         <field
                 name="phone_1_comment"
@@ -273,8 +284,19 @@
                 label="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_2"
                 description="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_2_DESC"
                 hint="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_HINT"
+                message="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_2_MESSAGE"
+                validate="phone"
                 autocomplete="off"
-                class="input-xlarge phone_mask"
+                class="input-xlarge"
+        />
+        <field
+                name="phone_2_additional"
+                type="text"
+                label="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_2_ADDITIONAL"
+                description="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_2_ADDITIONAL_DESC"
+                hint="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_2_HINT"
+                maxlength="15"
+                autocomplete="false"
         />
         <field
                 name="phone_2_comment"
@@ -291,8 +313,19 @@
                 label="COM_PROJECTS_HEAD_EXP_CONTACT_FAX"
                 description="COM_PROJECTS_HEAD_EXP_CONTACT_FAX_DESC"
                 hint="COM_PROJECTS_HEAD_EXP_CONTACT_PHONE_HINT"
+                message="COM_PROJECTS_HEAD_EXP_CONTACT_FAX_MESSAGE"
+                validate="phone"
                 autocomplete="off"
-                class="input-xlarge phone_mask"
+                class="input-xlarge"
+        />
+        <field
+                name="fax_additional"
+                type="text"
+                label="COM_PROJECTS_HEAD_EXP_CONTACT_FAX_ADDITIONAL"
+                description="COM_PROJECTS_HEAD_EXP_CONTACT_FAX_ADDITIONAL_DESC"
+                hint="COM_PROJECTS_HEAD_EXP_CONTACT_FAX_ADDITIONAL_HINT"
+                maxlength="15"
+                autocomplete="false"
         />
         <field
                 name="email"

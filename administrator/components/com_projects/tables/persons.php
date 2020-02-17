@@ -13,6 +13,7 @@ class TableProjectsPersons extends Table
     var $fio = null;
     var $post = null;
     var $phone_work = null;
+    var $phone_work_additional = null;
     var $phone_mobile = null;
     var $email = null;
     var $main = null;

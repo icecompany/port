@@ -44,7 +44,7 @@ class ProjectsModelPerson extends AdminModel {
 
     protected function prepareTable($table)
     {
-    	$nulls = array('fio', 'post', 'phone_work', 'phone_mobile', 'email', 'comment'); //Поля, которые NULL
+    	$nulls = array('fio', 'post', 'phone_work', 'phone_work_additional', 'phone_mobile', 'email', 'comment'); //Поля, которые NULL
 
 	    foreach ($nulls as $field)
 	    {

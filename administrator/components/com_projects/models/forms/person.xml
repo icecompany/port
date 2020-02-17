@@ -37,7 +37,17 @@
                 description="COM_PROJECTS_HEAD_PERSON_PHONE_WORK_DESC"
                 hint="COM_PROJECTS_HEAD_PERSON_PHONE_WORK_HINT"
                 autocomplete="off"
+                validate="phone"
                 class="person-field phone_mask"
+        />
+        <field
+                name="phone_work_additional"
+                type="text"
+                label="COM_PROJECTS_HEAD_PERSON_PHONE_WORK_ADDITIONAL"
+                description="COM_PROJECTS_HEAD_PERSON_PHONE_WORK_ADDITIONAL_SHORT"
+                hint="COM_PROJECTS_HEAD_PERSON_PHONE_WORK_ADDITIONAL_HINT"
+                maxlength="15"
+                autocomplete="false"
         />
         <field
                 name="phone_mobile"
@@ -46,6 +56,7 @@
                 description="COM_PROJECTS_HEAD_PERSON_PHONE_MOBILE_DESC"
                 hint="COM_PROJECTS_HEAD_PERSON_PHONE_MOBILE_HINT"
                 autocomplete="off"
+                validate="phone"
                 class="person-field phone_mask"
         />
         <field
