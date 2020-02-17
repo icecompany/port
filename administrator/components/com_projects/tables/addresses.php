@@ -23,7 +23,7 @@ class TableProjectsAddresses extends Table
     var $phone_1_comment = null;
     var $phone_2_comment = null;
     var $fax = null;
-    var $fax_additiona = null;
+    var $fax_additional = null;
     var $email = null;
     var $site = null;
     var $director_name = null;
