@@ -22,6 +22,11 @@ if ($return != null) {
 <script type="text/javascript">
     Joomla.submitbutton = function (task) {
         if (task === 'exhibitor.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+            let fields = document.querySelectorAll("#adminForm input[type='text']");
+            fields.forEach(function(elem) {
+                elem.value = elem.value.trim();
+                elem.value = elem.value.replace(/\s+/g, ' ');
+            });
             Joomla.submitform(task, document.getElementById('adminForm'));
         }
     }

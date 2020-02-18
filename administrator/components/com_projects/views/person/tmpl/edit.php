@@ -17,7 +17,12 @@ $action = JRoute::_($action);
 ?>
 <script type="text/javascript">
     Joomla.submitbutton = function(task) {
-        if (task === 'person.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {*/
+        if (task === 'person.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+            let fields = document.querySelectorAll("#adminForm input[type='text']");
+            fields.forEach(function(elem) {
+                elem.value = elem.value.trim();
+                elem.value = elem.value.replace(/\s+/g, ' ');
+            });
             Joomla.submitform(task, document.getElementById('adminForm'));
         }
     }

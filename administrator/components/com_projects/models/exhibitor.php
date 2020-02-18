@@ -44,6 +44,9 @@ class ProjectsModelExhibitor extends AdminModel
                 $item->hidden_parent_id = $item->parentID;
                 $item->hidden_parent_title = ProjectsHelper::getExhibitorTitle($item->parentID);
             }
+            if (!empty($item->phone_1)) $item->phone_1 = trim($item->phone_1);
+            if (!empty($item->phone_2)) $item->phone_2 = trim($item->phone_2);
+            if (!empty($item->fax)) $item->fax = trim($item->fax);
         }
         if ($id == 0) {
             $tip = JFactory::getApplication()->input->getString('layout', null);

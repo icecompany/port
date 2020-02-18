@@ -28,7 +28,12 @@ class ProjectsModelPerson extends AdminModel {
 
     public function getItem($pk = null)
     {
-        return parent::getItem($pk);
+        $item = parent::getItem($pk);
+        if ($item->id !== null) {
+            if (!empty($item->phone_work)) $item->phone_work = trim($item->phone_work);
+            if (!empty($item->phone_mobile)) $item->phone_mobile = trim($item->phone_mobile);
+        }
+        return $item;
     }
 
     protected function loadFormData()
