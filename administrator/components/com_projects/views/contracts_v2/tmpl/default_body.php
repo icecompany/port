@@ -29,11 +29,6 @@ foreach ($this->items['items'] as $i => $item) :
         <td>
             <?php echo $item['exhibitor']; ?>
         </td>
-        <?php if ($this->userSettings['contracts_v2-column_parent']): ?>
-            <td>
-                <?php echo $item['isCoExp']; ?>
-            </td>
-        <?php endif; ?>
         <td>
             <?php echo $item['todos']; ?>
         </td>
@@ -45,6 +40,11 @@ foreach ($this->items['items'] as $i => $item) :
         <td>
             <?php echo $item['status']; ?>
         </td>
+        <?php if ($this->userSettings['contracts_v2-column_parent']): ?>
+            <td>
+                <?php echo $item['isCoExp']; ?>
+            </td>
+        <?php endif; ?>
         <?php if ($this->userSettings['contracts_v2-column_doc_status']): ?>
             <td>
                 <?php echo $item['doc_status']; ?>

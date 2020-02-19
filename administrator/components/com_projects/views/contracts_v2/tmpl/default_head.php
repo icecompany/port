@@ -30,11 +30,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_CONTRACT_EXPONENT', 'exhibitor', $listDirn, $listOrder); ?>
     </th>
-    <?php if ($this->userSettings['contracts_v2-column_parent']): ?>
-        <th>
-            <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_CONTRACT_COEXP_BY', 'parent', $listDirn, $listOrder); ?>
-        </th>
-    <?php endif; ?>
     <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_CONTRACT_ACTIVE_TODOS', 'todos', $listDirn, $listOrder); ?>
     </th>
@@ -46,6 +41,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_CONTRACT_STATUS', 'status_weight', $listDirn, $listOrder); ?>
     </th>
+    <?php if ($this->userSettings['contracts_v2-column_parent']): ?>
+        <th>
+            <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_CONTRACT_COEXP_BY', 'parent', $listDirn, $listOrder); ?>
+        </th>
+    <?php endif; ?>
     <?php if ($this->userSettings['contracts_v2-column_doc_status']): ?>
         <th>
             <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_CONTRACT_DOC_STATUS_SHORT', 'doc_status', $listDirn, $listOrder); ?>

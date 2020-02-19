@@ -36,10 +36,10 @@ class ProjectsModelContracts_v2 extends ListModel
             'stands' => 'COM_PROJECTS_HEAD_CONTRACT_STAND_SHORT',
             'project' => 'COM_PROJECTS_HEAD_CONTRACT_PROJECT',
             'exhibitor' => 'COM_PROJECTS_HEAD_CONTRACT_EXPONENT',
-            'parent' => 'COM_PROJECTS_HEAD_CONTRACT_COEXP_BY',
             'todos' => 'COM_PROJECTS_HEAD_CONTRACT_ACTIVE_TODOS',
             'manager' => 'COM_PROJECTS_HEAD_CONTRACT_MANAGER',
             'status' => 'COM_PROJECTS_HEAD_CONTRACT_STATUS',
+            'parent' => 'COM_PROJECTS_HEAD_CONTRACT_COEXP_BY',
             'doc_status' => 'COM_PROJECTS_HEAD_CONTRACT_DOC_STATUS_SHORT',
             'amount' => 'COM_PROJECTS_HEAD_CONTRACT_AMOUNT',
             'payments' => 'COM_PROJECTS_HEAD_SCORE_PAYMENT',
@@ -326,10 +326,10 @@ class ProjectsModelContracts_v2 extends ListModel
         $sheet->getColumnDimension('C')->setWidth(14);
         $sheet->getColumnDimension('D')->setWidth(16);
         $sheet->getColumnDimension('E')->setWidth(35);
-        $sheet->getColumnDimension('F')->setWidth(35);
-        $sheet->getColumnDimension('G')->setWidth(8);
-        $sheet->getColumnDimension('H')->setWidth(30);
-        $sheet->getColumnDimension('I')->setWidth(13);
+        $sheet->getColumnDimension('F')->setWidth(13);
+        $sheet->getColumnDimension('G')->setWidth(35);
+        $sheet->getColumnDimension('H')->setWidth(8);
+        $sheet->getColumnDimension('I')->setWidth(30);
         $sheet->getColumnDimension('J')->setWidth(8);
         $sheet->getColumnDimension('K')->setWidth(19);
         $sheet->getColumnDimension('L')->setWidth(19);
