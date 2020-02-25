@@ -4,7 +4,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 <tr>
-    <th width="1%">
+    <th style="width: 1%">
         №
     </th>
     <th>
@@ -13,6 +13,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <?php if (in_array('status', $this->fields)): ?>
         <th>
             <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CONTRACT_STATUS_DOG', 'c.status', $listDirn, $listOrder); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_COEXP_BY'); ?>
         </th>
         <th>
             <?php echo JHtml::_('grid.sort', 'COM_PROJECTS_HEAD_CONTRACT_NUMBER_SHORT', 'c.number', $listDirn, $listOrder); ?>

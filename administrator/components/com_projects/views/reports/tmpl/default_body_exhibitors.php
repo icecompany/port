@@ -16,6 +16,9 @@ foreach ($this->items as $item) :
                 <?php echo $item['status']; ?>
             </td>
             <td class="small">
+                <?php echo $item['co_exhibitor']; ?>
+            </td>
+            <td class="small">
                 <?php echo $item['number']; ?>
             </td>
             <td class="small">

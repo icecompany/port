@@ -56,6 +56,7 @@ class ProjectsModelReports extends ListModel
             if (empty($project)) $project = ProjectsHelper::getActiveProject();
             $query
                 ->select("IFNULL(`e`.`title_ru_full`,ifnull(`e`.`title_ru_short`,e.title_en)) as `exhibitor`, `c`.`expID` as `exhibitorID`")
+                ->select("IFNULL(`ce`.`title_ru_full`,ifnull(`ce`.`title_ru_short`,ce.title_en)) as `co_exhibitor`, `c`.`parentID` as `co_exhibitorID`")
                 ->select("`ct`.`name` as `city`, `reg`.`name` as `region`, `ctr`.`name` as `country`")
                 ->select("`cnt`.`director_name`, `cnt`.`director_post`, `cnt`.`indexcode`, `cnt`.`addr_legal_street`, `cnt`.`addr_legal_home`, `cnt`.`email`, `cnt`.`site`, cnt.phone_1, cnt.phone_2")
                 ->select("`cnt`.`indexcode_fact`, `cnt`.`addr_fact_street`, `cnt`.`addr_fact_home`")
@@ -64,6 +65,7 @@ class ProjectsModelReports extends ListModel
                 ->select("`p`.`title` as `project`")
                 ->from("`#__prj_contracts` as `c`")
                 ->leftJoin("`#__prj_exp` as `e` ON `e`.`id` = `c`.`expID`")
+                ->leftJoin("`#__prj_exp` as `ce` ON `ce`.`id` = `c`.`parentID`")
                 ->leftJoin("`#__prj_exp_contacts` as `cnt` ON `cnt`.`exbID` = `c`.`expID`")
                 ->leftJoin("`#__grph_cities` as `ct` ON `ct`.`id` = `e`.`regID`")
                 ->leftJoin('`#__grph_regions` as `reg` ON `reg`.`id` = `ct`.`region_id`')
@@ -358,6 +360,7 @@ class ProjectsModelReports extends ListModel
                         $arr['status'] = ProjectsHelper::getExpStatus($item->status, $item->isCoExp);
                         $arr['number'] = $item->number ?? '';
                         $arr['dat'] = $item->dat ?? '';
+                        if (!empty($item->co_exhibitor)) $arr['co_exhibitor'] = $item->co_exhibitor;
                     }
                     if (in_array('stands', $fields)) $arr['stands'] = implode("; ", $this->getStands($item->contractID, true));
                     if (in_array('amount', $fields)) {
@@ -658,6 +661,9 @@ class ProjectsModelReports extends ListModel
                                 $indexes['status'] = $index;
                                 $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STATUS_DOG'));
                                 $index++;
+                                $indexes['co_exhibitor'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_COEXP_BY'));
+                                $index++;
                                 $indexes['number'] = $index;
                                 $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_NUMBER_SHORT'));
                                 $index++;
@@ -741,6 +747,7 @@ class ProjectsModelReports extends ListModel
                         if (in_array('status', $fields))
                         {
                             $sheet->setCellValueByColumnAndRow($indexes['status'], $i + 1, $data[$i - 1]['status']);
+                            $sheet->setCellValueByColumnAndRow($indexes['co_exhibitor'], $i + 1, $data[$i - 1]['co_exhibitor']);
                             $sheet->setCellValueByColumnAndRow($indexes['number'], $i + 1, $data[$i - 1]['number']);
                             $sheet->setCellValueByColumnAndRow($indexes['dat'], $i + 1, $data[$i - 1]['dat']);
                         }
