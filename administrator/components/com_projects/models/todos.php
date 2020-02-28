@@ -16,6 +16,7 @@ class ProjectsModelTodos extends ListModel
                 'open',
                 'manager',
                 'project',
+                'rubric',
                 'exhibitor',
                 'e.title_ru_short',
                 'c.number',
@@ -87,6 +88,26 @@ class ProjectsModelTodos extends ListModel
         if (is_numeric($project))
         {
             $query->where('`t`.`projectID` = ' . (int) $project);
+        }
+        //Фильтруем по тематикам разделов
+        $rubric = $this->getState('filter.rubric');
+        if (is_numeric($rubric)) {
+            if ($rubric != -1) {
+                $ids = ProjectsHelper::getRubricContracts($rubric);
+                if (!empty($ids)) {
+                    $ids = implode(', ', $ids);
+                    $query->where("t.contractID IN ({$ids})");
+                } else {
+                    $query->where("t.contractID = 0");
+                }
+            }
+            else {
+                $ids = ProjectsHelper::getRubricContracts();
+                if (!empty($ids)) {
+                    $ids = implode(', ', $ids);
+                    $query->where("t.contractID NOT IN ({$ids})");
+                }
+            }
         }
         //Фильтруем по дате из URL
         $dat = JFactory::getApplication()->input->getString('date');
@@ -286,6 +307,8 @@ class ProjectsModelTodos extends ListModel
         $this->setState('filter.exhibitor', $exhibitor);
         $project = $this->getUserStateFromRequest($this->context . '.filter.project', 'filter_project', '', 'string');
         $this->setState('filter.project', $project);
+        $rubric = $this->getUserStateFromRequest($this->context . '.filter.rubric', 'filter_rubric', '', 'string');
+        $this->setState('filter.rubric', $rubric);
         $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager', '', 'string');
         $this->setState('filter.manager', $manager);
         $dat = $this->getUserStateFromRequest($this->context . '.filter.dat', 'filter_dat', '', 'string');
@@ -299,6 +322,7 @@ class ProjectsModelTodos extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.exhibitor');
         $id .= ':' . $this->getState('filter.project');
+        $id .= ':' . $this->getState('filter.rubric');
         $id .= ':' . $this->getState('filter.manager');
         $id .= ':' . $this->getState('filter.dat');
         return parent::getStoreId($id);

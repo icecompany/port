@@ -50,6 +50,15 @@
             <option value="1">COM_PROJECTS_HEAD_TODO_STATE_1</option>
             <option value="5">COM_PROJECTS_HEAD_TODO_STATE_5</option>
         </field>
+        <field
+                name="rubric"
+                type="Rubric"
+                label="COM_PROJECTS_FILTER_SELECT_RUBRIC"
+                onchange="this.form.submit();"
+        >
+            <option value="">COM_PROJECTS_FILTER_SELECT_RUBRIC</option>
+            <option value="-1">COM_PROJECTS_FILTER_SELECT_RUBRIC_WITHOUT</option>
+        </field>
     </fields>
     <fields name="list">
         <field
