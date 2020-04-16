@@ -17,7 +17,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
         <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_TODO_DATE', 't.dat', $listDirn, $listOrder); ?>
     </th>
     <th>
-        <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_TODO_CONTRACT', 'c.number', $listDirn, $listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_TODO_CONTRACT', 't.number', $listDirn, $listOrder); ?>
     </th>
     <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_TODO_PROJECT', 'project', $listDirn, $listOrder); ?>
@@ -33,6 +33,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     </th>
     <th>
         <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_TODO_OPEN', 'open', $listDirn, $listOrder); ?>
+    </th>
+    <th>
+        <?php echo JHtml::_('searchtools.sort', 'COM_PROJECTS_HEAD_TODO_DATE_CLOSE', 't.dat_close', $listDirn, $listOrder); ?>
     </th>
     <?php if ($this->isAdmin): ?>
         <th>

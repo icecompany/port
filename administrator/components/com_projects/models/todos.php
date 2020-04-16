@@ -19,9 +19,10 @@ class ProjectsModelTodos extends ListModel
                 'rubric',
                 'exhibitor',
                 'e.title_ru_short',
-                'c.number',
+                't.number',
                 'state',
                 'dat',
+                'is_expire desc, t.dat',
             );
         }
         parent::__construct($config);
@@ -109,6 +110,11 @@ class ProjectsModelTodos extends ListModel
                 }
             }
         }
+        /* Сортировка */
+        $orderCol  = $this->getState('list.ordering');
+        $orderDirn = $this->getState('list.direction');
+        $query->order($db->escape($orderCol . ' ' . $orderDirn));
+
         //Фильтруем по дате из URL
         $dat = JFactory::getApplication()->input->getString('date');
         $futures = JFactory::getApplication()->input->getBool('futures', false);
@@ -152,11 +158,6 @@ class ProjectsModelTodos extends ListModel
                 ->where("t.dat_open <= {$dat}")
                 ->where("t.state = 0");
         }
-
-        /* Сортировка */
-        $orderCol  = $this->state->get('list.ordering','is_expire, t.dat');
-        $orderDirn = $this->state->get('list.direction', 'desc, asc');
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
     }

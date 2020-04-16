@@ -53,6 +53,9 @@ foreach ($this->items as $i => $item) :
         <td>
             <?php echo $item['open']; ?>
         </td>
+        <td>
+            <?php echo $item['dat_close']; ?>
+        </td>
         <?php if ($this->isAdmin): ?>
             <td>
                 <?php echo $item['manager']; ?>
