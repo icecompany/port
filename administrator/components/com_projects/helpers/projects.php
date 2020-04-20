@@ -73,6 +73,16 @@ class ProjectsHelper
         }
     }
 
+    public static function check_refresh(): void
+    {
+        $refresh = JFactory::getApplication()->input->getBool('refresh', false);
+        if ($refresh) {
+            $current = JUri::getInstance(self::getCurrentUrl());
+            $current->delVar('refresh');
+            JFactory::getApplication()->redirect($current);
+        }
+    }
+
     public static function getCityTitle(int $cityID)
     {
         $db = JFactory::getDbo();
@@ -261,6 +271,9 @@ class ProjectsHelper
     public static function getActionUrl(): string
     {
         $uri = JUri::getInstance();
+        if (JFactory::getApplication()->input->getString('view') == 'todos') {
+            $uri->setVar('refresh', 1);
+        }
         $query = $uri->getQuery();
         $client = (!JFactory::getApplication()->isClient('administrator')) ? 'site' : 'administrator';
         return JRoute::link($client, "index.php?{$query}");

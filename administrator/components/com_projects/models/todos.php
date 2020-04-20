@@ -34,26 +34,26 @@ class ProjectsModelTodos extends ListModel
         $query = $db->getQuery(true);
         $query
             ->select("*")
-            ->from("`#__prj_todo_list` as `t`");
+            ->from("`#__prj_todo_list` as t");
         /* Фильтр */
         $contractID = JFactory::getApplication()->input->getInt('contractID', 0);
         $search = $this->getState('filter.search');
         if (!empty($search) && $contractID == 0)
         {
             $search = $db->q("%{$search}%");
-            $query->where("(`t`.`exhibitor` LIKE {$search})");
+            $query->where("(t.exhibitor LIKE {$search})");
         }
         // Показываем уведомления
         $notify = JFactory::getApplication()->input->getInt('notify', 0);
-        $query->where("`t`.`is_notify` = {$notify}");
+        $query->where("t.`is_notify` = {$notify}");
         if ($notify == 0) {
             // Фильтруем по состоянию.
             $published = $this->getState('filter.state');
             if (is_numeric($published) && $published < 5) {
-                $query->where('`t`.`state` = ' . (int) $published);
+                $query->where('t.`state` = ' . (int) $published);
                 if ($published == 0) $query->where("`is_expire` = 0");
             } elseif ($published === '') {
-                $query->where('(`t`.`state` IN (0, 1))');
+                $query->where('(t.`state` IN (0, 1))');
             }
             //Просроченные
             if ($published == 5) {
@@ -62,33 +62,33 @@ class ProjectsModelTodos extends ListModel
         }
         else
         {
-            $query->where("`t`.`state` = 0");
+            $query->where("t.`state` = 0");
         }
 
         // Фильтруем по менеджеру.
         $manager = $this->getState('filter.manager');
         if (is_numeric($manager)) {
-            $query->where('`t`.`managerID` = ' . (int) $manager);
+            $query->where('t.`managerID` = ' . (int) $manager);
         }
         // Фильтруем по дате.
         $dat = $this->getState('filter.dat');
         if (!empty($dat) && $contractID == 0)
         {
             $dat = $db->q($dat);
-            $query->where("`t`.`dat` = {$dat}");
+            $query->where("t.`dat` = {$dat}");
         }
         // Фильтруем по экспоненту.
         $exhibitor = $this->getState('filter.exhibitor');
         if (is_numeric($exhibitor))
         {
-            $query->where('`t`.`exhibitorID` = ' . (int) $exhibitor);
+            $query->where('t.`exhibitorID` = ' . (int) $exhibitor);
         }
         // Фильтруем по проекту.
         $project = $this->getState('filter.project');
         if (empty($project) && $notify == 0) $project = ProjectsHelper::getActiveProject();
         if (is_numeric($project))
         {
-            $query->where('`t`.`projectID` = ' . (int) $project);
+            $query->where('t.`projectID` = ' . (int) $project);
         }
         //Фильтруем по тематикам разделов
         $rubric = $this->getState('filter.rubric');
@@ -110,10 +110,6 @@ class ProjectsModelTodos extends ListModel
                 }
             }
         }
-        /* Сортировка */
-        $orderCol  = $this->getState('list.ordering');
-        $orderDirn = $this->getState('list.direction');
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         //Фильтруем по дате из URL
         $dat = JFactory::getApplication()->input->getString('date');
@@ -122,17 +118,17 @@ class ProjectsModelTodos extends ListModel
         if ($dat !== null && !$futures && !$expire)
         {
             $dat = $db->q($dat);
-            $query->where("`t`.`dat` = {$dat}");
+            $query->where("t.`dat` = {$dat}");
         }
         //Если не руководитель, выводим только назначенные пользователю задания
         if (!ProjectsHelper::canDo('core.general'))
         {
             $user = JFactory::getUser();
-            $query->where("`t`.`managerID` = {$user->id}");
+            $query->where("t.`managerID` = {$user->id}");
         }
         if ($contractID !== 0)
         {
-            $query->where("`t`.`contractID` = {$contractID}");
+            $query->where("t.`contractID` = {$contractID}");
         }
         if (ProjectsHelper::canDo('projects.access.todos.full'))
         {
@@ -140,7 +136,7 @@ class ProjectsModelTodos extends ListModel
             $man = JFactory::getApplication()->input->getInt('uid', 0);
             if ($man !== 0)
             {
-                $query->where("`t`.`managerID` = {$man}");
+                $query->where("t.`managerID` = {$man}");
             }
         }
         //Фильтруем по просраченным (из URL)
@@ -158,6 +154,12 @@ class ProjectsModelTodos extends ListModel
                 ->where("t.dat_open <= {$dat}")
                 ->where("t.state = 0");
         }
+
+        /* Сортировка */
+        $orderCol  = $this->state->get('list.ordering');
+        $orderDirn = $this->state->get('list.direction');
+        $query->order($db->escape($orderCol . ' ' . $orderDirn));
+        //exit(var_dump($query->dump()));
 
         return $query;
     }
@@ -298,7 +300,7 @@ class ProjectsModelTodos extends ListModel
     }
 
     /* Сортировка по умолчанию */
-    protected function populateState($ordering = 'is_expire desc, t.dat', $direction = 'asc')
+    protected function populateState($ordering = 't.is_expire', $direction = 'desc')
     {
         $published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
         $this->setState('filter.state', $published);
@@ -315,6 +317,7 @@ class ProjectsModelTodos extends ListModel
         $dat = $this->getUserStateFromRequest($this->context . '.filter.dat', 'filter_dat', '', 'string');
         $this->setState('filter.dat', $dat);
         parent::populateState($ordering, $direction);
+        ProjectsHelper::check_refresh();
     }
 
     protected function getStoreId($id = '')
