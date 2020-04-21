@@ -300,7 +300,7 @@ class ProjectsModelTodos extends ListModel
     }
 
     /* Сортировка по умолчанию */
-    protected function populateState($ordering = 't.is_expire', $direction = 'desc')
+    protected function populateState($ordering = 't.is_expire, t.dat', $direction = 'desc')
     {
         $published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
         $this->setState('filter.state', $published);
