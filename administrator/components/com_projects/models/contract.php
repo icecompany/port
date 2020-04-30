@@ -494,7 +494,7 @@ class ProjectsModelContract extends AdminModel {
         //Удаляем стенды сделки если статус отказ
         if ($data['status'] == 0 && $data['id'] != 0)
         {
-            $stands = ProjectsHelper::getContractStands($data['id']);
+            $stands = ProjectsHelper::getContractStands($data['id'], false);
             $sm = AdminModel::getInstance('Stand', 'ProjectsModel');
             foreach ($stands as $stand) {
                 $sm->delete($stand->id);

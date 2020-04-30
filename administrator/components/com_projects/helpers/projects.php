@@ -1308,10 +1308,11 @@ class ProjectsHelper
     /**
      * Возвращает список стендов из указанной сделки
      * @param int $contractID
+     * @param bool $loadDelegates Возвращать ли делегированные стенды
      * @return array
      * @since 1.1.2.2
      */
-    public static function getContractStands(int $contractID): array
+    public static function getContractStands(int $contractID, $loadDelegates = true): array
     {
         $db =& JFactory::getDbo();
         $query = $db->getQuery(true);
@@ -1326,7 +1327,12 @@ class ProjectsHelper
             ->leftJoin("`#__prj_hotels` as `h` ON `h`.`id` = `cats`.`hotelID`")
             ->leftJoin("`#__prc_items` as `i` ON `i`.`id` = `s`.`itemID`")
             ->where("`s`.`contractID` = {$contractID}");
-        return array_merge($db->setQuery($query)->loadObjectList(), self::loadDelegatedStands($contractID));
+        if ($loadDelegates) {
+            return array_merge($db->setQuery($query)->loadObjectList(), self::loadDelegatedStands($contractID));
+        }
+        else {
+            return $db->setQuery($query)->loadObjectList();
+        }
     }
 
     /**
