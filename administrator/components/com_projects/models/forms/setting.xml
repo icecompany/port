@@ -94,14 +94,21 @@
                 type="spacer"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTERS"
         />
+    </fieldset>
+    <fieldset name="contracts_v2_filters">
+        <field
+                name="spacer_2"
+                type="spacer"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTERS"
+        />
         <field
                 name="contracts_v2-filter_doc_status"
                 type="radio"
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_DOC_STATUS"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_DOC_STATUS_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_currency"
@@ -109,8 +116,8 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_CURRENCY"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_CURRENCY_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_manager"
@@ -118,8 +125,8 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_MANAGER"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_MANAGER_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_activity"
@@ -127,8 +134,8 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_ACTIVITY"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_ACTIVITY_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_rubric"
@@ -136,8 +143,8 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_RUBRIC"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_RUBRIC_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_status"
@@ -145,8 +152,8 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_STATUS"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_STATUS_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_cwt"
@@ -154,8 +161,8 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_CWT"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_CWT_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
         <field
                 name="contracts_v2-filter_country"
@@ -163,8 +170,71 @@
                 class="btn-group btn-group-yesno"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_COUNTRY"
                 description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_COUNTRY_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_info_catalog"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_INFO_CATALOG"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_INFO_CATALOG_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_logo_catalog"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_LOGO_CATALOG"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_LOGO_CATALOG_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_pvn_1"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_pvn_1a"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1A"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1A_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_pvn_1b"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1B"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1B_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_pvn_1v"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1V"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1V_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
+        </field>
+        <field
+                name="contracts_v2-filter_pvn_1g"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1G"
+                description="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTER_PNV_1G_DESC">
+            <option value="0">JHIDE</option>
+            <option value="1">JSHOW</option>
         </field>
     </fieldset>
     <fieldset name="contracts_v2_columns">

@@ -93,6 +93,83 @@
                 onchange="this.form.submit();"
         >
         </field>
+        <field
+                name="info_catalog"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_INFO_CATALOG"
+                description="COM_PROJECTS_FILTER_SELECT_INFO_CATALOG"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_INFO_CATALOG</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_INFO_CATALOG_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_INFO_CATALOG_1</option>
+        </field>
+        <field
+                name="logo_catalog"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_LOGO_CATALOG"
+                description="COM_PROJECTS_FILTER_SELECT_LOGO_CATALOG"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_LOGO_CATALOG</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_LOGO_CATALOG_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_LOGO_CATALOG_1</option>
+        </field>
+        <field
+                name="pvn_1"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_PNV_1"
+                description="COM_PROJECTS_FILTER_SELECT_PNV_1"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_PNV_1</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_PNV_1_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_PNV_1_1</option>
+        </field>
+        <field
+                name="pvn_1a"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_PNV_1A"
+                description="COM_PROJECTS_FILTER_SELECT_PNV_1A"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_PNV_1A</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_PNV_1A_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_PNV_1A_1</option>
+        </field>
+        <field
+                name="pvn_1b"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_PNV_1B"
+                description="COM_PROJECTS_FILTER_SELECT_PNV_1B"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_PNV_1B</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_PNV_1B_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_PNV_1B_1</option>
+        </field>
+        <field
+                name="pvn_1v"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_PNV_1V"
+                description="COM_PROJECTS_FILTER_SELECT_PNV_1V"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_PNV_1V</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_PNV_1V_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_PNV_1V_1</option>
+        </field>
+        <field
+                name="pvn_1g"
+                type="list"
+                label="COM_PROJECTS_FILTER_SELECT_PNV_1G"
+                description="COM_PROJECTS_FILTER_SELECT_PNV_1G"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_PNV_1G</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_PNV_1G_0</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_PNV_1G_1</option>
+        </field>
     </fields>
     <fields name="list">
         <field

@@ -208,23 +208,23 @@ class ProjectsModelContracts_v2 extends ListModel
         if (is_numeric($logo_catalog)) {
             $query->where("logo_catalog = {$db->q($logo_catalog)}");
         }
-        $pvn_1 = $this->getState('filter.pnv_1');
+        $pvn_1 = $this->getState('filter.pvn_1');
         if (is_numeric($pvn_1)) {
             $query->where("pvn_1 = {$db->q($pvn_1)}");
         }
-        $pvn_1a = $this->getState('filter.pnv_1a');
+        $pvn_1a = $this->getState('filter.pvn_1a');
         if (is_numeric($pvn_1a)) {
             $query->where("pvn_1a = {$db->q($pvn_1a)}");
         }
-        $pvn_1b = $this->getState('filter.pnv_1b');
+        $pvn_1b = $this->getState('filter.pvn_1b');
         if (is_numeric($pvn_1b)) {
             $query->where("pvn_1b = {$db->q($pvn_1b)}");
         }
-        $pvn_1v = $this->getState('filter.pnv_1v');
+        $pvn_1v = $this->getState('filter.pvn_1v');
         if (is_numeric($pvn_1v)) {
             $query->where("pvn_1v = {$db->q($pvn_1v)}");
         }
-        $pvn_1g = $this->getState('filter.pnv_1g');
+        $pvn_1g = $this->getState('filter.pvn_1g');
         if (is_numeric($pvn_1g)) {
             $query->where("pvn_1g = {$db->q($pvn_1g)}");
         }
@@ -505,16 +505,16 @@ class ProjectsModelContracts_v2 extends ListModel
         $this->setState('filter.info_catalog', $info_catalog);
         $logo_catalog = $this->getUserStateFromRequest($this->context . '.filter.logo_catalog', 'filter_logo_catalog');
         $this->setState('filter.logo_catalog', $logo_catalog);
-        $pnv_1 = $this->getUserStateFromRequest($this->context . '.filter.pnv_1', 'filter_pnv_1');
-        $this->setState('filter.pnv_1', $pnv_1);
-        $pnv_1a = $this->getUserStateFromRequest($this->context . '.filter.pnv_1a', 'filter_pnv_1a');
-        $this->setState('filter.pnv_1a', $pnv_1a);
-        $pnv_1b = $this->getUserStateFromRequest($this->context . '.filter.pnv_1b', 'filter_pnv_1b');
-        $this->setState('filter.pnv_1b', $pnv_1b);
-        $pnv_1v = $this->getUserStateFromRequest($this->context . '.filter.pnv_1v', 'filter_pnv_1v');
-        $this->setState('filter.pnv_1v', $pnv_1v);
-        $pnv_1g = $this->getUserStateFromRequest($this->context . '.filter.pnv_1g', 'filter_pnv_1g');
-        $this->setState('filter.pnv_1g', $pnv_1g);
+        $pvn_1 = $this->getUserStateFromRequest($this->context . '.filter.pvn_1', 'filter_pvn_1');
+        $this->setState('filter.pvn_1', $pvn_1);
+        $pvn_1a = $this->getUserStateFromRequest($this->context . '.filter.pvn_1a', 'filter_pvn_1a');
+        $this->setState('filter.pvn_1a', $pvn_1a);
+        $pvn_1b = $this->getUserStateFromRequest($this->context . '.filter.pvn_1b', 'filter_pvn_1b');
+        $this->setState('filter.pvn_1b', $pvn_1b);
+        $pvn_1v = $this->getUserStateFromRequest($this->context . '.filter.pvn_1v', 'filter_pvn_1v');
+        $this->setState('filter.pvn_1v', $pvn_1v);
+        $pvn_1g = $this->getUserStateFromRequest($this->context . '.filter.pvn_1g', 'filter_pvn_1g');
+        $this->setState('filter.pvn_1g', $pvn_1g);
 
         parent::populateState('plan_dat', 'asc');
     }
@@ -532,11 +532,11 @@ class ProjectsModelContracts_v2 extends ListModel
         $id .= ':' . $this->getState('filter.country');
         $id .= ':' . $this->getState('filter.info_catalog');
         $id .= ':' . $this->getState('filter.logo_catalog');
-        $id .= ':' . $this->getState('filter.pnv_1');
-        $id .= ':' . $this->getState('filter.pnv_1a');
-        $id .= ':' . $this->getState('filter.pnv_1b');
-        $id .= ':' . $this->getState('filter.pnv_1v');
-        $id .= ':' . $this->getState('filter.pnv_1g');
+        $id .= ':' . $this->getState('filter.pvn_1');
+        $id .= ':' . $this->getState('filter.pvn_1a');
+        $id .= ':' . $this->getState('filter.pvn_1b');
+        $id .= ':' . $this->getState('filter.pvn_1v');
+        $id .= ':' . $this->getState('filter.pvn_1g');
         return parent::getStoreId($id);
     }
 

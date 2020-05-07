@@ -81,5 +81,12 @@ class ProjectsViewContracts_v2 extends HtmlView
         if (!$this->userSettings['contracts_v2-filter_rubric']) $this->filterForm->removeField('rubric', 'filter');
         if (!$this->userSettings['contracts_v2-filter_status']) $this->filterForm->removeField('status', 'filter');
         if (!$this->userSettings['contracts_v2-filter_cwt']) $this->filterForm->removeField('cwt', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_info_catalog']) $this->filterForm->removeField('info_catalog', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_logo_catalog']) $this->filterForm->removeField('logo_catalog', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_pvn_1']) $this->filterForm->removeField('pvn_1', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_pvn_1a']) $this->filterForm->removeField('pvn_1a', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_pvn_1b']) $this->filterForm->removeField('pvn_1b', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_pvn_1v']) $this->filterForm->removeField('pvn_1v', 'filter');
+        if (!$this->userSettings['contracts_v2-filter_pvn_1g']) $this->filterForm->removeField('pvn_1g', 'filter');
     }
 }
