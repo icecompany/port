@@ -70,8 +70,15 @@ class ProjectsModelContracts_v2 extends ListModel
                 $query->where("(`num` LIKE {$search})");
             }
             else {
-                $search = $db->q("%{$search}%");
-                $query->where("(`title_ru_short` LIKE {$search} OR `title_ru_full` LIKE {$search} OR `title_en` LIKE {$search})");
+                if (stripos($search, 'id:') !== false) {
+                    $cid = explode(":", $search);
+                    $cid = $cid[1];
+                    $query->where("id = {$db->q($cid)}");
+                }
+                else {
+                    $search = $db->q("%{$search}%");
+                    $query->where("(`title_ru_short` LIKE {$search} OR `title_ru_full` LIKE {$search} OR `title_en` LIKE {$search})");
+                }
             }
         }
 
