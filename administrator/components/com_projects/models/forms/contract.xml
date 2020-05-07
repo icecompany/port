@@ -164,6 +164,85 @@
                 default=""
         />
     </fieldset>
+    <fieldset name="catalog">
+        <field
+                name="info_catalog"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_INFO_CATALOG"
+                description="COM_PROJECTS_HEAD_CONTRACT_INFO_CATALOG_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="logo_catalog"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_LOGO_CATALOG"
+                description="COM_PROJECTS_HEAD_CONTRACT_LOGO_CATALOG_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="pvn_1"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_PVN_1"
+                description="COM_PROJECTS_HEAD_CONTRACT_PVN_1_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="pvn_1a"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_PVN_1A"
+                description="COM_PROJECTS_HEAD_CONTRACT_PVN_1A_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="pvn_1b"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_PVN_1B"
+                description="COM_PROJECTS_HEAD_CONTRACT_PVN_1B_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="pvn_1v"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_PVN_1V"
+                description="COM_PROJECTS_HEAD_CONTRACT_PVN_1V_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="pvn_1g"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_PVN_1G"
+                description="COM_PROJECTS_HEAD_CONTRACT_PVN_1G_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+    </fieldset>
     <fieldset name="settings">
         <field
                 name="activecolumn"

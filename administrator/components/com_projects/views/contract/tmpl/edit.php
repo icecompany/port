@@ -99,6 +99,15 @@ if ($return != null)
                     </div>
                     <?php echo JHtml::_('bootstrap.endTab'); ?>
                 <?php endif;?>
+                <?php if ($this->item->id != null): ?>
+                    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'catalog', JText::sprintf('COM_PROJECTS_BLANK_CATALOG')); ?>
+                    <div class="row-fluid">
+                        <div>
+                            <?php echo $this->loadTemplate('catalog');?>
+                        </div>
+                    </div>
+                    <?php echo JHtml::_('bootstrap.endTab'); ?>
+                <?php endif;?>
                 <?php if ($this->item->id != null && ProjectsHelper::canDo('core.admin')): ?>
                     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'settings', JText::sprintf('COM_PROJECTS_BLANK_CONTRACT_SETTINGS')); ?>
                     <div class="row-fluid">

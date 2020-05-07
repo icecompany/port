@@ -151,7 +151,7 @@ class ProjectsModelContract extends AdminModel {
     {
         //Получем ID стендов
         if ($id == null) return;
-        $db =& $this->getDbo();
+        $db = $this->getDbo();
         $query = $db->getQuery(true);
         $query
             ->select("`id`")
