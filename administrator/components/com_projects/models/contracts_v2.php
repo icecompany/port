@@ -44,6 +44,13 @@ class ProjectsModelContracts_v2 extends ListModel
             'amount' => 'COM_PROJECTS_HEAD_CONTRACT_AMOUNT',
             'payments' => 'COM_PROJECTS_HEAD_SCORE_PAYMENT',
             'debt' => 'COM_PROJECTS_HEAD_CONTRACT_DEBT',
+            'info_catalog' => 'COM_PROJECTS_HEAD_CONTRACT_INFO_CATALOG',
+            'logo_catalog' => 'COM_PROJECTS_HEAD_CONTRACT_LOGO_CATALOG',
+            'pvn_1' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1',
+            'pvn_1a' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1A',
+            'pvn_1b' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1B',
+            'pvn_1v' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1V',
+            'pvn_1g' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1G',
         );
 
         parent::__construct($config);
@@ -51,7 +58,7 @@ class ProjectsModelContracts_v2 extends ListModel
 
     protected function _getListQuery()
     {
-        $db =& $this->getDbo();
+        $db = $this->getDbo();
         $query = $db->getQuery(true);
         $query
             ->select("*")
@@ -274,6 +281,14 @@ class ProjectsModelContracts_v2 extends ListModel
             $arr['debt'] = (float) $item->debt;
             $arr['payerID'] = (float) $item->payerID;
             $arr['payer'] = (float) $item->payer;
+            $arr['info_catalog'] = JText::sprintf(($item->info_catalog != '1') ? 'JNO' : 'JYES');
+            $arr['logo_catalog'] = JText::sprintf(($item->logo_catalog != '1') ? 'JNO' : 'JYES');
+            $arr['pvn_1'] = JText::sprintf(($item->pvn_1 != '1') ? 'JNO' : 'JYES');
+            $arr['pvn_1a'] = JText::sprintf(($item->pvn_1a != '1') ? 'JNO' : 'JYES');
+            $arr['pvn_1b'] = JText::sprintf(($item->pvn_1b != '1') ? 'JNO' : 'JYES');
+            $arr['pvn_1v'] = JText::sprintf(($item->pvn_1v != '1') ? 'JNO' : 'JYES');
+            $arr['pvn_1g'] = JText::sprintf(($item->pvn_1g != '1') ? 'JNO' : 'JYES');
+
             $result['items'][] = $this->prepare($arr);
         }
 
@@ -341,6 +356,14 @@ class ProjectsModelContracts_v2 extends ListModel
         $sheet->getColumnDimension('K')->setWidth(19);
         $sheet->getColumnDimension('L')->setWidth(19);
         $sheet->getColumnDimension('M')->setWidth(19);
+        $sheet->getColumnDimension('N')->setWidth(21);
+        $sheet->getColumnDimension('O')->setWidth(10);
+        $sheet->getColumnDimension('P')->setWidth(11);
+        $sheet->getColumnDimension('Q')->setWidth(11);
+        $sheet->getColumnDimension('R')->setWidth(11);
+        $sheet->getColumnDimension('S')->setWidth(11);
+        $sheet->getColumnDimension('T')->setWidth(11);
+
         $sheet->getStyle('A1')->getFont()->setBold(true);
         $sheet->getStyle('B1')->getFont()->setBold(true);
         $sheet->getStyle('C1')->getFont()->setBold(true);
@@ -354,6 +377,13 @@ class ProjectsModelContracts_v2 extends ListModel
         $sheet->getStyle('K1')->getFont()->setBold(true);
         $sheet->getStyle('L1')->getFont()->setBold(true);
         $sheet->getStyle('M1')->getFont()->setBold(true);
+        $sheet->getStyle('N1')->getFont()->setBold(true);
+        $sheet->getStyle('O1')->getFont()->setBold(true);
+        $sheet->getStyle('P1')->getFont()->setBold(true);
+        $sheet->getStyle('Q1')->getFont()->setBold(true);
+        $sheet->getStyle('R1')->getFont()->setBold(true);
+        $sheet->getStyle('S1')->getFont()->setBold(true);
+        $sheet->getStyle('T1')->getFont()->setBold(true);
         header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
         header("Cache-Control: no-cache, must-revalidate");
