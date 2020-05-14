@@ -83,5 +83,28 @@ foreach ($this->items as $item) :
                 <?php echo $item['rubrics']; ?>
             </td>
         <?php endif; ?>
+        <?php if (in_array('forms', $this->fields)): ?>
+            <td class="small">
+                <?php echo $item['info_catalog']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['logo_catalog']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['pvn_1']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['pvn_1a']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['pvn_1b']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['pvn_1v']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['pvn_1g']; ?>
+            </td>
+        <?php endif; ?>
     </tr>
 <?php endforeach; ?>

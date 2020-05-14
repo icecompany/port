@@ -82,4 +82,27 @@ $listDirn = $this->escape($this->state->get('list.direction'));
             <?php echo JText::sprintf('COM_PROJECTS_HEAD_THEMATIC_RUBRICS'); ?>
         </th>
     <?php endif;?>
+    <?php if (in_array('forms', $this->fields)): ?>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_INFO_CATALOG'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_LOGO_CATALOG'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1A'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1B'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1V'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1G'); ?>
+        </th>
+    <?php endif;?>
 </tr>

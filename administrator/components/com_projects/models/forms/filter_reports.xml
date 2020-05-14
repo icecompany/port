@@ -69,6 +69,7 @@
             <option value="amount">COM_PROJECTS_HEAD_CONTRACT_AMOUNT_REPORT</option>
             <option value="acts">COM_PROJECTS_BLANK_EXHIBITOR_ACTIVITIES</option>
             <option value="rubrics">COM_PROJECTS_HEAD_THEMATIC_RUBRICS</option>
+            <option value="forms">COM_PROJECTS_HEAD_INCOMING_FORMS</option>
         </field>
         <field
                 name="dat"

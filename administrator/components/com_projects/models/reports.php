@@ -45,7 +45,7 @@ class ProjectsModelReports extends ListModel
 
     protected function _getListQuery()
     {
-        $db =& $this->getDbo();
+        $db = $this->getDbo();
 
         $db->setQuery("SET lc_time_names = 'ru_RU'")->execute();
         $query = $db->getQuery(true);
@@ -63,6 +63,7 @@ class ProjectsModelReports extends ListModel
                 ->select("`c`.`status`, `c`.`isCoExp`, IFNULL(`c`.`number_free`,`c`.`number`) as `number`, `c`.`dat`, `c`.`id` as `contractID`, `c`.`currency`")
                 ->select("`u`.`name` as `manager`")
                 ->select("`p`.`title` as `project`")
+                ->select("c.info_catalog, c.logo_catalog, c.pvn_1, c.pvn_1a, c.pvn_1b, c.pvn_1v, c.pvn_1g")
                 ->from("`#__prj_contracts` as `c`")
                 ->leftJoin("`#__prj_exp` as `e` ON `e`.`id` = `c`.`expID`")
                 ->leftJoin("`#__prj_exp` as `ce` ON `ce`.`id` = `c`.`parentID`")
@@ -368,6 +369,15 @@ class ProjectsModelReports extends ListModel
                     }
                     if (in_array('acts', $fields)) $arr['acts'] = implode(", ", ProjectsHelper::getExhibitorActs($item->exhibitorID));
                     if (in_array('rubrics', $fields)) $arr['rubrics'] = implode(", ", ProjectsHelper::getContractRubrics($item->contractID, true));
+                    if (in_array('forms', $fields)) {
+                        $arr['info_catalog'] = JText::sprintf(!empty(($item->info_catalog)) ? 'JYES' : 'JNO');
+                        $arr['logo_catalog'] = JText::sprintf(!empty(($item->logo_catalog)) ? 'JYES' : 'JNO');
+                        $arr['pvn_1'] = JText::sprintf(!empty(($item->pvn_1)) ? 'JYES' : 'JNO');;
+                        $arr['pvn_1a'] = JText::sprintf(!empty(($item->pvn_1a)) ? 'JYES' : 'JNO');;
+                        $arr['pvn_1b'] = JText::sprintf(!empty(($item->pvn_1b)) ? 'JYES' : 'JNO');;
+                        $arr['pvn_1v'] = JText::sprintf(!empty(($item->pvn_1v)) ? 'JYES' : 'JNO');;
+                        $arr['pvn_1g'] = JText::sprintf(!empty(($item->pvn_1g)) ? 'JYES' : 'JNO');;
+                    }
                 }
                 $result[] = $arr;
             }
@@ -740,6 +750,30 @@ class ProjectsModelReports extends ListModel
                                 $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_THEMATIC_RUBRICS'));
                                 $index++;
                             }
+                            if (in_array('forms', $fields))
+                            {
+                                $indexes['info_catalog'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_INFO_CATALOG'));
+                                $index++;
+                                $indexes['logo_catalog'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_LOGO_CATALOG'));
+                                $index++;
+                                $indexes['pvn_1'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1'));
+                                $index++;
+                                $indexes['pvn_1a'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1A'));
+                                $index++;
+                                $indexes['pvn_1b'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1B'));
+                                $index++;
+                                $indexes['pvn_1v'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1V'));
+                                $index++;
+                                $indexes['pvn_1g'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1G'));
+                                $index++;
+                            }
                         }
                     }
                     if ($j == 0) $sheet->setCellValueByColumnAndRow($j, $i + 1, $data[$i - 1]['exhibitor']);
@@ -795,6 +829,16 @@ class ProjectsModelReports extends ListModel
                         if (in_array('rubrics', $fields))
                         {
                             $sheet->setCellValueByColumnAndRow($indexes['rubrics'], $i + 1, $data[$i - 1]['rubrics']);
+                        }
+                        if (in_array('forms', $fields))
+                        {
+                            $sheet->setCellValueByColumnAndRow($indexes['info_catalog'], $i + 1, $data[$i - 1]['info_catalog']);
+                            $sheet->setCellValueByColumnAndRow($indexes['logo_catalog'], $i + 1, $data[$i - 1]['logo_catalog']);
+                            $sheet->setCellValueByColumnAndRow($indexes['pvn_1'], $i + 1, $data[$i - 1]['pvn_1']);
+                            $sheet->setCellValueByColumnAndRow($indexes['pvn_1a'], $i + 1, $data[$i - 1]['pvn_1a']);
+                            $sheet->setCellValueByColumnAndRow($indexes['pvn_1b'], $i + 1, $data[$i - 1]['pvn_1b']);
+                            $sheet->setCellValueByColumnAndRow($indexes['pvn_1v'], $i + 1, $data[$i - 1]['pvn_1v']);
+                            $sheet->setCellValueByColumnAndRow($indexes['pvn_1g'], $i + 1, $data[$i - 1]['pvn_1g']);
                         }
                     }
                 }
