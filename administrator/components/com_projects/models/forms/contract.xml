@@ -242,6 +242,28 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
+        <field
+                name="no_exhibit"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_NO_EXHIBIT"
+                description="COM_PROJECTS_HEAD_CONTRACT_NO_EXHIBIT_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="info_arrival"
+                type="radio"
+                label="COM_PROJECTS_HEAD_CONTRACT_INFO_ARRIVAL"
+                description="COM_PROJECTS_HEAD_CONTRACT_INFO_ARRIVAL_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
     </fieldset>
     <fieldset name="settings">
         <field
