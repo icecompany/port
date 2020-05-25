@@ -85,7 +85,6 @@ class ProjectsModelCatalog extends AdminModel {
         else {
             $action = 'add';
         }
-        $this->updateStands($data);
         $s = parent::save($data);
         if ($action == 'add') {
             $old = null;
@@ -94,40 +93,6 @@ class ProjectsModelCatalog extends AdminModel {
         }
         ProjectsHelper::addEvent(array('action' => $action, 'section' => 'catalog', 'itemID' => $itemID, 'params' => $data, 'old_data' => $old));
         return $s;
-    }
-
-    /**
-     * Изменяет площадь стенда в заказанных услугах в сделках, в которых заказан этот стенд
-     * @param array $data Массив с новыми данными стенда из каталога
-     * @since 1.0.9.10
-     */
-    protected function updateStands(array $data): void
-    {
-        $old = parent::getItem($data['id']);
-        $db =& $this->getDbo();
-        $query = $db->getQuery(true);
-        $query
-            ->select("`contractID`, `itemID`, `catalogID`, `contractID`")
-            ->from("`#__prj_stands`")
-            ->where("`catalogID` = {$data['id']}");
-        $stands = $db->setQuery($query)->loadObjectList();
-        foreach ($stands as $stand) {
-            $cm = AdminModel::getInstance('Catalog', 'ProjectsModel');
-            $catalog = $cm->getItem($stand->catalogID);
-            $query = $db->getQuery(true);
-            $query
-                ->update("`#__prj_contract_items`")
-                ->set("`value` = `value` - {$old->square} + {$data['square']}")
-                ->where("`contractID` = {$stand->contractID}")
-                ->where("`itemID` = {$stand->itemID}");
-            $db->setQuery($query)->execute();
-            $nonify = array();
-            $nonify['contractID'] = $stand->contractID;
-            $nonify['old_square'] = $old->square;
-            $nonify['new_square'] = $data['square'];
-            $nonify['stand'] = $catalog->number;
-            $this->sendNotify($nonify);
-        }
     }
 
     /**
