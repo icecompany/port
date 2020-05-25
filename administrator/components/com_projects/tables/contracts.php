@@ -18,6 +18,7 @@ class TableProjectsContracts extends Table
     var $number_free = null;
     var $payerID = null;
     var $userID = null;
+    var $no_exhibit = null;
 
     public function __construct(JDatabaseDriver $db)
     {
