@@ -52,6 +52,8 @@ class ProjectsModelContracts_v2 extends ListModel
             'pvn_1b' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1B',
             'pvn_1v' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1V',
             'pvn_1g' => 'COM_PROJECTS_HEAD_CONTRACT_PVN_1G',
+            'no_exhibit' => 'COM_PROJECTS_HEAD_CONTRACT_NO_EXHIBIT',
+            'info_arrival' => 'COM_PROJECTS_HEAD_CONTRACT_INFO_ARRIVAL',
         );
 
         parent::__construct($config);
@@ -319,6 +321,8 @@ class ProjectsModelContracts_v2 extends ListModel
             $arr['pvn_1b'] = JText::sprintf(($item->pvn_1b != '1') ? 'JNO' : 'JYES');
             $arr['pvn_1v'] = JText::sprintf(($item->pvn_1v != '1') ? 'JNO' : 'JYES');
             $arr['pvn_1g'] = JText::sprintf(($item->pvn_1g != '1') ? 'JNO' : 'JYES');
+            $arr['no_exhibit'] = JText::sprintf(($item->no_exhibit != '1') ? 'JNO' : 'JYES');
+            $arr['info_arrival'] = JText::sprintf(($item->info_arrival != '1') ? 'JNO' : 'JYES');
 
             $result['items'][] = $this->prepare($arr);
         }
@@ -394,6 +398,8 @@ class ProjectsModelContracts_v2 extends ListModel
         $sheet->getColumnDimension('R')->setWidth(11);
         $sheet->getColumnDimension('S')->setWidth(11);
         $sheet->getColumnDimension('T')->setWidth(11);
+        $sheet->getColumnDimension('U')->setWidth(11);
+        $sheet->getColumnDimension('V')->setWidth(11);
 
         $sheet->getStyle('A1')->getFont()->setBold(true);
         $sheet->getStyle('B1')->getFont()->setBold(true);
@@ -415,6 +421,8 @@ class ProjectsModelContracts_v2 extends ListModel
         $sheet->getStyle('R1')->getFont()->setBold(true);
         $sheet->getStyle('S1')->getFont()->setBold(true);
         $sheet->getStyle('T1')->getFont()->setBold(true);
+        $sheet->getStyle('U1')->getFont()->setBold(true);
+        $sheet->getStyle('V1')->getFont()->setBold(true);
         header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
         header("Cache-Control: no-cache, must-revalidate");

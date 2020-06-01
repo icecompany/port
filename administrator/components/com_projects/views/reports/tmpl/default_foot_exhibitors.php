@@ -1,7 +1,7 @@
 <?php
 // Запрет прямого доступа.
 defined('_JEXEC') or die;
-$columns = count($this->items) + 13;
+$columns = count($this->items) + 15;
 ?>
 <tr>
     <td colspan="<?php echo $columns;?>" class="pagination-centered"><?php echo $this->pagination->getListFooter(); ?></td>

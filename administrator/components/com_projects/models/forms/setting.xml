@@ -90,6 +90,15 @@
             <option value="1">COM_PROJECTS_USER_SETTINGS_CONTRACTS_POSITION_TOTAL_1</option>
         </field>
         <field
+                name="contracts_v2-show_full_country"
+                type="list"
+                label="Показывать страну"
+                description="Отображать колонку со страной"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
                 name="spacer_2"
                 type="spacer"
                 label="COM_PROJECTS_USER_SETTINGS_CONTRACTS_FILTERS"

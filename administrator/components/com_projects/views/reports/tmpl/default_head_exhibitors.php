@@ -104,5 +104,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
         <th>
             <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1G'); ?>
         </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_NO_EXHIBIT'); ?>
+        </th>
+        <th>
+            <?php echo JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_INFO_ARRIVAL'); ?>
+        </th>
     <?php endif;?>
 </tr>

@@ -105,6 +105,12 @@ foreach ($this->items as $item) :
             <td class="small">
                 <?php echo $item['pvn_1g']; ?>
             </td>
+            <td class="small">
+                <?php echo $item['no_exhibit']; ?>
+            </td>
+            <td class="small">
+                <?php echo $item['info_arrival']; ?>
+            </td>
         <?php endif; ?>
     </tr>
 <?php endforeach; ?>

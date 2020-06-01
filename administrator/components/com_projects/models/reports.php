@@ -63,8 +63,8 @@ class ProjectsModelReports extends ListModel
                 ->select("`c`.`status`, `c`.`isCoExp`, IFNULL(`c`.`number_free`,`c`.`number`) as `number`, `c`.`dat`, `c`.`id` as `contractID`, `c`.`currency`")
                 ->select("`u`.`name` as `manager`")
                 ->select("`p`.`title` as `project`")
-                ->select("c.info_catalog, c.logo_catalog, c.pvn_1, c.pvn_1a, c.pvn_1b, c.pvn_1v, c.pvn_1g")
-                ->from("`#__prj_contracts` as `c`")
+                ->select("c.info_catalog, c.logo_catalog, c.pvn_1, c.pvn_1a, c.pvn_1b, c.pvn_1v, c.pvn_1g, c.info_arrival, c.no_exhibit")
+                ->from("`#__prj_contracts` as c")
                 ->leftJoin("`#__prj_exp` as `e` ON `e`.`id` = `c`.`expID`")
                 ->leftJoin("`#__prj_exp` as `ce` ON `ce`.`id` = `c`.`parentID`")
                 ->leftJoin("`#__prj_exp_contacts` as `cnt` ON `cnt`.`exbID` = `c`.`expID`")
@@ -372,11 +372,13 @@ class ProjectsModelReports extends ListModel
                     if (in_array('forms', $fields)) {
                         $arr['info_catalog'] = JText::sprintf(!empty(($item->info_catalog)) ? 'JYES' : 'JNO');
                         $arr['logo_catalog'] = JText::sprintf(!empty(($item->logo_catalog)) ? 'JYES' : 'JNO');
-                        $arr['pvn_1'] = JText::sprintf(!empty(($item->pvn_1)) ? 'JYES' : 'JNO');;
-                        $arr['pvn_1a'] = JText::sprintf(!empty(($item->pvn_1a)) ? 'JYES' : 'JNO');;
-                        $arr['pvn_1b'] = JText::sprintf(!empty(($item->pvn_1b)) ? 'JYES' : 'JNO');;
-                        $arr['pvn_1v'] = JText::sprintf(!empty(($item->pvn_1v)) ? 'JYES' : 'JNO');;
-                        $arr['pvn_1g'] = JText::sprintf(!empty(($item->pvn_1g)) ? 'JYES' : 'JNO');;
+                        $arr['pvn_1'] = JText::sprintf(!empty(($item->pvn_1)) ? 'JYES' : 'JNO');
+                        $arr['pvn_1a'] = JText::sprintf(!empty(($item->pvn_1a)) ? 'JYES' : 'JNO');
+                        $arr['pvn_1b'] = JText::sprintf(!empty(($item->pvn_1b)) ? 'JYES' : 'JNO');
+                        $arr['pvn_1v'] = JText::sprintf(!empty(($item->pvn_1v)) ? 'JYES' : 'JNO');
+                        $arr['pvn_1g'] = JText::sprintf(!empty(($item->pvn_1g)) ? 'JYES' : 'JNO');
+                        $arr['no_exhibit'] = JText::sprintf(!empty(($item->no_exhibit)) ? 'JYES' : 'JNO');
+                        $arr['info_arrival'] = JText::sprintf(!empty(($item->info_arrival)) ? 'JYES' : 'JNO');
                     }
                 }
                 $result[] = $arr;
@@ -773,6 +775,12 @@ class ProjectsModelReports extends ListModel
                                 $indexes['pvn_1g'] = $index;
                                 $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_PVN_1G'));
                                 $index++;
+                                $indexes['no_exhibit'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_NO_EXHIBIT'));
+                                $index++;
+                                $indexes['info_arrival'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_INFO_ARRIVAL'));
+                                $index++;
                             }
                         }
                     }
@@ -839,6 +847,8 @@ class ProjectsModelReports extends ListModel
                             $sheet->setCellValueByColumnAndRow($indexes['pvn_1b'], $i + 1, $data[$i - 1]['pvn_1b']);
                             $sheet->setCellValueByColumnAndRow($indexes['pvn_1v'], $i + 1, $data[$i - 1]['pvn_1v']);
                             $sheet->setCellValueByColumnAndRow($indexes['pvn_1g'], $i + 1, $data[$i - 1]['pvn_1g']);
+                            $sheet->setCellValueByColumnAndRow($indexes['no_exhibit'], $i + 1, $data[$i - 1]['no_exhibit']);
+                            $sheet->setCellValueByColumnAndRow($indexes['info_arrival'], $i + 1, $data[$i - 1]['info_arrival']);
                         }
                     }
                 }
