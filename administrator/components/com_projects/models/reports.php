@@ -57,6 +57,7 @@ class ProjectsModelReports extends ListModel
             $query
                 ->select("IFNULL(`e`.`title_ru_full`,ifnull(`e`.`title_ru_short`,e.title_en)) as `exhibitor`, `c`.`expID` as `exhibitorID`")
                 ->select("IFNULL(`ce`.`title_ru_full`,ifnull(`ce`.`title_ru_short`,ce.title_en)) as `co_exhibitor`, `c`.`parentID` as `co_exhibitorID`")
+                ->select("e.title_ru_short")
                 ->select("`ct`.`name` as `city`, `reg`.`name` as `region`, `ctr`.`name` as `country`")
                 ->select("`cnt`.`director_name`, `cnt`.`director_post`, `cnt`.`indexcode`, `cnt`.`addr_legal_street`, `cnt`.`addr_legal_home`, `cnt`.`email`, `cnt`.`site`, cnt.phone_1, cnt.phone_2")
                 ->select("`cnt`.`indexcode_fact`, `cnt`.`addr_fact_street`, `cnt`.`addr_fact_home`")
@@ -363,7 +364,10 @@ class ProjectsModelReports extends ListModel
                         $arr['dat'] = $item->dat ?? '';
                         if (!empty($item->co_exhibitor)) $arr['co_exhibitor'] = $item->co_exhibitor;
                     }
-                    if (in_array('stands', $fields)) $arr['stands'] = implode("; ", $this->getStands($item->contractID, true));
+                    if (in_array('stands', $fields)) {
+                        $arr['stands'] = implode("; ", $this->getStands($item->contractID, true));
+                        $arr['title_ru_short'] = $item->title_ru_short;
+                    }
                     if (in_array('amount', $fields)) {
                         $arr['amount'] = (!$this->xls) ? ProjectsHelper::getCurrency((float) $item->price, $item->currency) : $item->price;
                     }
@@ -694,6 +698,9 @@ class ProjectsModelReports extends ListModel
                                 $indexes['stands'] = $index;
                                 $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_CONTRACT_STAND_SHORT'));
                                 $index++;
+                                $indexes['title_ru_short'] = $index;
+                                $sheet->setCellValueByColumnAndRow($index, $i, JText::sprintf('COM_PROJECTS_HEAD_EXP_TITLE_RU_SHORT'));
+                                $index++;
                             }
                             if (in_array('manager', $fields))
                             {
@@ -800,6 +807,7 @@ class ProjectsModelReports extends ListModel
                         if (in_array('stands', $fields))
                         {
                             $sheet->setCellValueByColumnAndRow($indexes['stands'], $i + 1, $data[$i - 1]['stands']);
+                            $sheet->setCellValueByColumnAndRow($indexes['title_ru_short'], $i + 1, $data[$i - 1]['title_ru_short']);
                         }
                         if (in_array('manager', $fields))
                         {
