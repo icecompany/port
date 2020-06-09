@@ -20,6 +20,9 @@ class TableProjectsContracts extends Table
     var $userID = null;
     var $no_exhibit = null;
     var $info_arrival = null;
+    var $invite_date = null;
+    var $invite_outgoing_number = null;
+    var $invite_incoming_number = null;
 
     public function __construct(JDatabaseDriver $db)
     {

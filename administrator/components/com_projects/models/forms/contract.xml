@@ -264,6 +264,32 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
+        <field
+                name="invite_date"
+                type="calendar"
+                label="COM_PROJECTS_FORM_CONTRACT_INVITE_DATE_LABEL"
+                description="COM_PROJECTS_FORM_CONTRACT_INVITE_DATE_DESC"
+                class="span12"
+                format="%d.%m.%Y"
+                filter="none"
+                autocomplete="off"
+        />
+        <field
+                name="invite_outgoing_number"
+                type="text"
+                label="COM_PROJECTS_FORM_CONTRACT_OUTGOING_NUMBER_LABEL"
+                description="COM_PROJECTS_FORM_CONTRACT_OUTGOING_NUMBER_DESC"
+                class="span12"
+                autocomplete="off"
+        />
+        <field
+                name="invite_incoming_number"
+                type="text"
+                label="COM_PROJECTS_FORM_CONTRACT_INCOMING_NUMBER_LABEL"
+                description="COM_PROJECTS_FORM_CONTRACT_INCOMING_NUMBER_DESC"
+                class="span12"
+                autocomplete="off"
+        />
     </fieldset>
     <fieldset name="settings">
         <field

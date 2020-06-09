@@ -100,7 +100,7 @@ if ($return != null)
                     <?php echo JHtml::_('bootstrap.endTab'); ?>
                 <?php endif;?>
                 <?php if ($this->item->id != null): ?>
-                    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'catalog', JText::sprintf('COM_PROJECTS_BLANK_CATALOG')); ?>
+                    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'catalog', JText::sprintf('COM_PROJECTS_BLANK_CATALOG_SENT')); ?>
                     <div class="row-fluid">
                         <div>
                             <?php echo $this->loadTemplate('catalog');?>

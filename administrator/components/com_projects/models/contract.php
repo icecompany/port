@@ -654,11 +654,17 @@ class ProjectsModelContract extends AdminModel {
 
     protected function prepareTable($table)
     {
-    	$nulls = array('status', 'dat', 'number', 'parentID', 'payerID', 'number_free'); //Поля, которые NULL
+    	$nulls = array('status', 'dat', 'number', 'parentID', 'payerID', 'number_free', 'invite_date', 'invite_outgoing_number', 'invite_incoming_number'); //Поля, которые NULL
 	    foreach ($nulls as $field)
 	    {
 		    if (!strlen($table->$field)) $table->$field = NULL;
     	}
+        if ($table->invite_date != '0000-00-00 00:00:00') {
+            if (!empty($table->invite_date)) $table->invite_date = JDate::getInstance($table->invite_date)->toSql();
+        }
+        else {
+            $table->invite_date = null;
+        }
         parent::prepareTable($table);
     }
 
