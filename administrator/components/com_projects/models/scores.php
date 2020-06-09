@@ -12,6 +12,7 @@ class ProjectsModelScores extends ListModel
                 's.dat',
                 'number',
                 'number_contract',
+                'length(number_contract), number_contract',
                 'project',
                 'title_ru_short',
                 'amount',
@@ -98,8 +99,14 @@ class ProjectsModelScores extends ListModel
         }
 
         /* Сортировка */
-        $orderCol  = $this->state->get('list.ordering', '`s`.`id`');
-        $orderDirn = $this->state->get('list.direction', 'desc');
+        $orderCol  = $this->state->get('list.ordering');
+        $orderDirn = $this->state->get('list.direction');
+
+        if ($orderCol == 'number_contract') {
+            if ($orderDirn == 'asc') $orderCol = 'length(number_contract), number_contract';
+            if ($orderDirn == 'desc') $orderCol = 'length(number_contract) desc, number_contract';
+        }
+
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
@@ -142,7 +149,7 @@ class ProjectsModelScores extends ListModel
     }
 
     /* Сортировка по умолчанию */
-    protected function populateState($ordering = null, $direction = null)
+    protected function populateState($ordering = 'length(number_contract), number_contract', $direction = 'asc')
     {
         $published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
         $this->setState('filter.state', $published);
@@ -156,7 +163,7 @@ class ProjectsModelScores extends ListModel
         $this->setState('filter.currency', $currency);
         $manager = $this->getUserStateFromRequest($this->context . '.filter.manager', 'filter_manager');
         $this->setState('filter.manager', $manager);
-        parent::populateState('`s`.`id`', 'desc');
+        parent::populateState($ordering, $direction);
     }
 
     protected function getStoreId($id = '')
