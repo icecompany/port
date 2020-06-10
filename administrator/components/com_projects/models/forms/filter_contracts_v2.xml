@@ -170,6 +170,15 @@
             <option value="0">COM_PROJECTS_FILTER_SELECT_PNV_1G_0</option>
             <option value="1">COM_PROJECTS_FILTER_SELECT_PNV_1G_1</option>
         </field>
+        <field
+                name="no_exhibit"
+                type="list"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_PROJECTS_FILTER_SELECT_EXPONENTS</option>
+            <option value="0">COM_PROJECTS_FILTER_SELECT_EXPONENTS_WITHOUT</option>
+            <option value="1">COM_PROJECTS_FILTER_SELECT_EXPONENTS_WITH</option>
+        </field>
     </fields>
     <fields name="list">
         <field

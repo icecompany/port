@@ -91,6 +91,10 @@ class ProjectsModelContracts_v2 extends ListModel
                 }
             }
         }
+        $no_exhibit = $this->getState('filter.no_exhibit');
+        if (is_numeric($no_exhibit)) {
+            $query->where("no_exhibit = {$db->q($no_exhibit)}");
+        }
 
         // Фильтруем по статусу присланного договора.
         $doc_status = $this->getState('filter.doc_status');
@@ -523,6 +527,8 @@ class ProjectsModelContracts_v2 extends ListModel
         $this->setState('filter.pvn_1v', $pvn_1v);
         $pvn_1g = $this->getUserStateFromRequest($this->context . '.filter.pvn_1g', 'filter_pvn_1g');
         $this->setState('filter.pvn_1g', $pvn_1g);
+        $no_exhibit = $this->getUserStateFromRequest($this->context . '.filter.no_exhibit', 'filter_no_exhibit');
+        $this->setState('filter.no_exhibit', $no_exhibit);
 
         parent::populateState('plan_dat', 'asc');
     }
@@ -545,6 +551,7 @@ class ProjectsModelContracts_v2 extends ListModel
         $id .= ':' . $this->getState('filter.pvn_1b');
         $id .= ':' . $this->getState('filter.pvn_1v');
         $id .= ':' . $this->getState('filter.pvn_1g');
+        $id .= ':' . $this->getState('filter.no_exhibit');
         return parent::getStoreId($id);
     }
 
