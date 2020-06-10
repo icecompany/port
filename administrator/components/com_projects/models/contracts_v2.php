@@ -23,6 +23,7 @@ class ProjectsModelContracts_v2 extends ListModel
                 'debt',                     'pvn_1b',
                 'parent',                   'pvn_1v',
                                             'pvn_1g',
+                                            'no_exhibit',
             );
         }
 
