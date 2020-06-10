@@ -92,10 +92,6 @@ class ProjectsModelContracts_v2 extends ListModel
                 }
             }
         }
-        $no_exhibit = $this->getState('filter.no_exhibit');
-        if (is_numeric($no_exhibit)) {
-            $query->where("no_exhibit = {$db->q($no_exhibit)}");
-        }
 
         // Фильтруем по статусу присланного договора.
         $doc_status = $this->getState('filter.doc_status');
@@ -209,31 +205,25 @@ class ProjectsModelContracts_v2 extends ListModel
         //Поиск по заполненности форм
         $info_catalog = $this->getState('filter.info_catalog');
         if (is_numeric($info_catalog)) {
+            $logo_catalog = $this->getState('filter.logo_catalog');
             $query->where("info_catalog = {$db->q($info_catalog)}");
         }
-        $logo_catalog = $this->getState('filter.logo_catalog');
         if (is_numeric($logo_catalog)) {
             $query->where("logo_catalog = {$db->q($logo_catalog)}");
         }
         $pvn_1 = $this->getState('filter.pvn_1');
-        if (is_numeric($pvn_1)) {
-            $query->where("pvn_1 = {$db->q($pvn_1)}");
-        }
         $pvn_1a = $this->getState('filter.pvn_1a');
-        if (is_numeric($pvn_1a)) {
-            $query->where("pvn_1a = {$db->q($pvn_1a)}");
-        }
         $pvn_1b = $this->getState('filter.pvn_1b');
-        if (is_numeric($pvn_1b)) {
-            $query->where("pvn_1b = {$db->q($pvn_1b)}");
-        }
         $pvn_1v = $this->getState('filter.pvn_1v');
-        if (is_numeric($pvn_1v)) {
-            $query->where("pvn_1v = {$db->q($pvn_1v)}");
-        }
         $pvn_1g = $this->getState('filter.pvn_1g');
-        if (is_numeric($pvn_1g)) {
-            $query->where("pvn_1g = {$db->q($pvn_1g)}");
+        $no_exhibit = $this->getState('filter.no_exhibit');
+        if (is_numeric($pvn_1) or is_numeric($pvn_1a) or is_numeric($pvn_1b) or is_numeric($pvn_1v) or is_numeric($pvn_1g) or is_numeric($no_exhibit)) {
+            if ($pvn_1 == '0' and $pvn_1a == '0' and $pvn_1b == '0' and $pvn_1g == '0' and $no_exhibit == '0') {
+                $query->where("(pvn_1 = 0 and pvn_1a = 0 and pvn_1b = 0 and pvn_1v = 0 and pvn_1g = 0 and no_exhibit = 0)");
+            }
+            else {
+                $query->where("(pvn_1 = {$db->q($pvn_1)} or pvn_1a = {$db->q($pvn_1a)} or pvn_1b = {$db->q($pvn_1b)} or pvn_1v = {$db->q($pvn_1v)} or pvn_1g = {$db->q($pvn_1g)} or no_exhibit = {$db->q($no_exhibit)})");
+            }
         }
 
         //Поиск по сделкам без задач
